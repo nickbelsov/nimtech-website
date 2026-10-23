@@ -1,0 +1,4061 @@
+{
+  "source": "МойСклад",
+  "variants": [
+    {
+      "id": "00315184-dfbf-11ef-0a80-0ea3000ade7e",
+      "productId": "f48e12d2-dfbe-11ef-0a80-0931000b15b8",
+      "color": "Венге",
+      "price": 1666.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma LIGHT 140×20×4000 мм (Венге)"
+    },
+    {
+      "id": "007088b6-be78-11f1-0a80-07e8003b0389",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Серый",
+      "price": 6080,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Серый)"
+    },
+    {
+      "id": "01af55f6-df3a-11ef-0a80-0ea30000ad7a",
+      "productId": "f676e31f-df39-11ef-0a80-07910000a2df",
+      "color": "Венге",
+      "price": 1470,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×3000 мм (Венге)"
+    },
+    {
+      "id": "01b22c1e-df3a-11ef-0a80-0ea30000ad80",
+      "productId": "f676e31f-df39-11ef-0a80-07910000a2df",
+      "color": "Графит",
+      "price": 1470,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×3000 мм (Графит)"
+    },
+    {
+      "id": "01b4f478-df3a-11ef-0a80-0ea30000ad86",
+      "productId": "f676e31f-df39-11ef-0a80-07910000a2df",
+      "color": "Шоколад",
+      "price": 1470,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×3000 мм (Шоколад)"
+    },
+    {
+      "id": "01ecc987-be78-11f1-0a80-1a5b003b80ec",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Светло-серый",
+      "price": 6080,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Светло-серый)"
+    },
+    {
+      "id": "02a834ea-be67-11f1-0a80-1d890035b7d7",
+      "productId": "d6bde12b-9315-11f1-0a80-1a470018a748",
+      "color": "Венге",
+      "price": 13000,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×4000 мм (Венге)"
+    },
+    {
+      "id": "038cb219-be78-11f1-0a80-0650003a0ed6",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Дерево",
+      "price": 6080,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Дерево)"
+    },
+    {
+      "id": "043b9a6b-be67-11f1-0a80-183a0033e43d",
+      "productId": "d6bde12b-9315-11f1-0a80-1a470018a748",
+      "color": "Графит",
+      "price": 13000,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×4000 мм (Графит)"
+    },
+    {
+      "id": "05ab8ffe-be66-11f1-0a80-183a0033929a",
+      "productId": "dddc0b1e-dfbb-11ef-0a80-1aa8000a603f",
+      "color": "Махагон",
+      "price": 2760,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×4000 мм (Махагон)"
+    },
+    {
+      "id": "05c31e55-be67-11f1-0a80-183a0033e4b0",
+      "productId": "d6bde12b-9315-11f1-0a80-1a470018a748",
+      "color": "Орех",
+      "price": 13000,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×4000 мм (Орех)"
+    },
+    {
+      "id": "06f8d67c-be78-11f1-0a80-0b37003a17bd",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Песочный",
+      "price": 6080,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Песочный)"
+    },
+    {
+      "id": "075c4d9c-be67-11f1-0a80-084d0034f16c",
+      "productId": "d6bde12b-9315-11f1-0a80-1a470018a748",
+      "color": "Серый",
+      "price": 13000,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×4000 мм (Серый)"
+    },
+    {
+      "id": "0787897c-be79-11f1-0a80-1d89003ca796",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Антрацит",
+      "price": 1995,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Антрацит)"
+    },
+    {
+      "id": "0870bb52-be78-11f1-0a80-14d3003b0890",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Горячий песок",
+      "price": 6080,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Горячий песок)"
+    },
+    {
+      "id": "08e6b71a-be67-11f1-0a80-084d0034f1d9",
+      "productId": "d6bde12b-9315-11f1-0a80-1a470018a748",
+      "color": "Махагон",
+      "price": 13000,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×4000 мм (Махагон)"
+    },
+    {
+      "id": "09022d4f-be79-11f1-0a80-1570003aefe4",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Кофе",
+      "price": 1995,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Кофе)"
+    },
+    {
+      "id": "09e229bf-be78-11f1-0a80-0b37003a18af",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Бронза",
+      "price": 6080,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Бронза)"
+    },
+    {
+      "id": "0b65ef68-be78-11f1-0a80-14d3003b08ef",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Бежевый",
+      "price": 6080,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Бежевый)"
+    },
+    {
+      "id": "0ce59151-be67-11f1-0a80-112c0035649c",
+      "productId": "62433910-9316-11f1-0a80-0ee900188485",
+      "color": "Венге",
+      "price": 7450,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×3000 мм (Венге)"
+    },
+    {
+      "id": "0cec34a8-be78-11f1-0a80-1a5b003b84c1",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Антрацит",
+      "price": 5190,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Антрацит)"
+    },
+    {
+      "id": "0de474d8-be7a-11f1-0a80-0650003a97ac",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Светло-серый",
+      "price": 2435,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Светло-серый)"
+    },
+    {
+      "id": "0e9e9787-be67-11f1-0a80-15700034333d",
+      "productId": "62433910-9316-11f1-0a80-0ee900188485",
+      "color": "Графит",
+      "price": 7450,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×3000 мм (Графит)"
+    },
+    {
+      "id": "0f6cbdf2-be7a-11f1-0a80-1695003b1e0a",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Дерево",
+      "price": 2435,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Дерево)"
+    },
+    {
+      "id": "0f9bad2f-be66-11f1-0a80-16950033b6cc",
+      "productId": "28ecc475-dfbc-11ef-0a80-116d000a4860",
+      "color": "Махагон",
+      "price": 4140,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×6000 мм (Махагон)"
+    },
+    {
+      "id": "10a486b5-be67-11f1-0a80-16950034162f",
+      "productId": "62433910-9316-11f1-0a80-0ee900188485",
+      "color": "Орех",
+      "price": 7450,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×3000 мм (Орех)"
+    },
+    {
+      "id": "12456083-be67-11f1-0a80-1695003416dd",
+      "productId": "62433910-9316-11f1-0a80-0ee900188485",
+      "color": "Серый",
+      "price": 7450,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×3000 мм (Серый)"
+    },
+    {
+      "id": "12ce6ca5-be7a-11f1-0a80-1d89003d032c",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Песочный",
+      "price": 2435,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Песочный)"
+    },
+    {
+      "id": "143fe0f3-be79-11f1-0a80-07e8003b51f8",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Шоколад",
+      "price": 1995,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Шоколад)"
+    },
+    {
+      "id": "14675d97-be7a-11f1-0a80-1c8b003dc872",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Горячий песок",
+      "price": 2435,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Горячий песок)"
+    },
+    {
+      "id": "1541e4ef-be67-11f1-0a80-0b370033c9d3",
+      "productId": "62433910-9316-11f1-0a80-0ee900188485",
+      "color": "Махагон",
+      "price": 7450,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×3000 мм (Махагон)"
+    },
+    {
+      "id": "1606706a-be7a-11f1-0a80-0d09003bdaee",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Бронза",
+      "price": 2435,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Бронза)"
+    },
+    {
+      "id": "16429fd5-be79-11f1-0a80-14d3003b69e9",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Терракот",
+      "price": 1995,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Терракот)"
+    },
+    {
+      "id": "16bbb014-be67-11f1-0a80-0b370033ca87",
+      "productId": "2d3aa30e-9317-11f1-0a80-0ee900189ad4",
+      "color": "Венге",
+      "price": 9933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×4000 мм (Венге)"
+    },
+    {
+      "id": "17bf3cbc-be7a-11f1-0a80-112c003c0992",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Бежевый",
+      "price": 2435,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Бежевый)"
+    },
+    {
+      "id": "17cc5b84-be79-11f1-0a80-0650003a5b2f",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Графит",
+      "price": 1995,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Графит)"
+    },
+    {
+      "id": "18907783-be67-11f1-0a80-0d090034c584",
+      "productId": "2d3aa30e-9317-11f1-0a80-0ee900189ad4",
+      "color": "Графит",
+      "price": 9933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×4000 мм (Графит)"
+    },
+    {
+      "id": "18927cb5-be78-11f1-0a80-1d89003c491b",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Кофе",
+      "price": 5190,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Кофе)"
+    },
+    {
+      "id": "195fa104-be7a-11f1-0a80-14d3003bbf58",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Антрацит",
+      "price": 2080,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Антрацит)"
+    },
+    {
+      "id": "1998b58e-be79-11f1-0a80-1c8b003d6583",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Серый",
+      "price": 2310,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Серый)"
+    },
+    {
+      "id": "1a15b997-be67-11f1-0a80-112c00356ba5",
+      "productId": "2d3aa30e-9317-11f1-0a80-0ee900189ad4",
+      "color": "Орех",
+      "price": 9933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×4000 мм (Орех)"
+    },
+    {
+      "id": "1a20bc84-be78-11f1-0a80-084d003b8cde",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Шоколад",
+      "price": 5190,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Шоколад)"
+    },
+    {
+      "id": "1b1f5287-be79-11f1-0a80-1695003ac930",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Дерево",
+      "price": 2310,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Дерево)"
+    },
+    {
+      "id": "1b9da1ef-be67-11f1-0a80-183a0033ee7c",
+      "productId": "2d3aa30e-9317-11f1-0a80-0ee900189ad4",
+      "color": "Серый",
+      "price": 9933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×4000 мм (Серый)"
+    },
+    {
+      "id": "1c006a1e-be66-11f1-0a80-183a00339ae3",
+      "productId": "b265c4a7-df39-11ef-0a80-06b30000b379",
+      "color": "Махагон",
+      "price": 3250,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×3000 мм (Махагон)"
+    },
+    {
+      "id": "1c4d7059-be78-11f1-0a80-0650003a174c",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Терракот",
+      "price": 5190,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Терракот)"
+    },
+    {
+      "id": "1d271f4e-be7a-11f1-0a80-0b37003ac4a7",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Кофе",
+      "price": 2080,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Кофе)"
+    },
+    {
+      "id": "1e20f1c9-be78-11f1-0a80-14d3003b0f12",
+      "productId": "bcf44235-be77-11f1-0a80-112c003b3995",
+      "color": "Графит",
+      "price": 5190,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм (Графит)"
+    },
+    {
+      "id": "1e34e6f2-be79-11f1-0a80-0b37003a7e71",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Песочный",
+      "price": 2310,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Песочный)"
+    },
+    {
+      "id": "1e6ad235-be67-11f1-0a80-0d090034c9f7",
+      "productId": "2d3aa30e-9317-11f1-0a80-0ee900189ad4",
+      "color": "Махагон",
+      "price": 9933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×4000 мм (Махагон)"
+    },
+    {
+      "id": "1ebad38c-be7a-11f1-0a80-1695003b20db",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Шоколад",
+      "price": 2080,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Шоколад)"
+    },
+    {
+      "id": "1fb382d3-be79-11f1-0a80-0b37003a7eda",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Какао",
+      "price": 2310,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Какао)"
+    },
+    {
+      "id": "204910ac-be7a-11f1-0a80-07e8003bb666",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Терракот",
+      "price": 2080,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Терракот)"
+    },
+    {
+      "id": "214e1d25-be79-11f1-0a80-0b37003a7f22",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Бронза",
+      "price": 2310,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Бронза)"
+    },
+    {
+      "id": "21d916ba-be7a-11f1-0a80-1a5b003c28f6",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Графит",
+      "price": 2080,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Графит)"
+    },
+    {
+      "id": "22c5e6ff-be79-11f1-0a80-193c003c4ab3",
+      "productId": "030aed01-be79-11f1-0a80-1570003aeebb",
+      "color": "Жемчуг",
+      "price": 2310,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×3000 мм (Жемчуг)"
+    },
+    {
+      "id": "236e6b4b-be7a-11f1-0a80-0d09003bdd71",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Серый",
+      "price": 3246.67,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Серый)"
+    },
+    {
+      "id": "244af7f2-be79-11f1-0a80-0b37003a7f85",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Антрацит",
+      "price": 2660,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Антрацит)"
+    },
+    {
+      "id": "24db4cf0-dfbe-11ef-0a80-1aa8000ace3e",
+      "productId": "189a1e27-dfbe-11ef-0a80-0bc1000a4ef3",
+      "color": "Венге",
+      "price": 1960,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×4000 мм (Венге)"
+    },
+    {
+      "id": "24de4e90-dfbe-11ef-0a80-1aa8000ace44",
+      "productId": "189a1e27-dfbe-11ef-0a80-0bc1000a4ef3",
+      "color": "Графит",
+      "price": 1960,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×4000 мм (Графит)"
+    },
+    {
+      "id": "24e225eb-dfbe-11ef-0a80-1aa8000ace4a",
+      "productId": "189a1e27-dfbe-11ef-0a80-0bc1000a4ef3",
+      "color": "Шоколад",
+      "price": 1960,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×4000 мм (Шоколад)"
+    },
+    {
+      "id": "26510fe0-be66-11f1-0a80-1a5b0034b137",
+      "productId": "ce8a5903-dfbd-11ef-0a80-0fcc000ae474",
+      "color": "Махагон",
+      "price": 4333.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×4000 мм (Махагон)"
+    },
+    {
+      "id": "2664f39e-be78-11f1-0a80-193c003bf645",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Антрацит",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Антрацит)"
+    },
+    {
+      "id": "2691da87-be7a-11f1-0a80-1c8b003dcce8",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Светло-серый",
+      "price": 3246.67,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Светло-серый)"
+    },
+    {
+      "id": "26bc7169-dfe0-11ef-0a80-06b30010ec94",
+      "productId": "19d2d597-dfe0-11ef-0a80-0c240010c106",
+      "color": "Венге",
+      "price": 1266.67,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 70×35×4000 мм (Венге)"
+    },
+    {
+      "id": "26bfbe7f-dfe0-11ef-0a80-06b30010ec9c",
+      "productId": "19d2d597-dfe0-11ef-0a80-0c240010c106",
+      "color": "Графит",
+      "price": 1266.67,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 70×35×4000 мм (Графит)"
+    },
+    {
+      "id": "26c24a24-dfe0-11ef-0a80-06b30010eca2",
+      "productId": "19d2d597-dfe0-11ef-0a80-0c240010c106",
+      "color": "Орех",
+      "price": 1266.67,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 70×35×4000 мм (Орех)"
+    },
+    {
+      "id": "26c47c60-dfe0-11ef-0a80-06b30010eca8",
+      "productId": "19d2d597-dfe0-11ef-0a80-0c240010c106",
+      "color": "Серый",
+      "price": 1266.67,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 70×35×4000 мм (Серый)"
+    },
+    {
+      "id": "27e5fa0a-be78-11f1-0a80-1a5b003b8c22",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Кофе",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Кофе)"
+    },
+    {
+      "id": "2814ad73-be7a-11f1-0a80-07e8003bb7ba",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Дерево",
+      "price": 3246.67,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Дерево)"
+    },
+    {
+      "id": "281e46ff-dfb8-11ef-0a80-02950009c352",
+      "productId": "189778b0-dfb8-11ef-0a80-09310009b441",
+      "color": "Венге",
+      "price": 1875,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×3000 мм (Венге)"
+    },
+    {
+      "id": "2821c36e-dfb8-11ef-0a80-02950009c358",
+      "productId": "189778b0-dfb8-11ef-0a80-09310009b441",
+      "color": "Графит",
+      "price": 1875,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×3000 мм (Графит)"
+    },
+    {
+      "id": "2824b537-dfb8-11ef-0a80-02950009c35f",
+      "productId": "189778b0-dfb8-11ef-0a80-09310009b441",
+      "color": "Орех",
+      "price": 1875,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×3000 мм (Орех)"
+    },
+    {
+      "id": "2827bd3b-dfb8-11ef-0a80-02950009c365",
+      "productId": "189778b0-dfb8-11ef-0a80-09310009b441",
+      "color": "Серый",
+      "price": 1875,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×3000 мм (Серый)"
+    },
+    {
+      "id": "282b121e-dfb8-11ef-0a80-02950009c36b",
+      "productId": "189778b0-dfb8-11ef-0a80-09310009b441",
+      "color": "Тик",
+      "price": 1875,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×3000 мм (Тик)"
+    },
+    {
+      "id": "2998c88e-be7a-11f1-0a80-0650003a9d6e",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Песочный",
+      "price": 3246.67,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Песочный)"
+    },
+    {
+      "id": "2a3faf07-b59b-11f1-0a80-01170048a968",
+      "productId": "93da9ea9-931f-11f1-0a80-005c0019ec5c",
+      "color": "Венге",
+      "price": 1625,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×3000 мм (Венге)"
+    },
+    {
+      "id": "2a717baf-b59b-11f1-0a80-01170048a985",
+      "productId": "93da9ea9-931f-11f1-0a80-005c0019ec5c",
+      "color": "Графит",
+      "price": 1590,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×3000 мм (Графит)"
+    },
+    {
+      "id": "2a7ce6da-b59b-11f1-0a80-01170048a98c",
+      "productId": "93da9ea9-931f-11f1-0a80-005c0019ec5c",
+      "color": "Какао",
+      "price": 1675,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×3000 мм (Какао)"
+    },
+    {
+      "id": "2a8ace39-b59b-11f1-0a80-01170048a991",
+      "productId": "93da9ea9-931f-11f1-0a80-005c0019ec5c",
+      "color": "Орех",
+      "price": 1590,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×3000 мм (Орех)"
+    },
+    {
+      "id": "2a9d90fe-b59b-11f1-0a80-01170048a996",
+      "productId": "93da9ea9-931f-11f1-0a80-005c0019ec5c",
+      "color": "Шоколад",
+      "price": 1675,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×3000 мм (Шоколад)"
+    },
+    {
+      "id": "2b1da599-be7a-11f1-0a80-1570003b40f8",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Горячий песок",
+      "price": 3246.67,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Горячий песок)"
+    },
+    {
+      "id": "2ca7729d-be7a-11f1-0a80-14d3003bc2c1",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Бронза",
+      "price": 3246.67,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Бронза)"
+    },
+    {
+      "id": "2ce3862e-be66-11f1-0a80-1a5b0034b35e",
+      "productId": "f676e31f-df39-11ef-0a80-07910000a2df",
+      "color": "Орех",
+      "price": 1470,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×3000 мм (Орех)"
+    },
+    {
+      "id": "2dfe8a31-be79-11f1-0a80-193c003c4cdd",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Кофе",
+      "price": 2660,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Кофе)"
+    },
+    {
+      "id": "2eab1ac8-be66-11f1-0a80-065000336b5c",
+      "productId": "f676e31f-df39-11ef-0a80-07910000a2df",
+      "color": "Серый",
+      "price": 1470,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×3000 мм (Серый)"
+    },
+    {
+      "id": "2f881dab-be79-11f1-0a80-0d09003ba002",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Шоколад",
+      "price": 2660,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Шоколад)"
+    },
+    {
+      "id": "3046e5ec-be66-11f1-0a80-183a0033a029",
+      "productId": "f676e31f-df39-11ef-0a80-07910000a2df",
+      "color": "Махагон",
+      "price": 1470,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×3000 мм (Махагон)"
+    },
+    {
+      "id": "30b7a68f-be7a-11f1-0a80-1570003b41f6",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Бежевый",
+      "price": 3246.67,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Бежевый)"
+    },
+    {
+      "id": "30c35c5b-dfe8-11ef-0a80-1aa800121a1e",
+      "productId": "2155292a-dfe8-11ef-0a80-0fcc0011d3e1",
+      "color": "Венге",
+      "price": 1716.67,
+      "weight": null,
+      "name": "Балясина NimTech Gamma 50×50; 3 м (Венге)"
+    },
+    {
+      "id": "30c74d90-dfe8-11ef-0a80-1aa800121a24",
+      "productId": "2155292a-dfe8-11ef-0a80-0fcc0011d3e1",
+      "color": "Графит",
+      "price": 1716.67,
+      "weight": null,
+      "name": "Балясина NimTech Gamma 50×50; 3 м (Графит)"
+    },
+    {
+      "id": "30c95f23-dfe8-11ef-0a80-1aa800121a2a",
+      "productId": "2155292a-dfe8-11ef-0a80-0fcc0011d3e1",
+      "color": "Коричневый",
+      "price": 1716.67,
+      "weight": null,
+      "name": "Балясина NimTech Gamma 50×50; 3 м (Коричневый)"
+    },
+    {
+      "id": "30cb4425-dfe8-11ef-0a80-1aa800121a30",
+      "productId": "2155292a-dfe8-11ef-0a80-0fcc0011d3e1",
+      "color": "Орех",
+      "price": 1716.67,
+      "weight": null,
+      "name": "Балясина NimTech Gamma 50×50; 3 м (Орех)"
+    },
+    {
+      "id": "30cd430f-dfe8-11ef-0a80-1aa800121a36",
+      "productId": "2155292a-dfe8-11ef-0a80-0fcc0011d3e1",
+      "color": "Серый",
+      "price": 1716.67,
+      "weight": null,
+      "name": "Балясина NimTech Gamma 50×50; 3 м (Серый)"
+    },
+    {
+      "id": "310f8a9e-be79-11f1-0a80-1d89003cb68f",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Терракот",
+      "price": 2660,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Терракот)"
+    },
+    {
+      "id": "3264eaee-be7a-11f1-0a80-084d003c30ef",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Антрацит",
+      "price": 2773.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Антрацит)"
+    },
+    {
+      "id": "326847a4-be58-11f1-0a80-1d89002e7f06",
+      "productId": "3e505f58-b5b7-11ec-0a80-025c001146a1",
+      "color": "Серый",
+      "price": 3000,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×6000 мм (Серый)"
+    },
+    {
+      "id": "3288edf2-be79-11f1-0a80-1c8b003d6bb1",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Графит",
+      "price": 2660,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Графит)"
+    },
+    {
+      "id": "3406ad9a-be7a-11f1-0a80-1a5b003c2b69",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Кофе",
+      "price": 2773.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Кофе)"
+    },
+    {
+      "id": "34162314-be79-11f1-0a80-07e8003b5957",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Серый",
+      "price": 3080,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Серый)"
+    },
+    {
+      "id": "35b5f903-be7a-11f1-0a80-0650003a9eed",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Шоколад",
+      "price": 2773.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Шоколад)"
+    },
+    {
+      "id": "360db745-dfbc-11ef-0a80-10de000a07bf",
+      "productId": "28ecc475-dfbc-11ef-0a80-116d000a4860",
+      "color": "Венге",
+      "price": 4140,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×6000 мм (Венге)"
+    },
+    {
+      "id": "36114d2b-dfbc-11ef-0a80-10de000a07c5",
+      "productId": "28ecc475-dfbc-11ef-0a80-116d000a4860",
+      "color": "Графит",
+      "price": 4140,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×6000 мм (Графит)"
+    },
+    {
+      "id": "361dfdc4-dfbc-11ef-0a80-10de000a07cb",
+      "productId": "28ecc475-dfbc-11ef-0a80-116d000a4860",
+      "color": "Орех",
+      "price": 4140,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×6000 мм (Орех)"
+    },
+    {
+      "id": "36231ea3-dfbc-11ef-0a80-10de000a07d1",
+      "productId": "28ecc475-dfbc-11ef-0a80-116d000a4860",
+      "color": "Серый",
+      "price": 4140,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×6000 мм (Серый)"
+    },
+    {
+      "id": "36264158-dfbc-11ef-0a80-10de000a07d7",
+      "productId": "28ecc475-dfbc-11ef-0a80-116d000a4860",
+      "color": "Тик",
+      "price": 4140,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×6000 мм (Тик)"
+    },
+    {
+      "id": "3755eec2-be66-11f1-0a80-112c00350938",
+      "productId": "189a1e27-dfbe-11ef-0a80-0bc1000a4ef3",
+      "color": "Орех",
+      "price": 1960,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×4000 мм (Орех)"
+    },
+    {
+      "id": "37756eba-be7a-11f1-0a80-1695003b2401",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Терракот",
+      "price": 2773.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Терракот)"
+    },
+    {
+      "id": "37fc49ae-be79-11f1-0a80-091c003bbfa8",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Дерево",
+      "price": 3080,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Дерево)"
+    },
+    {
+      "id": "39024026-be66-11f1-0a80-1a5b0034b7a8",
+      "productId": "189a1e27-dfbe-11ef-0a80-0bc1000a4ef3",
+      "color": "Серый",
+      "price": 1960,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×4000 мм (Серый)"
+    },
+    {
+      "id": "3972ce8c-be79-11f1-0a80-0d09003ba308",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Песочный",
+      "price": 3080,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Песочный)"
+    },
+    {
+      "id": "3ab09404-be7a-11f1-0a80-0650003a9f60",
+      "productId": "f6cba2c1-9715-11f1-0a80-19600019be2f",
+      "color": "Графит",
+      "price": 2773.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм (Графит)"
+    },
+    {
+      "id": "3b0f1848-be79-11f1-0a80-07e8003b5b20",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Какао",
+      "price": 3080,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Какао)"
+    },
+    {
+      "id": "3c6712a8-be7a-11f1-0a80-14d3003bc4d0",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Серый",
+      "price": 4870,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Серый)"
+    },
+    {
+      "id": "3c78b44e-be66-11f1-0a80-091c003518d6",
+      "productId": "189a1e27-dfbe-11ef-0a80-0bc1000a4ef3",
+      "color": "Махагон",
+      "price": 1960,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×4000 мм (Махагон)"
+    },
+    {
+      "id": "3c989722-be79-11f1-0a80-1a5b003be62c",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Бронза",
+      "price": 3080,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Бронза)"
+    },
+    {
+      "id": "3e0a040a-be7a-11f1-0a80-14d3003bc50d",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Светло-серый",
+      "price": 4870,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Светло-серый)"
+    },
+    {
+      "id": "3e50c51a-be79-11f1-0a80-1695003ad0d1",
+      "productId": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
+      "color": "Жемчуг",
+      "price": 3080,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×4000 мм (Жемчуг)"
+    },
+    {
+      "id": "3edbaef9-be78-11f1-0a80-193c003c00b6",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Шоколад",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Шоколад)"
+    },
+    {
+      "id": "3fb06ab0-be7a-11f1-0a80-1695003b25ec",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Дерево",
+      "price": 4870,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Дерево)"
+    },
+    {
+      "id": "40b84593-be58-11f1-0a80-0650002d9e7f",
+      "productId": "5b3124cf-9e2a-11ec-0a80-0be100440b8b",
+      "color": "Серый",
+      "price": 1500,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×3000 мм (Серый)"
+    },
+    {
+      "id": "40c6b5fe-be78-11f1-0a80-0b37003a2347",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Терракот",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Терракот)"
+    },
+    {
+      "id": "4150e276-be7a-11f1-0a80-183a003a67a4",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Песочный",
+      "price": 4870,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Песочный)"
+    },
+    {
+      "id": "41645bcc-be66-11f1-0a80-14d300347c81",
+      "productId": "57f25be6-dfbe-11ef-0a80-0295000ad4f0",
+      "color": "Орех",
+      "price": 2940,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×6000 мм (Орех)"
+    },
+    {
+      "id": "4250f6e0-be78-11f1-0a80-112c003b6252",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Графит",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Графит)"
+    },
+    {
+      "id": "42f3b9ca-be66-11f1-0a80-183a0033a54f",
+      "productId": "57f25be6-dfbe-11ef-0a80-0295000ad4f0",
+      "color": "Серый",
+      "price": 2940,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×6000 мм (Серый)"
+    },
+    {
+      "id": "43cb3aa2-be78-11f1-0a80-084d003b9a2f",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Серый",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Серый)"
+    },
+    {
+      "id": "44a34436-be7a-11f1-0a80-1d89003d1ad7",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Горячий песок",
+      "price": 4870,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Горячий песок)"
+    },
+    {
+      "id": "45570636-be78-11f1-0a80-1695003a8fff",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Светло-серый",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Светло-серый)"
+    },
+    {
+      "id": "45b7c5a1-be66-11f1-0a80-1c8b0035c861",
+      "productId": "57f25be6-dfbe-11ef-0a80-0295000ad4f0",
+      "color": "Махагон",
+      "price": 2940,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×6000 мм (Махагон)"
+    },
+    {
+      "id": "462bd436-be7a-11f1-0a80-091c003c228b",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Бронза",
+      "price": 4870,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Бронза)"
+    },
+    {
+      "id": "474ea4d5-dfec-11ef-0a80-00a900131593",
+      "productId": "39ce56d5-dfec-11ef-0a80-15730012c31f",
+      "color": "Венге",
+      "price": 858.33,
+      "weight": null,
+      "name": "Крышка для столба нижняя ДПК NimTech Gamma 140×140 (Венге)"
+    },
+    {
+      "id": "47519352-dfec-11ef-0a80-00a900131599",
+      "productId": "39ce56d5-dfec-11ef-0a80-15730012c31f",
+      "color": "Графит",
+      "price": 858.33,
+      "weight": null,
+      "name": "Крышка для столба нижняя ДПК NimTech Gamma 140×140 (Графит)"
+    },
+    {
+      "id": "4753d2a3-dfec-11ef-0a80-00a90013159f",
+      "productId": "39ce56d5-dfec-11ef-0a80-15730012c31f",
+      "color": "Коричневый",
+      "price": 858.33,
+      "weight": null,
+      "name": "Крышка для столба нижняя ДПК NimTech Gamma 140×140 (Коричневый)"
+    },
+    {
+      "id": "4755e370-dfec-11ef-0a80-00a9001315a5",
+      "productId": "39ce56d5-dfec-11ef-0a80-15730012c31f",
+      "color": "Орех",
+      "price": 858.33,
+      "weight": null,
+      "name": "Крышка для столба нижняя ДПК NimTech Gamma 140×140 (Орех)"
+    },
+    {
+      "id": "4757e6b8-dfec-11ef-0a80-00a9001315ab",
+      "productId": "39ce56d5-dfec-11ef-0a80-15730012c31f",
+      "color": "Серый",
+      "price": 858.33,
+      "weight": null,
+      "name": "Крышка для столба нижняя ДПК NimTech Gamma 140×140 (Серый)"
+    },
+    {
+      "id": "47b4162f-be7a-11f1-0a80-0b37003ad17e",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Бежевый",
+      "price": 4870,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Бежевый)"
+    },
+    {
+      "id": "47ffe39f-be79-11f1-0a80-0650003a685e",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Антрацит",
+      "price": 3990,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Антрацит)"
+    },
+    {
+      "id": "4901d418-be66-11f1-0a80-0d0900345f97",
+      "productId": "73032e24-df3a-11ef-0a80-1aa8000096ee",
+      "color": "Графит",
+      "price": 1250,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma LIGHT 140×20×3000 мм (Графит)"
+    },
+    {
+      "id": "49228378-be78-11f1-0a80-112c003b6497",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Дерево",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Дерево)"
+    },
+    {
+      "id": "493b8bca-be7a-11f1-0a80-1a5b003c2ea2",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Антрацит",
+      "price": 4160,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Антрацит)"
+    },
+    {
+      "id": "49b1c77b-be79-11f1-0a80-183a003a132a",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Кофе",
+      "price": 3990,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Кофе)"
+    },
+    {
+      "id": "4ac2ad13-be66-11f1-0a80-1a5b0034bcd4",
+      "productId": "73032e24-df3a-11ef-0a80-1aa8000096ee",
+      "color": "Махагон",
+      "price": 1250,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma LIGHT 140×20×3000 мм (Махагон)"
+    },
+    {
+      "id": "4aca7988-be7a-11f1-0a80-193c003c9d78",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Кофе",
+      "price": 4160,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Кофе)"
+    },
+    {
+      "id": "4b3a35b1-be79-11f1-0a80-112c003bcb50",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Шоколад",
+      "price": 3990,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Шоколад)"
+    },
+    {
+      "id": "4b54a146-be78-11f1-0a80-112c003b64ff",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Песочный",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Песочный)"
+    },
+    {
+      "id": "4cd48530-be79-11f1-0a80-183a003a19d4",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Терракот",
+      "price": 3990,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Терракот)"
+    },
+    {
+      "id": "4cf06ad4-be78-11f1-0a80-0650003a2463",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Горячий песок",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Горячий песок)"
+    },
+    {
+      "id": "4da335d1-dfbb-11ef-0a80-00a9000aaa2c",
+      "productId": "f2b43d89-dfba-11ef-0a80-1aa8000a36b3",
+      "color": "Венге",
+      "price": 5350,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×6000 мм (Венге)"
+    },
+    {
+      "id": "4da746b4-dfbb-11ef-0a80-00a9000aaa32",
+      "productId": "f2b43d89-dfba-11ef-0a80-1aa8000a36b3",
+      "color": "Графит",
+      "price": 5350,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×6000 мм (Графит)"
+    },
+    {
+      "id": "4dab19b5-dfbb-11ef-0a80-00a9000aaa3a",
+      "productId": "f2b43d89-dfba-11ef-0a80-1aa8000a36b3",
+      "color": "Орех",
+      "price": 5350,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×6000 мм (Орех)"
+    },
+    {
+      "id": "4dae82fe-dfbb-11ef-0a80-00a9000aaa40",
+      "productId": "f2b43d89-dfba-11ef-0a80-1aa8000a36b3",
+      "color": "Серый",
+      "price": 5350,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×6000 мм (Серый)"
+    },
+    {
+      "id": "4db211fa-dfbb-11ef-0a80-00a9000aaa47",
+      "productId": "f2b43d89-dfba-11ef-0a80-1aa8000a36b3",
+      "color": "Тик",
+      "price": 5350,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×6000 мм (Тик)"
+    },
+    {
+      "id": "4dead78b-be7a-11f1-0a80-084d003c349a",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Шоколад",
+      "price": 4160,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Шоколад)"
+    },
+    {
+      "id": "4e5aeea0-be79-11f1-0a80-183a003a1c8e",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Графит",
+      "price": 3990,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Графит)"
+    },
+    {
+      "id": "4eea5b92-be78-11f1-0a80-112c003b6c1b",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Бронза",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Бронза)"
+    },
+    {
+      "id": "4f760a24-ef6e-11ef-0a80-09a60009088d",
+      "productId": "a30e8edb-dfdf-11ef-0a80-00a90011abc2",
+      "color": "Венге",
+      "price": 950,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 70×35×3000 мм (Венге)"
+    },
+    {
+      "id": "4f786351-be7a-11f1-0a80-1a5b003c2f3d",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Терракот",
+      "price": 4160,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Терракот)"
+    },
+    {
+      "id": "4f8b2673-be66-11f1-0a80-091c00352c4d",
+      "productId": "f48e12d2-dfbe-11ef-0a80-0931000b15b8",
+      "color": "Графит",
+      "price": 1666.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma LIGHT 140×20×4000 мм (Графит)"
+    },
+    {
+      "id": "509711e5-be78-11f1-0a80-091c003b8b99",
+      "productId": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
+      "color": "Бежевый",
+      "price": 4015,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×3000 мм (Бежевый)"
+    },
+    {
+      "id": "510fdbf2-be7a-11f1-0a80-1d89003d2eab",
+      "productId": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
+      "color": "Графит",
+      "price": 4160,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм (Графит)"
+    },
+    {
+      "id": "51147594-be66-11f1-0a80-1d8900357aad",
+      "productId": "f48e12d2-dfbe-11ef-0a80-0931000b15b8",
+      "color": "Махагон",
+      "price": 1666.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma LIGHT 140×20×4000 мм (Махагон)"
+    },
+    {
+      "id": "516d0297-be79-11f1-0a80-0b37003a886e",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Серый",
+      "price": 4620,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Серый)"
+    },
+    {
+      "id": "529d8479-be66-11f1-0a80-1a5b0034bf93",
+      "productId": "7acadd2c-be63-11f1-0a80-15700032989e",
+      "color": "Венге",
+      "price": 3550,
+      "weight": null,
+      "name": "Финишная доска NimTech Gamma PC 3D 150×24×3000 мм (Венге)"
+    },
+    {
+      "id": "52b9af6e-be58-11f1-0a80-091c002eb5dc",
+      "productId": "5b38bf15-9e2a-11ec-0a80-0be100440b92",
+      "color": "Серый",
+      "price": 2000,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×4000 мм (Серый)"
+    },
+    {
+      "id": "52ec927b-be79-11f1-0a80-14d3003b7b02",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Дерево",
+      "price": 4620,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Дерево)"
+    },
+    {
+      "id": "542abc02-b871-11ec-0a80-01ed001b2307",
+      "productId": "5b3124cf-9e2a-11ec-0a80-0be100440b8b",
+      "color": "Антрацит",
+      "price": 1450,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×3000 мм (Антрацит)"
+    },
+    {
+      "id": "542f1888-b871-11ec-0a80-01ed001b230d",
+      "productId": "5b3124cf-9e2a-11ec-0a80-0be100440b8b",
+      "color": "Венге",
+      "price": 1450,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×3000 мм (Венге)"
+    },
+    {
+      "id": "5432a254-b871-11ec-0a80-01ed001b2313",
+      "productId": "5b3124cf-9e2a-11ec-0a80-0be100440b8b",
+      "color": "Изумруд",
+      "price": 1332,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×3000 мм (Изумруд)"
+    },
+    {
+      "id": "54344d44-be66-11f1-0a80-183a0033ab32",
+      "productId": "7acadd2c-be63-11f1-0a80-15700032989e",
+      "color": "Графит",
+      "price": 3550,
+      "weight": null,
+      "name": "Финишная доска NimTech Gamma PC 3D 150×24×3000 мм (Графит)"
+    },
+    {
+      "id": "5435b3d7-b871-11ec-0a80-01ed001b2319",
+      "productId": "5b3124cf-9e2a-11ec-0a80-0be100440b8b",
+      "color": "Какао",
+      "price": 1500,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×3000 мм (Какао)"
+    },
+    {
+      "id": "543bfff9-b871-11ec-0a80-01ed001b2325",
+      "productId": "5b3124cf-9e2a-11ec-0a80-0be100440b8b",
+      "color": "Терракот",
+      "price": 1332,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×3000 мм (Терракот)"
+    },
+    {
+      "id": "543eb882-b871-11ec-0a80-01ed001b232b",
+      "productId": "5b3124cf-9e2a-11ec-0a80-0be100440b8b",
+      "color": "Шоколад",
+      "price": 1500,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×3000 мм (Шоколад)"
+    },
+    {
+      "id": "5472711e-be79-11f1-0a80-183a003a28de",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Песочный",
+      "price": 4620,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Песочный)"
+    },
+    {
+      "id": "55d783f1-be66-11f1-0a80-1d8900357bf2",
+      "productId": "7acadd2c-be63-11f1-0a80-15700032989e",
+      "color": "Орех",
+      "price": 3550,
+      "weight": null,
+      "name": "Финишная доска NimTech Gamma PC 3D 150×24×3000 мм (Орех)"
+    },
+    {
+      "id": "55f3d994-be79-11f1-0a80-193c003c5b6f",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Какао",
+      "price": 4620,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Какао)"
+    },
+    {
+      "id": "5767a886-be79-11f1-0a80-1695003ad69d",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Бронза",
+      "price": 4620,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Бронза)"
+    },
+    {
+      "id": "59180097-be78-11f1-0a80-112c003b6e3c",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Антрацит",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Антрацит)"
+    },
+    {
+      "id": "5a7e71d9-dfbd-11ef-0a80-0931000acae2",
+      "productId": "4abc135f-dfbd-11ef-0a80-1aa8000aa4f6",
+      "color": "Венге",
+      "price": 2500,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×4000 мм (Венге)"
+    },
+    {
+      "id": "5a81c872-dfbd-11ef-0a80-0931000acae8",
+      "productId": "4abc135f-dfbd-11ef-0a80-1aa8000aa4f6",
+      "color": "Графит",
+      "price": 2500,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×4000 мм (Графит)"
+    },
+    {
+      "id": "5a84310b-dfbd-11ef-0a80-0931000acaee",
+      "productId": "4abc135f-dfbd-11ef-0a80-1aa8000aa4f6",
+      "color": "Орех",
+      "price": 2500,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×4000 мм (Орех)"
+    },
+    {
+      "id": "5a874eb3-dfbd-11ef-0a80-0931000acaf4",
+      "productId": "4abc135f-dfbd-11ef-0a80-1aa8000aa4f6",
+      "color": "Серый",
+      "price": 2500,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×4000 мм (Серый)"
+    },
+    {
+      "id": "5a88858b-be66-11f1-0a80-16950033d398",
+      "productId": "7acadd2c-be63-11f1-0a80-15700032989e",
+      "color": "Серый",
+      "price": 3550,
+      "weight": null,
+      "name": "Финишная доска NimTech Gamma PC 3D 150×24×3000 мм (Серый)"
+    },
+    {
+      "id": "5a89b4e1-dfbd-11ef-0a80-0931000acafa",
+      "productId": "4abc135f-dfbd-11ef-0a80-1aa8000aa4f6",
+      "color": "Тик",
+      "price": 2500,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×4000 мм (Тик)"
+    },
+    {
+      "id": "5aa7dd27-be78-11f1-0a80-1695003a9606",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Кофе",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Кофе)"
+    },
+    {
+      "id": "5c394faa-be78-11f1-0a80-0650003a26e9",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Шоколад",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Шоколад)"
+    },
+    {
+      "id": "5c9ab4ab-dfd8-11ef-0a80-029500101783",
+      "productId": "5032f2af-dfd8-11ef-0a80-157300100804",
+      "color": "Венге",
+      "price": 8950,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×3000 мм (Венге)"
+    },
+    {
+      "id": "5c9e90a0-dfd8-11ef-0a80-029500101789",
+      "productId": "5032f2af-dfd8-11ef-0a80-157300100804",
+      "color": "Графит",
+      "price": 8950,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×3000 мм (Графит)"
+    },
+    {
+      "id": "5ca15dab-dfd8-11ef-0a80-02950010178f",
+      "productId": "5032f2af-dfd8-11ef-0a80-157300100804",
+      "color": "Орех",
+      "price": 8950,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×3000 мм (Орех)"
+    },
+    {
+      "id": "5ca46374-dfd8-11ef-0a80-029500101797",
+      "productId": "5032f2af-dfd8-11ef-0a80-157300100804",
+      "color": "Серый",
+      "price": 8950,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×3000 мм (Серый)"
+    },
+    {
+      "id": "5ca78bea-dfd8-11ef-0a80-02950010179d",
+      "productId": "5032f2af-dfd8-11ef-0a80-157300100804",
+      "color": "Тик",
+      "price": 8950,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×3000 мм (Тик)"
+    },
+    {
+      "id": "5cfa3180-be7a-11f1-0a80-07e8003bbe0a",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Серый",
+      "price": 1810,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Серый)"
+    },
+    {
+      "id": "5d055c47-be66-11f1-0a80-1d8900357db7",
+      "productId": "7acadd2c-be63-11f1-0a80-15700032989e",
+      "color": "Махагон",
+      "price": 3550,
+      "weight": null,
+      "name": "Финишная доска NimTech Gamma PC 3D 150×24×3000 мм (Махагон)"
+    },
+    {
+      "id": "5dc33976-be78-11f1-0a80-1a5b003ba425",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Терракот",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Терракот)"
+    },
+    {
+      "id": "5f90f61e-be78-11f1-0a80-112c003b6fb8",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Графит",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Графит)"
+    },
+    {
+      "id": "5fceb897-be58-11f1-0a80-1a5b002e4d9a",
+      "productId": "93da9ea9-931f-11f1-0a80-005c0019ec5c",
+      "color": "Антрацит",
+      "price": 1625,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×3000 мм (Антрацит)"
+    },
+    {
+      "id": "60cb5f16-be7a-11f1-0a80-1d89003d326d",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Светло-серый",
+      "price": 1810,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Светло-серый)"
+    },
+    {
+      "id": "61feb786-dfe8-11ef-0a80-00a90012aace",
+      "productId": "53863f16-dfe8-11ef-0a80-04a500126870",
+      "color": "Венге",
+      "price": 700,
+      "weight": null,
+      "name": "Крышка для столба верхняя ДПК NimTech Gamma 125×125 (Венге)"
+    },
+    {
+      "id": "6201fbbf-dfe8-11ef-0a80-00a90012aad4",
+      "productId": "53863f16-dfe8-11ef-0a80-04a500126870",
+      "color": "Графит",
+      "price": 700,
+      "weight": null,
+      "name": "Крышка для столба верхняя ДПК NimTech Gamma 125×125 (Графит)"
+    },
+    {
+      "id": "6204f39b-dfe8-11ef-0a80-00a90012aada",
+      "productId": "53863f16-dfe8-11ef-0a80-04a500126870",
+      "color": "Коричневый",
+      "price": 700,
+      "weight": null,
+      "name": "Крышка для столба верхняя ДПК NimTech Gamma 125×125 (Коричневый)"
+    },
+    {
+      "id": "6207c447-dfe8-11ef-0a80-00a90012aae0",
+      "productId": "53863f16-dfe8-11ef-0a80-04a500126870",
+      "color": "Орех",
+      "price": 700,
+      "weight": null,
+      "name": "Крышка для столба верхняя ДПК NimTech Gamma 125×125 (Орех)"
+    },
+    {
+      "id": "620a99e3-dfe8-11ef-0a80-00a90012aae6",
+      "productId": "53863f16-dfe8-11ef-0a80-04a500126870",
+      "color": "Серый",
+      "price": 700,
+      "weight": null,
+      "name": "Крышка для столба верхняя ДПК NimTech Gamma 125×125 (Серый)"
+    },
+    {
+      "id": "62baa257-be7a-11f1-0a80-0d09003beb23",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Дерево",
+      "price": 1810,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Дерево)"
+    },
+    {
+      "id": "63154a74-b878-11ec-0a80-0441001bcd7a",
+      "productId": "5b38bf15-9e2a-11ec-0a80-0be100440b92",
+      "color": "Антрацит",
+      "price": 1933.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×4000 мм (Антрацит)"
+    },
+    {
+      "id": "6319bf61-b878-11ec-0a80-0441001bcd80",
+      "productId": "5b38bf15-9e2a-11ec-0a80-0be100440b92",
+      "color": "Венге",
+      "price": 1933.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×4000 мм (Венге)"
+    },
+    {
+      "id": "631d9c43-b878-11ec-0a80-0441001bcd86",
+      "productId": "5b38bf15-9e2a-11ec-0a80-0be100440b92",
+      "color": "Изумруд",
+      "price": 1824,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×4000 мм (Изумруд)"
+    },
+    {
+      "id": "6321952d-b878-11ec-0a80-0441001bcd8c",
+      "productId": "5b38bf15-9e2a-11ec-0a80-0be100440b92",
+      "color": "Какао",
+      "price": 2000,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×4000 мм (Какао)"
+    },
+    {
+      "id": "63276293-b878-11ec-0a80-0441001bcd92",
+      "productId": "5b38bf15-9e2a-11ec-0a80-0be100440b92",
+      "color": "Натур",
+      "price": 2000,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×4000 мм (Натур)"
+    },
+    {
+      "id": "632c8b5d-c585-11f1-0a80-05e000a23a2e",
+      "productId": "9c0ccadb-c402-11f1-0a80-1760003da329",
+      "color": "Венге",
+      "price": 3517.5,
+      "weight": null,
+      "name": "Террасная доска NimTech SM Гранд (Grand) 190×25×3000 мм (Венге)"
+    },
+    {
+      "id": "632ce712-b878-11ec-0a80-0441001bcda2",
+      "productId": "5b38bf15-9e2a-11ec-0a80-0be100440b92",
+      "color": "Терракот",
+      "price": 1824,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×4000 мм (Терракот)"
+    },
+    {
+      "id": "63331e14-b878-11ec-0a80-0441001bcda8",
+      "productId": "5b38bf15-9e2a-11ec-0a80-0be100440b92",
+      "color": "Шоколад",
+      "price": 2000,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×4000 мм (Шоколад)"
+    },
+    {
+      "id": "63632a70-be65-11f1-0a80-14d30034249b",
+      "productId": "189778b0-dfb8-11ef-0a80-09310009b441",
+      "color": "Махагон",
+      "price": 1875,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×3000 мм (Махагон)"
+    },
+    {
+      "id": "63838a84-be79-11f1-0a80-193c003c60b9",
+      "productId": "06039f4f-be79-11f1-0a80-112c003bac84",
+      "color": "Жемчуг",
+      "price": 4620,
+      "weight": null,
+      "name": "Панель фасадная NimTech Mars 199×17×6000 мм (Жемчуг)"
+    },
+    {
+      "id": "6409df15-be78-11f1-0a80-07e8003b284c",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Серый",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Серый)"
+    },
+    {
+      "id": "648071bf-be7a-11f1-0a80-112c003c1855",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Песочный",
+      "price": 1810,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Песочный)"
+    },
+    {
+      "id": "64c264d3-c585-11f1-0a80-0c5100a4297c",
+      "productId": "12bef159-c404-11f1-0a80-0675003e871f",
+      "color": "Венге",
+      "price": 4688.75,
+      "weight": null,
+      "name": "Террасная доска NimTech SM Гранд (Grand) 190×25×4000 мм (Венге)"
+    },
+    {
+      "id": "65c3f40a-be78-11f1-0a80-1a5b003ba5d8",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Светло-серый",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Светло-серый)"
+    },
+    {
+      "id": "66344133-be58-11f1-0a80-193c002e53db",
+      "productId": "93da9ea9-931f-11f1-0a80-005c0019ec5c",
+      "color": "Натур",
+      "price": 1675,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×3000 мм (Натур)"
+    },
+    {
+      "id": "666223df-c585-11f1-0a80-086100a48c6e",
+      "productId": "9c0ccadb-c402-11f1-0a80-1760003da329",
+      "color": "Эбен",
+      "price": 3517.5,
+      "weight": null,
+      "name": "Террасная доска NimTech SM Гранд (Grand) 190×25×3000 мм (Эбен)"
+    },
+    {
+      "id": "66f7b28f-be7a-11f1-0a80-1a5b003c3555",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Бронза",
+      "price": 1810,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Бронза)"
+    },
+    {
+      "id": "67703882-dfe0-11ef-0a80-116d00112689",
+      "productId": "5b216c5d-dfe0-11ef-0a80-08b5001118d2",
+      "color": "Венге",
+      "price": 1100,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 53×53×2000 мм (Венге)"
+    },
+    {
+      "id": "677277b2-dfe0-11ef-0a80-116d0011268f",
+      "productId": "5b216c5d-dfe0-11ef-0a80-08b5001118d2",
+      "color": "Графит",
+      "price": 1100,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 53×53×2000 мм (Графит)"
+    },
+    {
+      "id": "6772faaf-be78-11f1-0a80-091c003b9595",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Дерево",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Дерево)"
+    },
+    {
+      "id": "67745f34-dfe0-11ef-0a80-116d00112695",
+      "productId": "5b216c5d-dfe0-11ef-0a80-08b5001118d2",
+      "color": "Орех",
+      "price": 1100,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 53×53×2000 мм (Орех)"
+    },
+    {
+      "id": "67763e5e-dfe0-11ef-0a80-116d0011269b",
+      "productId": "5b216c5d-dfe0-11ef-0a80-08b5001118d2",
+      "color": "Темн=Черный/Кофе/Шоколад/Красный",
+      "price": 1100,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 53×53×2000 мм (Темн=Черный/Кофе/Шоколад/Красный)"
+    },
+    {
+      "id": "6904b496-be78-11f1-0a80-084d003ba83e",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Песочный",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Песочный)"
+    },
+    {
+      "id": "692151eb-be7a-11f1-0a80-183a003a707d",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Бежевый",
+      "price": 1810,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Бежевый)"
+    },
+    {
+      "id": "6a9e6d4e-be78-11f1-0a80-14d3003b246f",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Горячий песок",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Горячий песок)"
+    },
+    {
+      "id": "6cc859d6-be7a-11f1-0a80-1a5b003c36df",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Антрацит",
+      "price": 1545,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Антрацит)"
+    },
+    {
+      "id": "6eb30423-be58-11f1-0a80-0b37002d611e",
+      "productId": "c95f9051-931f-11f1-0a80-165d001a30f1",
+      "color": "Антрацит",
+      "price": 2166.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×4000 мм (Антрацит)"
+    },
+    {
+      "id": "6ee22a2f-be7a-11f1-0a80-1570003b53d2",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Кофе",
+      "price": 1545,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Кофе)"
+    },
+    {
+      "id": "700e1f0f-b59a-11f1-0a80-0f8600466866",
+      "productId": "bb42364a-9315-11f1-0a80-05b00018e54b",
+      "color": "Венге",
+      "price": 9750,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×3000 мм (Венге)"
+    },
+    {
+      "id": "7013b298-b59a-11f1-0a80-0f860046686b",
+      "productId": "bb42364a-9315-11f1-0a80-05b00018e54b",
+      "color": "Графит",
+      "price": 9750,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×3000 мм (Графит)"
+    },
+    {
+      "id": "7016cc2b-b59a-11f1-0a80-0f8600466870",
+      "productId": "bb42364a-9315-11f1-0a80-05b00018e54b",
+      "color": "Орех",
+      "price": 9750,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×3000 мм (Орех)"
+    },
+    {
+      "id": "70bb7db6-be7a-11f1-0a80-07e8003bc5cc",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Шоколад",
+      "price": 1545,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Шоколад)"
+    },
+    {
+      "id": "70c45fb7-dfbe-11ef-0a80-10de000a6731",
+      "productId": "57f25be6-dfbe-11ef-0a80-0295000ad4f0",
+      "color": "Венге",
+      "price": 2940,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×6000 мм (Венге)"
+    },
+    {
+      "id": "70c75107-dfbe-11ef-0a80-10de000a6737",
+      "productId": "57f25be6-dfbe-11ef-0a80-0295000ad4f0",
+      "color": "Графит",
+      "price": 2940,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×6000 мм (Графит)"
+    },
+    {
+      "id": "70ca058b-dfbe-11ef-0a80-10de000a673e",
+      "productId": "57f25be6-dfbe-11ef-0a80-0295000ad4f0",
+      "color": "Шоколад",
+      "price": 2940,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma DOUBLE 139×27×6000 мм (Шоколад)"
+    },
+    {
+      "id": "7103019a-be65-11f1-0a80-14d300342a8b",
+      "productId": "4abc135f-dfbd-11ef-0a80-1aa8000aa4f6",
+      "color": "Махагон",
+      "price": 2500,
+      "weight": null,
+      "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×4000 мм (Махагон)"
+    },
+    {
+      "id": "722e20f0-be78-11f1-0a80-1570003acdc4",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Бронза",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Бронза)"
+    },
+    {
+      "id": "72bc42dc-be7a-11f1-0a80-183a003a773e",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Терракот",
+      "price": 1545,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Терракот)"
+    },
+    {
+      "id": "73c8f2c7-be78-11f1-0a80-0650003a31dd",
+      "productId": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
+      "color": "Бежевый",
+      "price": 5353.33,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×4000 мм (Бежевый)"
+    },
+    {
+      "id": "7494f431-be7a-11f1-0a80-0650003ab8f7",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Графит",
+      "price": 1545,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Графит)"
+    },
+    {
+      "id": "750dfe9d-be66-11f1-0a80-07e80034894b",
+      "productId": "720968b9-be66-11f1-0a80-1d8900358551",
+      "color": "Венге",
+      "price": 4733.33,
+      "weight": null,
+      "name": "Финишная доска NimTech Gamma PC 3D 150×24×4000 мм (Венге)"
+    },
+    {
+      "id": "75449ba5-be58-11f1-0a80-1c8b002f9244",
+      "productId": "c95f9051-931f-11f1-0a80-165d001a30f1",
+      "color": "Натур",
+      "price": 2233.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×4000 мм (Натур)"
+    },
+    {
+      "id": "75647b9b-be78-11f1-0a80-1695003a9f48",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Антрацит",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Антрацит)"
+    },
+    {
+      "id": "76ad2cb0-be66-11f1-0a80-15700033f51d",
+      "productId": "720968b9-be66-11f1-0a80-1d8900358551",
+      "color": "Графит",
+      "price": 4733.33,
+      "weight": null,
+      "name": "Финишная доска NimTech Gamma PC 3D 150×24×4000 мм (Графит)"
+    },
+    {
+      "id": "76e39df2-be78-11f1-0a80-091c003b98bc",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Кофе",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Кофе)"
+    },
+    {
+      "id": "77706323-df3a-11ef-0a80-0fcc0000be25",
+      "productId": "73032e24-df3a-11ef-0a80-1aa8000096ee",
+      "color": "Венге",
+      "price": 1250,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma LIGHT 140×20×3000 мм (Венге)"
+    },
+    {
+      "id": "783d4006-be66-11f1-0a80-193c0035737f",
+      "productId": "720968b9-be66-11f1-0a80-1d8900358551",
+      "color": "Орех",
+      "price": 4733.33,
+      "weight": null,
+      "name": "Финишная доска NimTech Gamma PC 3D 150×24×4000 мм (Орех)"
+    },
+    {
+      "id": "788a3396-be78-11f1-0a80-07e8003b2e62",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Шоколад",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Шоколад)"
+    },
+    {
+      "id": "78979a6a-be7a-11f1-0a80-091c003c302c",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Серый",
+      "price": 2413.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Серый)"
+    },
+    {
+      "id": "798c9abf-be65-11f1-0a80-14d300342dd1",
+      "productId": "622e4858-be63-11f1-0a80-1a5b00336525",
+      "color": "Венге",
+      "price": 2550,
+      "weight": null,
+      "name": "Реечная панель NimTech Gamma ПАТИО 220×26×3000 мм (раб. 210×17) (Венге)"
+    },
+    {
+      "id": "79c30578-be66-11f1-0a80-07e800348a3d",
+      "productId": "720968b9-be66-11f1-0a80-1d8900358551",
+      "color": "Серый",
+      "price": 4733.33,
+      "weight": null,
+      "name": "Финишная доска NimTech Gamma PC 3D 150×24×4000 мм (Серый)"
+    },
+    {
+      "id": "7a55fbf6-be7a-11f1-0a80-1c8b003de55a",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Светло-серый",
+      "price": 2413.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Светло-серый)"
+    },
+    {
+      "id": "7b5cbf96-be58-11f1-0a80-091c002ec506",
+      "productId": "f7ace902-931f-11f1-0a80-1ce4001b243e",
+      "color": "Венге",
+      "price": 3250,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×6000 мм (Венге)"
+    },
+    {
+      "id": "7b9223c2-be66-11f1-0a80-07e800348ab9",
+      "productId": "720968b9-be66-11f1-0a80-1d8900358551",
+      "color": "Махагон",
+      "price": 4733.33,
+      "weight": null,
+      "name": "Финишная доска NimTech Gamma PC 3D 150×24×4000 мм (Махагон)"
+    },
+    {
+      "id": "7b9d6483-be78-11f1-0a80-1570003acf07",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Терракот",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Терракот)"
+    },
+    {
+      "id": "7bb92e27-be65-11f1-0a80-14d300342ebb",
+      "productId": "622e4858-be63-11f1-0a80-1a5b00336525",
+      "color": "Графит",
+      "price": 2550,
+      "weight": null,
+      "name": "Реечная панель NimTech Gamma ПАТИО 220×26×3000 мм (раб. 210×17) (Графит)"
+    },
+    {
+      "id": "7c25f7cc-be7a-11f1-0a80-14d3003bdf29",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Дерево",
+      "price": 2413.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Дерево)"
+    },
+    {
+      "id": "7d0585f9-be58-11f1-0a80-1d89002eb2c7",
+      "productId": "f7ace902-931f-11f1-0a80-1ce4001b243e",
+      "color": "Антрацит",
+      "price": 3250,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×6000 мм (Антрацит)"
+    },
+    {
+      "id": "7d37efda-be78-11f1-0a80-1695003aa187",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Графит",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Графит)"
+    },
+    {
+      "id": "7dc1b2fa-be65-11f1-0a80-07e80034231b",
+      "productId": "622e4858-be63-11f1-0a80-1a5b00336525",
+      "color": "Орех",
+      "price": 2550,
+      "weight": null,
+      "name": "Реечная панель NimTech Gamma ПАТИО 220×26×3000 мм (раб. 210×17) (Орех)"
+    },
+    {
+      "id": "7eb083fe-be7a-11f1-0a80-1d89003d3a62",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Песочный",
+      "price": 2413.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Песочный)"
+    },
+    {
+      "id": "7edf53df-be78-11f1-0a80-091c003b9983",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Серый",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Серый)"
+    },
+    {
+      "id": "7eeb5afb-be58-11f1-0a80-084d002eacf4",
+      "productId": "f7ace902-931f-11f1-0a80-1ce4001b243e",
+      "color": "Серый",
+      "price": 3350,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×6000 мм (Серый)"
+    },
+    {
+      "id": "7fadc577-be65-11f1-0a80-1c8b00357d3f",
+      "productId": "622e4858-be63-11f1-0a80-1a5b00336525",
+      "color": "Серый",
+      "price": 2550,
+      "weight": null,
+      "name": "Реечная панель NimTech Gamma ПАТИО 220×26×3000 мм (раб. 210×17) (Серый)"
+    },
+    {
+      "id": "8080ca32-be78-11f1-0a80-091c003b99b8",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Светло-серый",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Светло-серый)"
+    },
+    {
+      "id": "8093f1f9-be58-11f1-0a80-1d89002eb446",
+      "productId": "f7ace902-931f-11f1-0a80-1ce4001b243e",
+      "color": "Шоколад",
+      "price": 3350,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×6000 мм (Шоколад)"
+    },
+    {
+      "id": "80db1283-be7a-11f1-0a80-112c003c233b",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Горячий песок",
+      "price": 2413.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Горячий песок)"
+    },
+    {
+      "id": "813bc167-be65-11f1-0a80-0d0900340faa",
+      "productId": "622e4858-be63-11f1-0a80-1a5b00336525",
+      "color": "Махагон",
+      "price": 2550,
+      "weight": null,
+      "name": "Реечная панель NimTech Gamma ПАТИО 220×26×3000 мм (раб. 210×17) (Махагон)"
+    },
+    {
+      "id": "815c8098-dfe7-11ef-0a80-06b30011c994",
+      "productId": "72edc987-dfe7-11ef-0a80-0fcc0011c478",
+      "color": "Венге",
+      "price": 3866.67,
+      "weight": null,
+      "name": "Опорный столб NimTech Gamma 100×100 мм 100×100; 3 м (Венге)"
+    },
+    {
+      "id": "815f5f37-dfe7-11ef-0a80-06b30011c99a",
+      "productId": "72edc987-dfe7-11ef-0a80-0fcc0011c478",
+      "color": "Графит",
+      "price": 3866.67,
+      "weight": null,
+      "name": "Опорный столб NimTech Gamma 100×100 мм 100×100; 3 м (Графит)"
+    },
+    {
+      "id": "8161b265-dfe7-11ef-0a80-06b30011c9a0",
+      "productId": "72edc987-dfe7-11ef-0a80-0fcc0011c478",
+      "color": "Коричневый",
+      "price": 3866.67,
+      "weight": null,
+      "name": "Опорный столб NimTech Gamma 100×100 мм 100×100; 3 м (Коричневый)"
+    },
+    {
+      "id": "81640a2e-dfe7-11ef-0a80-06b30011c9ad",
+      "productId": "72edc987-dfe7-11ef-0a80-0fcc0011c478",
+      "color": "Орех",
+      "price": 3866.67,
+      "weight": null,
+      "name": "Опорный столб NimTech Gamma 100×100 мм 100×100; 3 м (Орех)"
+    },
+    {
+      "id": "8166594c-dfe7-11ef-0a80-06b30011c9b3",
+      "productId": "72edc987-dfe7-11ef-0a80-0fcc0011c478",
+      "color": "Серый",
+      "price": 3866.67,
+      "weight": null,
+      "name": "Опорный столб NimTech Gamma 100×100 мм 100×100; 3 м (Серый)"
+    },
+    {
+      "id": "822f05d2-be78-11f1-0a80-0650003a3503",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Дерево",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Дерево)"
+    },
+    {
+      "id": "844b5109-be7a-11f1-0a80-0650003abe8a",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Бронза",
+      "price": 2413.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Бронза)"
+    },
+    {
+      "id": "849081e0-be58-11f1-0a80-0b37002d67e3",
+      "productId": "f7ace902-931f-11f1-0a80-1ce4001b243e",
+      "color": "Натур",
+      "price": 3350,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×6000 мм (Натур)"
+    },
+    {
+      "id": "859cfc19-be66-11f1-0a80-07e800348d4d",
+      "productId": "72edc987-dfe7-11ef-0a80-0fcc0011c478",
+      "color": "Махагон",
+      "price": 3866.67,
+      "weight": null,
+      "name": "Опорный столб NimTech Gamma 100×100 мм 100×100; 3 м (Махагон)"
+    },
+    {
+      "id": "862ffe15-be58-11f1-0a80-1d89002eb78d",
+      "productId": "f7ace902-931f-11f1-0a80-1ce4001b243e",
+      "color": "Какао",
+      "price": 3350,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×6000 мм (Какао)"
+    },
+    {
+      "id": "863093dc-be7a-11f1-0a80-1570003b5db3",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Бежевый",
+      "price": 2413.33,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Бежевый)"
+    },
+    {
+      "id": "86b6c0d4-be65-11f1-0a80-14d3003431b8",
+      "productId": "8508c095-be65-11f1-0a80-169500337450",
+      "color": "Венге",
+      "price": 3400,
+      "weight": null,
+      "name": "Реечная панель NimTech Gamma ПАТИО 220×26×4000 мм (раб. 210×17) (Венге)"
+    },
+    {
+      "id": "880dc7d8-be7a-11f1-0a80-183a003a8025",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Антрацит",
+      "price": 2060,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Антрацит)"
+    },
+    {
+      "id": "88749e8a-be65-11f1-0a80-157000338ab1",
+      "productId": "8508c095-be65-11f1-0a80-169500337450",
+      "color": "Графит",
+      "price": 3400,
+      "weight": null,
+      "name": "Реечная панель NimTech Gamma ПАТИО 220×26×4000 мм (раб. 210×17) (Графит)"
+    },
+    {
+      "id": "89c5b125-be7a-11f1-0a80-0b37003ae5de",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Кофе",
+      "price": 2060,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Кофе)"
+    },
+    {
+      "id": "8a70f461-be65-11f1-0a80-193c00351641",
+      "productId": "8508c095-be65-11f1-0a80-169500337450",
+      "color": "Орех",
+      "price": 3400,
+      "weight": null,
+      "name": "Реечная панель NimTech Gamma ПАТИО 220×26×4000 мм (раб. 210×17) (Орех)"
+    },
+    {
+      "id": "8b97162f-be7a-11f1-0a80-1a5b003c4195",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Шоколад",
+      "price": 2060,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Шоколад)"
+    },
+    {
+      "id": "8c6834f1-be65-11f1-0a80-091c00349e4b",
+      "productId": "8508c095-be65-11f1-0a80-169500337450",
+      "color": "Серый",
+      "price": 3400,
+      "weight": null,
+      "name": "Реечная панель NimTech Gamma ПАТИО 220×26×4000 мм (раб. 210×17) (Серый)"
+    },
+    {
+      "id": "8f006955-be78-11f1-0a80-1d89003c769d",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Песочный",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Песочный)"
+    },
+    {
+      "id": "8f426bfc-be7a-11f1-0a80-14d3003bf28c",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Терракот",
+      "price": 2060,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Терракот)"
+    },
+    {
+      "id": "8f6016b4-be66-11f1-0a80-16950033e706",
+      "productId": "ddea256f-dfe7-11ef-0a80-10de00118daf",
+      "color": "Махагон",
+      "price": 2616.67,
+      "weight": null,
+      "name": "Перила NimTech Gamma 90×45; 3 м (Махагон)"
+    },
+    {
+      "id": "8f63fc60-be65-11f1-0a80-157000338ca8",
+      "productId": "8508c095-be65-11f1-0a80-169500337450",
+      "color": "Махагон",
+      "price": 3400,
+      "weight": null,
+      "name": "Реечная панель NimTech Gamma ПАТИО 220×26×4000 мм (раб. 210×17) (Махагон)"
+    },
+    {
+      "id": "90b55837-be78-11f1-0a80-1695003aa5ef",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Горячий песок",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Горячий песок)"
+    },
+    {
+      "id": "90cb8afd-f4f7-11ef-0a80-167d000bea5d",
+      "productId": "44b6d2a9-df39-11ef-0a80-029500009ee1",
+      "color": "Венге",
+      "price": 2070,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×3000 мм (Венге)"
+    },
+    {
+      "id": "90cfbc70-f4f7-11ef-0a80-167d000bea65",
+      "productId": "44b6d2a9-df39-11ef-0a80-029500009ee1",
+      "color": "Графит",
+      "price": 2070,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×3000 мм (Графит)"
+    },
+    {
+      "id": "90d27950-f4f7-11ef-0a80-167d000bea6b",
+      "productId": "44b6d2a9-df39-11ef-0a80-029500009ee1",
+      "color": "Орех",
+      "price": 2070,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×3000 мм (Орех)"
+    },
+    {
+      "id": "90d45d59-f4f7-11ef-0a80-167d000bea71",
+      "productId": "44b6d2a9-df39-11ef-0a80-029500009ee1",
+      "color": "Серый",
+      "price": 2070,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×3000 мм (Серый)"
+    },
+    {
+      "id": "9118196f-be7a-11f1-0a80-193c003cb662",
+      "productId": "c6b9df35-0210-11ef-0a80-1492000842f5",
+      "color": "Графит",
+      "price": 2060,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм (Графит)"
+    },
+    {
+      "id": "92666c9b-be78-11f1-0a80-0650003a396d",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Бронза",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Бронза)"
+    },
+    {
+      "id": "927f84ee-be65-11f1-0a80-0d0900341438",
+      "productId": "90f8f106-be65-11f1-0a80-091c0034a34c",
+      "color": "Венге",
+      "price": 1600,
+      "weight": null,
+      "name": "Угловой профиль NimTech Gamma для реечной панели ПАТИО 99×49×26×3000 мм (раб. 82×32×17) (Венге)"
+    },
+    {
+      "id": "92cedaac-be7a-11f1-0a80-14d3003bf38f",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Серый",
+      "price": 3620,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Серый)"
+    },
+    {
+      "id": "93f50f6e-be78-11f1-0a80-1c8b003d419f",
+      "productId": "24e7beb8-be78-11f1-0a80-1695003a888a",
+      "color": "Бежевый",
+      "price": 8030,
+      "weight": null,
+      "name": "Ступень NimTech Mars МПК 160×25×6000 мм (Бежевый)"
+    },
+    {
+      "id": "94129b0c-be65-11f1-0a80-193c00351843",
+      "productId": "90f8f106-be65-11f1-0a80-091c0034a34c",
+      "color": "Графит",
+      "price": 1600,
+      "weight": null,
+      "name": "Угловой профиль NimTech Gamma для реечной панели ПАТИО 99×49×26×3000 мм (раб. 82×32×17) (Графит)"
+    },
+    {
+      "id": "9463c3ff-be7a-11f1-0a80-0d09003c0412",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Светло-серый",
+      "price": 3620,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Светло-серый)"
+    },
+    {
+      "id": "95f1e2c4-be7a-11f1-0a80-1c8b003dfbd6",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Дерево",
+      "price": 3620,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Дерево)"
+    },
+    {
+      "id": "9608dfd0-be65-11f1-0a80-1d8900352196",
+      "productId": "90f8f106-be65-11f1-0a80-091c0034a34c",
+      "color": "Орех",
+      "price": 1600,
+      "weight": null,
+      "name": "Угловой профиль NimTech Gamma для реечной панели ПАТИО 99×49×26×3000 мм (раб. 82×32×17) (Орех)"
+    },
+    {
+      "id": "96401e38-b876-11ec-0a80-01ed001b4d6f",
+      "productId": "3e505f58-b5b7-11ec-0a80-025c001146a1",
+      "color": "Антрацит",
+      "price": 2900,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×6000 мм (Антрацит)"
+    },
+    {
+      "id": "9645d9fa-b876-11ec-0a80-01ed001b4d75",
+      "productId": "3e505f58-b5b7-11ec-0a80-025c001146a1",
+      "color": "Венге",
+      "price": 2900,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×6000 мм (Венге)"
+    },
+    {
+      "id": "96501a19-b876-11ec-0a80-01ed001b4d81",
+      "productId": "3e505f58-b5b7-11ec-0a80-025c001146a1",
+      "color": "Изумруд",
+      "price": 2736,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×6000 мм (Изумруд)"
+    },
+    {
+      "id": "96536b6c-b876-11ec-0a80-01ed001b4d87",
+      "productId": "3e505f58-b5b7-11ec-0a80-025c001146a1",
+      "color": "Какао",
+      "price": 3000,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×6000 мм (Какао)"
+    },
+    {
+      "id": "9656829e-b876-11ec-0a80-01ed001b4d8d",
+      "productId": "3e505f58-b5b7-11ec-0a80-025c001146a1",
+      "color": "Натур",
+      "price": 3000,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×6000 мм (Натур)"
+    },
+    {
+      "id": "96597d4f-b876-11ec-0a80-01ed001b4d93",
+      "productId": "3e505f58-b5b7-11ec-0a80-025c001146a1",
+      "color": "Терракот",
+      "price": 2736,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×6000 мм (Терракот)"
+    },
+    {
+      "id": "97d5be63-b59b-11f1-0a80-0350004a907b",
+      "productId": "c95f9051-931f-11f1-0a80-165d001a30f1",
+      "color": "Венге",
+      "price": 2166.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×4000 мм (Венге)"
+    },
+    {
+      "id": "97d95014-b59b-11f1-0a80-0350004a9082",
+      "productId": "c95f9051-931f-11f1-0a80-165d001a30f1",
+      "color": "Графит",
+      "price": 2120,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×4000 мм (Графит)"
+    },
+    {
+      "id": "97dc3b6a-b59b-11f1-0a80-0350004a9087",
+      "productId": "c95f9051-931f-11f1-0a80-165d001a30f1",
+      "color": "Какао",
+      "price": 2233.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×4000 мм (Какао)"
+    },
+    {
+      "id": "97deb69c-b59b-11f1-0a80-0350004a908c",
+      "productId": "c95f9051-931f-11f1-0a80-165d001a30f1",
+      "color": "Орех",
+      "price": 2120,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×4000 мм (Орех)"
+    },
+    {
+      "id": "97e1727e-b59b-11f1-0a80-0350004a9091",
+      "productId": "c95f9051-931f-11f1-0a80-165d001a30f1",
+      "color": "Шоколад",
+      "price": 2233.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×4000 мм (Шоколад)"
+    },
+    {
+      "id": "98e3c9da-be66-11f1-0a80-0d0900348060",
+      "productId": "2155292a-dfe8-11ef-0a80-0fcc0011d3e1",
+      "color": "Махагон",
+      "price": 1716.67,
+      "weight": null,
+      "name": "Балясина NimTech Gamma 50×50; 3 м (Махагон)"
+    },
+    {
+      "id": "9999fb33-be65-11f1-0a80-065000331681",
+      "productId": "90f8f106-be65-11f1-0a80-091c0034a34c",
+      "color": "Серый",
+      "price": 1600,
+      "weight": null,
+      "name": "Угловой профиль NimTech Gamma для реечной панели ПАТИО 99×49×26×3000 мм (раб. 82×32×17) (Серый)"
+    },
+    {
+      "id": "9a3a52dd-be7a-11f1-0a80-1a5b003c46ff",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Песочный",
+      "price": 3620,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Песочный)"
+    },
+    {
+      "id": "9b868c7d-be78-11f1-0a80-112c003b8d07",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Антрацит",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Антрацит)"
+    },
+    {
+      "id": "9b8a2d26-be65-11f1-0a80-0b3700333c20",
+      "productId": "90f8f106-be65-11f1-0a80-091c0034a34c",
+      "color": "Махагон",
+      "price": 1600,
+      "weight": null,
+      "name": "Угловой профиль NimTech Gamma для реечной панели ПАТИО 99×49×26×3000 мм (раб. 82×32×17) (Махагон)"
+    },
+    {
+      "id": "9c00824c-be7a-11f1-0a80-1c8b003e0033",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Горячий песок",
+      "price": 3620,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Горячий песок)"
+    },
+    {
+      "id": "9d05351f-be78-11f1-0a80-0d09003b8470",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Кофе",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Кофе)"
+    },
+    {
+      "id": "9de498e6-be7a-11f1-0a80-112c003c3154",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Бронза",
+      "price": 3620,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Бронза)"
+    },
+    {
+      "id": "9eba1029-be65-11f1-0a80-169500337bec",
+      "productId": "9d3c7eb8-be65-11f1-0a80-0b3700333c86",
+      "color": "Венге",
+      "price": 2133.33,
+      "weight": null,
+      "name": "Угловой профиль NimTech Gamma для реечной панели ПАТИО 99×49×26×4000 мм (раб. 82×32×17) (Венге)"
+    },
+    {
+      "id": "9ffdaafe-be7a-11f1-0a80-0d09003c0734",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Бежевый",
+      "price": 3620,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Бежевый)"
+    },
+    {
+      "id": "a04a06ca-be65-11f1-0a80-193c00351a9d",
+      "productId": "9d3c7eb8-be65-11f1-0a80-0b3700333c86",
+      "color": "Графит",
+      "price": 2133.33,
+      "weight": null,
+      "name": "Угловой профиль NimTech Gamma для реечной панели ПАТИО 99×49×26×4000 мм (раб. 82×32×17) (Графит)"
+    },
+    {
+      "id": "a1f99b90-be7a-11f1-0a80-0650003ac991",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Антрацит",
+      "price": 3090,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Антрацит)"
+    },
+    {
+      "id": "a2580bac-be66-11f1-0a80-16950033eafe",
+      "productId": "53863f16-dfe8-11ef-0a80-04a500126870",
+      "color": "Махагон",
+      "price": 700,
+      "weight": null,
+      "name": "Крышка для столба верхняя ДПК NimTech Gamma 125×125 (Махагон)"
+    },
+    {
+      "id": "a4d367e4-be65-11f1-0a80-084d003471de",
+      "productId": "9d3c7eb8-be65-11f1-0a80-0b3700333c86",
+      "color": "Орех",
+      "price": 2133.33,
+      "weight": null,
+      "name": "Угловой профиль NimTech Gamma для реечной панели ПАТИО 99×49×26×4000 мм (раб. 82×32×17) (Орех)"
+    },
+    {
+      "id": "a56e399c-be7a-11f1-0a80-1570003b6b5a",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Кофе",
+      "price": 3090,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Кофе)"
+    },
+    {
+      "id": "a6738e88-be65-11f1-0a80-183a00336ec1",
+      "productId": "9d3c7eb8-be65-11f1-0a80-0b3700333c86",
+      "color": "Серый",
+      "price": 2133.33,
+      "weight": null,
+      "name": "Угловой профиль NimTech Gamma для реечной панели ПАТИО 99×49×26×4000 мм (раб. 82×32×17) (Серый)"
+    },
+    {
+      "id": "a72170c4-be7a-11f1-0a80-14d3003c05fb",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Шоколад",
+      "price": 3090,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Шоколад)"
+    },
+    {
+      "id": "a7c3b5cd-dfd8-11ef-0a80-157300101534",
+      "productId": "9cf87e41-dfd8-11ef-0a80-0bc1000f439a",
+      "color": "Венге",
+      "price": 11933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×4000 мм (Венге)"
+    },
+    {
+      "id": "a7c6e3ba-dfd8-11ef-0a80-15730010153a",
+      "productId": "9cf87e41-dfd8-11ef-0a80-0bc1000f439a",
+      "color": "Графит",
+      "price": 11933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×4000 мм (Графит)"
+    },
+    {
+      "id": "a7c976b7-dfd8-11ef-0a80-157300101540",
+      "productId": "9cf87e41-dfd8-11ef-0a80-0bc1000f439a",
+      "color": "Орех",
+      "price": 11933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×4000 мм (Орех)"
+    },
+    {
+      "id": "a7cc7087-dfd8-11ef-0a80-157300101546",
+      "productId": "9cf87e41-dfd8-11ef-0a80-0bc1000f439a",
+      "color": "Серый",
+      "price": 11933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×4000 мм (Серый)"
+    },
+    {
+      "id": "a7cf5e3d-dfd8-11ef-0a80-15730010154c",
+      "productId": "9cf87e41-dfd8-11ef-0a80-0bc1000f439a",
+      "color": "Тик",
+      "price": 11933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×4000 мм (Тик)"
+    },
+    {
+      "id": "a865db5b-be65-11f1-0a80-14d300343e96",
+      "productId": "9d3c7eb8-be65-11f1-0a80-0b3700333c86",
+      "color": "Махагон",
+      "price": 2133.33,
+      "weight": null,
+      "name": "Угловой профиль NimTech Gamma для реечной панели ПАТИО 99×49×26×4000 мм (раб. 82×32×17) (Махагон)"
+    },
+    {
+      "id": "a8bdada1-be7a-11f1-0a80-1d89003d4c3e",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Терракот",
+      "price": 3090,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Терракот)"
+    },
+    {
+      "id": "a911f272-be78-11f1-0a80-14d3003b3585",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Шоколад",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Шоколад)"
+    },
+    {
+      "id": "aa76b798-be7a-11f1-0a80-1a5b003c5032",
+      "productId": "5b146d00-be7a-11f1-0a80-1d89003d305b",
+      "color": "Графит",
+      "price": 3090,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм (Графит)"
+    },
+    {
+      "id": "abbbcb0e-be78-11f1-0a80-1a5b003bb5a6",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Терракот",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Терракот)"
+    },
+    {
+      "id": "aca90eec-be66-11f1-0a80-16950033ee3b",
+      "productId": "39ce56d5-dfec-11ef-0a80-15730012c31f",
+      "color": "Махагон",
+      "price": 858.33,
+      "weight": null,
+      "name": "Крышка для столба нижняя ДПК NimTech Gamma 140×140 (Махагон)"
+    },
+    {
+      "id": "ad67bca9-be65-11f1-0a80-0b3700334292",
+      "productId": "a30e8edb-dfdf-11ef-0a80-00a90011abc2",
+      "color": "Графит",
+      "price": 950,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 70×35×3000 мм (Графит)"
+    },
+    {
+      "id": "ad9a8af5-be78-11f1-0a80-1570003add82",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Графит",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Графит)"
+    },
+    {
+      "id": "af1fc450-be65-11f1-0a80-1c8b00358d3b",
+      "productId": "a30e8edb-dfdf-11ef-0a80-00a90011abc2",
+      "color": "Орех",
+      "price": 950,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 70×35×3000 мм (Орех)"
+    },
+    {
+      "id": "af24ee23-be78-11f1-0a80-112c003b9783",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Серый",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Серый)"
+    },
+    {
+      "id": "af4dffcd-bd83-11f1-0a80-0848002dfff9",
+      "productId": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
+      "color": "Серый",
+      "price": 2435,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм (Серый)"
+    },
+    {
+      "id": "afe33370-be66-11f1-0a80-14d30034a262",
+      "productId": "86299462-be63-11f1-0a80-091c0033bab9",
+      "color": "Венге",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба нижняя ПВХ NimTech Gamma 170×170 (Венге)"
+    },
+    {
+      "id": "b0b3b6b8-be78-11f1-0a80-1a5b003bb75d",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Светло-серый",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Светло-серый)"
+    },
+    {
+      "id": "b0e1a4ac-be65-11f1-0a80-1d8900352bac",
+      "productId": "a30e8edb-dfdf-11ef-0a80-00a90011abc2",
+      "color": "Серый",
+      "price": 950,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 70×35×3000 мм (Серый)"
+    },
+    {
+      "id": "b18c68c8-be66-11f1-0a80-091c00355411",
+      "productId": "86299462-be63-11f1-0a80-091c0033bab9",
+      "color": "Графит",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба нижняя ПВХ NimTech Gamma 170×170 (Графит)"
+    },
+    {
+      "id": "b2a39a38-be65-11f1-0a80-0b3700334518",
+      "productId": "a30e8edb-dfdf-11ef-0a80-00a90011abc2",
+      "color": "Махагон",
+      "price": 950,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 70×35×3000 мм (Махагон)"
+    },
+    {
+      "id": "b3459a90-be66-11f1-0a80-1a5b0034eb74",
+      "productId": "86299462-be63-11f1-0a80-091c0033bab9",
+      "color": "Орех",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба нижняя ПВХ NimTech Gamma 170×170 (Орех)"
+    },
+    {
+      "id": "b375cb58-be78-11f1-0a80-091c003ba5c3",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Дерево",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Дерево)"
+    },
+    {
+      "id": "b3ad0964-b8cf-11f1-0a80-168400133844",
+      "productId": "93da9ea9-931f-11f1-0a80-005c0019ec5c",
+      "color": "Серый",
+      "price": 1675,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×3000 мм (Серый)"
+    },
+    {
+      "id": "b3bb42c1-bd83-11f1-0a80-1bec002c3070",
+      "productId": "7b336e86-0210-11ef-0a80-07aa0007fc87",
+      "color": "Горячий песок",
+      "price": 1810,
+      "weight": null,
+      "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм (Горячий песок)"
+    },
+    {
+      "id": "b4830436-be7a-11f1-0a80-14d3003c0c9f",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Серый",
+      "price": 1945,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Серый)"
+    },
+    {
+      "id": "b4cde889-be66-11f1-0a80-091c003555b5",
+      "productId": "86299462-be63-11f1-0a80-091c0033bab9",
+      "color": "Серый",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба нижняя ПВХ NimTech Gamma 170×170 (Серый)"
+    },
+    {
+      "id": "b4ffd968-be78-11f1-0a80-112c003b990d",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Песочный",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Песочный)"
+    },
+    {
+      "id": "b69126aa-be78-11f1-0a80-193c003c312d",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Горячий песок",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Горячий песок)"
+    },
+    {
+      "id": "b69878b7-be66-11f1-0a80-157000340d51",
+      "productId": "86299462-be63-11f1-0a80-091c0033bab9",
+      "color": "Махагон",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба нижняя ПВХ NimTech Gamma 170×170 (Махагон)"
+    },
+    {
+      "id": "b792be1e-be7a-11f1-0a80-183a003aa1ad",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Светло-серый",
+      "price": 1945,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Светло-серый)"
+    },
+    {
+      "id": "b822f704-be78-11f1-0a80-091c003ba6c2",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Бронза",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Бронза)"
+    },
+    {
+      "id": "b968ee7b-be7a-11f1-0a80-183a003aa286",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Дерево",
+      "price": 1945,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Дерево)"
+    },
+    {
+      "id": "b9abd9c7-be66-11f1-0a80-091c003556d0",
+      "productId": "86299462-be63-11f1-0a80-091c0033bab9",
+      "color": "Белый",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба нижняя ПВХ NimTech Gamma 170×170 (Белый)"
+    },
+    {
+      "id": "b9e109eb-be78-11f1-0a80-091c003ba716",
+      "productId": "96e707a1-be78-11f1-0a80-084d003bb99e",
+      "color": "Бежевый",
+      "price": 1000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм (Бежевый)"
+    },
+    {
+      "id": "bb1ec94a-be7a-11f1-0a80-0650003ad531",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Песочный",
+      "price": 1945,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Песочный)"
+    },
+    {
+      "id": "bb55eeb6-be66-11f1-0a80-14d30034a4c9",
+      "productId": "7e379dc9-dfec-11ef-0a80-1aa80012c437",
+      "color": "Венге",
+      "price": 208.33,
+      "weight": null,
+      "name": "Держатель перил NimTech Gamma (Венге)"
+    },
+    {
+      "id": "bced034f-be66-11f1-0a80-0b370033a3f3",
+      "productId": "7e379dc9-dfec-11ef-0a80-1aa80012c437",
+      "color": "Графит",
+      "price": 208.33,
+      "weight": null,
+      "name": "Держатель перил NimTech Gamma (Графит)"
+    },
+    {
+      "id": "bcfacfbc-be65-11f1-0a80-091c0034c790",
+      "productId": "19d2d597-dfe0-11ef-0a80-0c240010c106",
+      "color": "Махагон",
+      "price": 1266.67,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 70×35×4000 мм (Махагон)"
+    },
+    {
+      "id": "bd62f095-be7a-11f1-0a80-1d89003d5316",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Горячий песок",
+      "price": 1945,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Горячий песок)"
+    },
+    {
+      "id": "bd86a559-b8cf-11f1-0a80-154f00131b27",
+      "productId": "c95f9051-931f-11f1-0a80-165d001a30f1",
+      "color": "Серый",
+      "price": 2233.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Beta 3D ELITE 139×25×4000 мм (Серый)"
+    },
+    {
+      "id": "be488ca7-dfba-11ef-0a80-07910009eeea",
+      "productId": "ad6fa4c4-dfba-11ef-0a80-0bc10009a4df",
+      "color": "Венге",
+      "price": 3566.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×4000 мм (Венге)"
+    },
+    {
+      "id": "be4b280a-dfba-11ef-0a80-07910009eef0",
+      "productId": "ad6fa4c4-dfba-11ef-0a80-0bc10009a4df",
+      "color": "Графит",
+      "price": 3566.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×4000 мм (Графит)"
+    },
+    {
+      "id": "be4de7bc-dfba-11ef-0a80-07910009eef6",
+      "productId": "ad6fa4c4-dfba-11ef-0a80-0bc10009a4df",
+      "color": "Орех",
+      "price": 3566.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×4000 мм (Орех)"
+    },
+    {
+      "id": "be4fff1e-dfba-11ef-0a80-07910009eefc",
+      "productId": "ad6fa4c4-dfba-11ef-0a80-0bc10009a4df",
+      "color": "Серый",
+      "price": 3566.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×4000 мм (Серый)"
+    },
+    {
+      "id": "be5200c6-dfba-11ef-0a80-07910009ef02",
+      "productId": "ad6fa4c4-dfba-11ef-0a80-0bc10009a4df",
+      "color": "Тик",
+      "price": 3566.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×4000 мм (Тик)"
+    },
+    {
+      "id": "be8510af-be66-11f1-0a80-193c003586ff",
+      "productId": "7e379dc9-dfec-11ef-0a80-1aa80012c437",
+      "color": "Орех",
+      "price": 208.33,
+      "weight": null,
+      "name": "Держатель перил NimTech Gamma (Орех)"
+    },
+    {
+      "id": "be991299-be77-11f1-0a80-1570003a8d7b",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Серый",
+      "price": 3040,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Серый)"
+    },
+    {
+      "id": "bf1fca52-be7a-11f1-0a80-183a003aa404",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Бронза",
+      "price": 1945,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Бронза)"
+    },
+    {
+      "id": "c00aea38-be66-11f1-0a80-16950033f3ed",
+      "productId": "7e379dc9-dfec-11ef-0a80-1aa80012c437",
+      "color": "Серый",
+      "price": 208.33,
+      "weight": null,
+      "name": "Держатель перил NimTech Gamma (Серый)"
+    },
+    {
+      "id": "c018a526-be77-11f1-0a80-1a5b003b68a6",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Светло-серый",
+      "price": 3040,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Светло-серый)"
+    },
+    {
+      "id": "c0781830-bd83-11f1-0a80-0848002e0646",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Кофе",
+      "price": 1650,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Кофе)"
+    },
+    {
+      "id": "c23ebfb5-be65-11f1-0a80-193c0035250a",
+      "productId": "5b216c5d-dfe0-11ef-0a80-08b5001118d2",
+      "color": "Вуд (орех)",
+      "price": 1100,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 53×53×2000 мм (Вуд (орех))"
+    },
+    {
+      "id": "c31ab787-be7a-11f1-0a80-0d09003c16e0",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Бежевый",
+      "price": 1945,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Бежевый)"
+    },
+    {
+      "id": "c463da35-be65-11f1-0a80-1d8900353341",
+      "productId": "5b216c5d-dfe0-11ef-0a80-08b5001118d2",
+      "color": "Кофе",
+      "price": 1100,
+      "weight": null,
+      "name": "Уголок из ДПК NimTech Gamma 53×53×2000 мм (Кофе)"
+    },
+    {
+      "id": "c49dd0d4-be7a-11f1-0a80-183a003aa5cb",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Антрацит",
+      "price": 1650,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Антрацит)"
+    },
+    {
+      "id": "c4b9c3f6-be66-11f1-0a80-183a0033cfbf",
+      "productId": "7e379dc9-dfec-11ef-0a80-1aa80012c437",
+      "color": "Махагон",
+      "price": 208.33,
+      "weight": null,
+      "name": "Держатель перил NimTech Gamma (Махагон)"
+    },
+    {
+      "id": "c60c24c8-df39-11ef-0a80-157300008f33",
+      "productId": "b265c4a7-df39-11ef-0a80-06b30000b379",
+      "color": "Венге",
+      "price": 3250,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×3000 мм (Венге)"
+    },
+    {
+      "id": "c60f817f-df39-11ef-0a80-157300008f39",
+      "productId": "b265c4a7-df39-11ef-0a80-06b30000b379",
+      "color": "Графит",
+      "price": 3250,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×3000 мм (Графит)"
+    },
+    {
+      "id": "c6128ec6-df39-11ef-0a80-157300008f3f",
+      "productId": "b265c4a7-df39-11ef-0a80-06b30000b379",
+      "color": "Орех",
+      "price": 3250,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×3000 мм (Орех)"
+    },
+    {
+      "id": "c615327b-df39-11ef-0a80-157300008f45",
+      "productId": "b265c4a7-df39-11ef-0a80-06b30000b379",
+      "color": "Серый",
+      "price": 3250,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×3000 мм (Серый)"
+    },
+    {
+      "id": "c617f50f-df39-11ef-0a80-157300008f4b",
+      "productId": "b265c4a7-df39-11ef-0a80-06b30000b379",
+      "color": "Тик",
+      "price": 3250,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×3000 мм (Тик)"
+    },
+    {
+      "id": "c642be6f-be7a-11f1-0a80-14d3003c12ab",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Шоколад",
+      "price": 1650,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Шоколад)"
+    },
+    {
+      "id": "c6c5a79b-be78-11f1-0a80-112c003b9cc5",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Антрацит",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Антрацит)"
+    },
+    {
+      "id": "c72d46e6-be77-11f1-0a80-091c003b3d99",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Дерево",
+      "price": 3040,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Дерево)"
+    },
+    {
+      "id": "c7ed96cb-be7a-11f1-0a80-14d3003c135c",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Терракот",
+      "price": 1650,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Терракот)"
+    },
+    {
+      "id": "c854b09a-be78-11f1-0a80-193c003c3348",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Кофе",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Кофе)"
+    },
+    {
+      "id": "c8a1d38c-be77-11f1-0a80-183a00397f49",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Песочный",
+      "price": 3040,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Песочный)"
+    },
+    {
+      "id": "c980d90f-be7a-11f1-0a80-183a003aa8cc",
+      "productId": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
+      "color": "Графит",
+      "price": 1650,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм (Графит)"
+    },
+    {
+      "id": "c9ff71d6-be78-11f1-0a80-084d003bc337",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Шоколад",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Шоколад)"
+    },
+    {
+      "id": "ca1a9515-be77-11f1-0a80-193c003bd4b5",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Горячий песок",
+      "price": 3040,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Горячий песок)"
+    },
+    {
+      "id": "cb9adeef-be78-11f1-0a80-1570003ae44b",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Терракот",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Терракот)"
+    },
+    {
+      "id": "cb9e210d-be77-11f1-0a80-07e8003aee56",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Бронза",
+      "price": 3040,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Бронза)"
+    },
+    {
+      "id": "cc8603f7-be7a-11f1-0a80-1d89003d57ec",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Серый",
+      "price": 2593.33,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Серый)"
+    },
+    {
+      "id": "cd0c1a27-be77-11f1-0a80-183a003980c8",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Бежевый",
+      "price": 3040,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Бежевый)"
+    },
+    {
+      "id": "cd639997-be78-11f1-0a80-183a0039e6c6",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Графит",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Графит)"
+    },
+    {
+      "id": "ce428f6e-be7a-11f1-0a80-1570003b7bcf",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Светло-серый",
+      "price": 2593.33,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Светло-серый)"
+    },
+    {
+      "id": "cfd613a5-be7a-11f1-0a80-1570003b7c5a",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Дерево",
+      "price": 2593.33,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Дерево)"
+    },
+    {
+      "id": "d091baff-be78-11f1-0a80-1a5b003bc0a5",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Серый",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Серый)"
+    },
+    {
+      "id": "d0e0ff8e-be77-11f1-0a80-183a0039823c",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Антрацит",
+      "price": 2595,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Антрацит)"
+    },
+    {
+      "id": "d16d6dda-be7a-11f1-0a80-07e8003bf875",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Песочный",
+      "price": 2593.33,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Песочный)"
+    },
+    {
+      "id": "d212cb8f-be78-11f1-0a80-193c003c352c",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Светло-серый",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Светло-серый)"
+    },
+    {
+      "id": "d2899994-be77-11f1-0a80-1695003a60bb",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Кофе",
+      "price": 2595,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Кофе)"
+    },
+    {
+      "id": "d30d864c-be7a-11f1-0a80-14d3003c179b",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Горячий песок",
+      "price": 2593.33,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Горячий песок)"
+    },
+    {
+      "id": "d343ff1c-be66-11f1-0a80-112c00354a6b",
+      "productId": "cfec9b45-be66-11f1-0a80-091c003561ec",
+      "color": "Венге",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба верхняя ПВХ NimTech Gamma 125×125 (Венге)"
+    },
+    {
+      "id": "d3ce13ea-be78-11f1-0a80-07e8003b44ec",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Дерево",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Дерево)"
+    },
+    {
+      "id": "d41145b1-be77-11f1-0a80-14d3003af462",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Шоколад",
+      "price": 2595,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Шоколад)"
+    },
+    {
+      "id": "d4ddcdfa-be66-11f1-0a80-1c8b003611aa",
+      "productId": "cfec9b45-be66-11f1-0a80-091c003561ec",
+      "color": "Графит",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба верхняя ПВХ NimTech Gamma 125×125 (Графит)"
+    },
+    {
+      "id": "d57109ea-be78-11f1-0a80-193c003c3570",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Песочный",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Песочный)"
+    },
+    {
+      "id": "d593497f-be77-11f1-0a80-1a5b003b6ef7",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Терракот",
+      "price": 2595,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Терракот)"
+    },
+    {
+      "id": "d6a4a1e5-be66-11f1-0a80-084d0034df5d",
+      "productId": "cfec9b45-be66-11f1-0a80-091c003561ec",
+      "color": "Орех",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба верхняя ПВХ NimTech Gamma 125×125 (Орех)"
+    },
+    {
+      "id": "d6b56fed-be7a-11f1-0a80-1695003b62a1",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Бронза",
+      "price": 2593.33,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Бронза)"
+    },
+    {
+      "id": "d6fba840-be78-11f1-0a80-1c8b003d535f",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Горячий песок",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Горячий песок)"
+    },
+    {
+      "id": "d7540b0e-be77-11f1-0a80-1c8b003d0720",
+      "productId": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
+      "color": "Графит",
+      "price": 2595,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм (Графит)"
+    },
+    {
+      "id": "d837c3f0-be66-11f1-0a80-0b370033b001",
+      "productId": "cfec9b45-be66-11f1-0a80-091c003561ec",
+      "color": "Серый",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба верхняя ПВХ NimTech Gamma 125×125 (Серый)"
+    },
+    {
+      "id": "d87ce25e-be7a-11f1-0a80-1c8b003e3148",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Бежевый",
+      "price": 2593.33,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Бежевый)"
+    },
+    {
+      "id": "d9bdc647-be66-11f1-0a80-07e80034abcc",
+      "productId": "cfec9b45-be66-11f1-0a80-091c003561ec",
+      "color": "Махагон",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба верхняя ПВХ NimTech Gamma 125×125 (Махагон)"
+    },
+    {
+      "id": "da33ac44-be7a-11f1-0a80-0b37003b17e2",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Антрацит",
+      "price": 2200,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Антрацит)"
+    },
+    {
+      "id": "dbddb2a7-be7a-11f1-0a80-0650003ae32f",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Кофе",
+      "price": 2200,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Кофе)"
+    },
+    {
+      "id": "dcd78caa-be65-11f1-0a80-112c0034dd10",
+      "productId": "e2e323d8-df38-11ef-0a80-0fcc0000a3a4",
+      "color": "Махагон",
+      "price": 2675,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×3000 мм (Махагон)"
+    },
+    {
+      "id": "dcfdaafc-dfbd-11ef-0a80-0931000ae0d9",
+      "productId": "ce8a5903-dfbd-11ef-0a80-0fcc000ae474",
+      "color": "Венге",
+      "price": 4333.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×4000 мм (Венге)"
+    },
+    {
+      "id": "dcffeb5c-dfbd-11ef-0a80-0931000ae0df",
+      "productId": "ce8a5903-dfbd-11ef-0a80-0fcc000ae474",
+      "color": "Графит",
+      "price": 4333.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×4000 мм (Графит)"
+    },
+    {
+      "id": "dd01bb48-dfbd-11ef-0a80-0931000ae0e5",
+      "productId": "ce8a5903-dfbd-11ef-0a80-0fcc000ae474",
+      "color": "Орех",
+      "price": 4333.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×4000 мм (Орех)"
+    },
+    {
+      "id": "dd0387ca-dfbd-11ef-0a80-0931000ae0eb",
+      "productId": "ce8a5903-dfbd-11ef-0a80-0fcc000ae474",
+      "color": "Серый",
+      "price": 4333.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×4000 мм (Серый)"
+    },
+    {
+      "id": "dd057796-dfbd-11ef-0a80-0931000ae0f1",
+      "productId": "ce8a5903-dfbd-11ef-0a80-0fcc000ae474",
+      "color": "Тик",
+      "price": 4333.33,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×4000 мм (Тик)"
+    },
+    {
+      "id": "dd5385cf-be66-11f1-0a80-16950034045b",
+      "productId": "cfec9b45-be66-11f1-0a80-091c003561ec",
+      "color": "Белый",
+      "price": 366.67,
+      "weight": null,
+      "name": "Крышка для столба верхняя ПВХ NimTech Gamma 125×125 (Белый)"
+    },
+    {
+      "id": "dd8e5235-be7a-11f1-0a80-112c003c63e9",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Шоколад",
+      "price": 2200,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Шоколад)"
+    },
+    {
+      "id": "deedf590-be78-11f1-0a80-1695003abcc4",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Бронза",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Бронза)"
+    },
+    {
+      "id": "e08c8cc3-be78-11f1-0a80-183a0039eb4a",
+      "productId": "9869d222-be78-11f1-0a80-0650003a3a1b",
+      "color": "Бежевый",
+      "price": 1333.33,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм (Бежевый)"
+    },
+    {
+      "id": "e19fdbc9-be7a-11f1-0a80-1570003b83a6",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Терракот",
+      "price": 2200,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Терракот)"
+    },
+    {
+      "id": "e1dd9ca9-c613-11f1-0a80-05e000c69087",
+      "productId": "7d69d462-c404-11f1-0a80-0c51003ebc40",
+      "color": "Трава",
+      "price": 4116.25,
+      "weight": null,
+      "name": "Садовый паркет Трава (Garden Grass) NimTech SM 300×300 (Трава)"
+    },
+    {
+      "id": "e237fde6-be78-11f1-0a80-193c003c3776",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Антрацит",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Антрацит)"
+    },
+    {
+      "id": "e2d65d4a-be77-11f1-0a80-1a5b003b7692",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Серый",
+      "price": 4053.33,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Серый)"
+    },
+    {
+      "id": "e3368eda-be7a-11f1-0a80-193c003cec32",
+      "productId": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
+      "color": "Графит",
+      "price": 2200,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм (Графит)"
+    },
+    {
+      "id": "e3ba939f-be78-11f1-0a80-0d09003b9170",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Кофе",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Кофе)"
+    },
+    {
+      "id": "e4665dfe-be77-11f1-0a80-091c003b4b84",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Светло-серый",
+      "price": 4053.33,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Светло-серый)"
+    },
+    {
+      "id": "e4ec1cef-be7a-11f1-0a80-091c003c5b94",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Серый",
+      "price": 3890,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Серый)"
+    },
+    {
+      "id": "e53481fe-be78-11f1-0a80-14d3003b43c2",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Шоколад",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Шоколад)"
+    },
+    {
+      "id": "e5d93b66-be77-11f1-0a80-1d89003c291f",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Дерево",
+      "price": 4053.33,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Дерево)"
+    },
+    {
+      "id": "e6e1bd84-be7a-11f1-0a80-084d003c62ac",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Светло-серый",
+      "price": 3890,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Светло-серый)"
+    },
+    {
+      "id": "e759418c-be77-11f1-0a80-193c003bdf35",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Песочный",
+      "price": 4053.33,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Песочный)"
+    },
+    {
+      "id": "e7c38afc-be65-11f1-0a80-07e80034553c",
+      "productId": "ad6fa4c4-dfba-11ef-0a80-0bc10009a4df",
+      "color": "Махагон",
+      "price": 3566.67,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×4000 мм (Махагон)"
+    },
+    {
+      "id": "e861670b-be78-11f1-0a80-1d89003c98c2",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Терракот",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Терракот)"
+    },
+    {
+      "id": "e8d1ac6f-be7a-11f1-0a80-1570003b8688",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Дерево",
+      "price": 3890,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Дерево)"
+    },
+    {
+      "id": "e8ead7db-be77-11f1-0a80-07e8003aff33",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Горячий песок",
+      "price": 4053.33,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Горячий песок)"
+    },
+    {
+      "id": "e9e54f97-be78-11f1-0a80-112c003ba344",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Графит",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Графит)"
+    },
+    {
+      "id": "eb5eae13-be78-11f1-0a80-193c003c3c88",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Серый",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Серый)"
+    },
+    {
+      "id": "ebf85ceb-dfe7-11ef-0a80-0ea300120d36",
+      "productId": "ddea256f-dfe7-11ef-0a80-10de00118daf",
+      "color": "Венге",
+      "price": 2616.67,
+      "weight": null,
+      "name": "Перила NimTech Gamma 90×45; 3 м (Венге)"
+    },
+    {
+      "id": "ebfbe58f-dfe7-11ef-0a80-0ea300120d3c",
+      "productId": "ddea256f-dfe7-11ef-0a80-10de00118daf",
+      "color": "Графит",
+      "price": 2616.67,
+      "weight": null,
+      "name": "Перила NimTech Gamma 90×45; 3 м (Графит)"
+    },
+    {
+      "id": "ebfe3b3c-dfe7-11ef-0a80-0ea300120d42",
+      "productId": "ddea256f-dfe7-11ef-0a80-10de00118daf",
+      "color": "Коричневый",
+      "price": 2616.67,
+      "weight": null,
+      "name": "Перила NimTech Gamma 90×45; 3 м (Коричневый)"
+    },
+    {
+      "id": "ec00a2ee-dfe7-11ef-0a80-0ea300120d48",
+      "productId": "ddea256f-dfe7-11ef-0a80-10de00118daf",
+      "color": "Орех",
+      "price": 2616.67,
+      "weight": null,
+      "name": "Перила NimTech Gamma 90×45; 3 м (Орех)"
+    },
+    {
+      "id": "ec0304fa-dfe7-11ef-0a80-0ea300120d4e",
+      "productId": "ddea256f-dfe7-11ef-0a80-10de00118daf",
+      "color": "Серый",
+      "price": 2616.67,
+      "weight": null,
+      "name": "Перила NimTech Gamma 90×45; 3 м (Серый)"
+    },
+    {
+      "id": "ec42875f-be66-11f1-0a80-183a0033dea3",
+      "productId": "5032f2af-dfd8-11ef-0a80-157300100804",
+      "color": "Махагон",
+      "price": 8950,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×3000 мм (Махагон)"
+    },
+    {
+      "id": "ec90271b-be7a-11f1-0a80-0b37003b1c06",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Песочный",
+      "price": 3890,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Песочный)"
+    },
+    {
+      "id": "ec9c751d-be77-11f1-0a80-084d003b6c27",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Бронза",
+      "price": 4053.33,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Бронза)"
+    },
+    {
+      "id": "ecdb0746-be78-11f1-0a80-112c003ba3ef",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Светло-серый",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Светло-серый)"
+    },
+    {
+      "id": "ed59a493-dfbb-11ef-0a80-06b30009f682",
+      "productId": "dddc0b1e-dfbb-11ef-0a80-1aa8000a603f",
+      "color": "Венге",
+      "price": 2760,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×4000 мм (Венге)"
+    },
+    {
+      "id": "ed5d354c-dfbb-11ef-0a80-06b30009f688",
+      "productId": "dddc0b1e-dfbb-11ef-0a80-1aa8000a603f",
+      "color": "Графит",
+      "price": 2760,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×4000 мм (Графит)"
+    },
+    {
+      "id": "ed5ff82a-dfbb-11ef-0a80-06b30009f68e",
+      "productId": "dddc0b1e-dfbb-11ef-0a80-1aa8000a603f",
+      "color": "Орех",
+      "price": 2760,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×4000 мм (Орех)"
+    },
+    {
+      "id": "ed62bacc-dfbb-11ef-0a80-06b30009f694",
+      "productId": "dddc0b1e-dfbb-11ef-0a80-1aa8000a603f",
+      "color": "Серый",
+      "price": 2760,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×4000 мм (Серый)"
+    },
+    {
+      "id": "ed65cc1f-dfbb-11ef-0a80-06b30009f69a",
+      "productId": "dddc0b1e-dfbb-11ef-0a80-1aa8000a603f",
+      "color": "Тик",
+      "price": 2760,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×4000 мм (Тик)"
+    },
+    {
+      "id": "ee418a66-be77-11f1-0a80-1a5b003b7be0",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Бежевый",
+      "price": 4053.33,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Бежевый)"
+    },
+    {
+      "id": "ee64bf0f-be7a-11f1-0a80-1c8b003e3fbc",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Горячий песок",
+      "price": 3890,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Горячий песок)"
+    },
+    {
+      "id": "ef5c0143-be78-11f1-0a80-091c003bae5f",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Дерево",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Дерево)"
+    },
+    {
+      "id": "efc7464a-be77-11f1-0a80-0b37003a0b9f",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Антрацит",
+      "price": 3460,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Антрацит)"
+    },
+    {
+      "id": "f00ff150-be7a-11f1-0a80-0d09003c266a",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Бронза",
+      "price": 3890,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Бронза)"
+    },
+    {
+      "id": "f15c59f6-be77-11f1-0a80-193c003be2f9",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Кофе",
+      "price": 3460,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Кофе)"
+    },
+    {
+      "id": "f1d7c1e7-be7a-11f1-0a80-14d3003c204d",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Бежевый",
+      "price": 3890,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Бежевый)"
+    },
+    {
+      "id": "f2d2f93f-be65-11f1-0a80-1d89003541fb",
+      "productId": "f2b43d89-dfba-11ef-0a80-1aa8000a36b3",
+      "color": "Махагон",
+      "price": 5350,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×6000 мм (Махагон)"
+    },
+    {
+      "id": "f2dda41c-be77-11f1-0a80-1570003aa6b6",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Шоколад",
+      "price": 3460,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Шоколад)"
+    },
+    {
+      "id": "f3794bea-be7a-11f1-0a80-1d89003d6cff",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Антрацит",
+      "price": 3300,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Антрацит)"
+    },
+    {
+      "id": "f624f4e0-df38-11ef-0a80-079100009a92",
+      "productId": "e2e323d8-df38-11ef-0a80-0fcc0000a3a4",
+      "color": "Венге",
+      "price": 2675,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×3000 мм (Венге)"
+    },
+    {
+      "id": "f627ee45-df38-11ef-0a80-079100009a98",
+      "productId": "e2e323d8-df38-11ef-0a80-0fcc0000a3a4",
+      "color": "Графит",
+      "price": 2675,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×3000 мм (Графит)"
+    },
+    {
+      "id": "f62a13c4-df38-11ef-0a80-079100009a9e",
+      "productId": "e2e323d8-df38-11ef-0a80-0fcc0000a3a4",
+      "color": "Орех",
+      "price": 2675,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×3000 мм (Орех)"
+    },
+    {
+      "id": "f62cba0f-df38-11ef-0a80-079100009aa4",
+      "productId": "e2e323d8-df38-11ef-0a80-0fcc0000a3a4",
+      "color": "Серый",
+      "price": 2675,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×3000 мм (Серый)"
+    },
+    {
+      "id": "f62ef6c6-df38-11ef-0a80-079100009aaa",
+      "productId": "e2e323d8-df38-11ef-0a80-0fcc0000a3a4",
+      "color": "Тик",
+      "price": 2675,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×3000 мм (Тик)"
+    },
+    {
+      "id": "f65d7758-c48c-11ec-0a80-012a002d81a4",
+      "productId": "3e505f58-b5b7-11ec-0a80-025c001146a1",
+      "color": "Шоколад",
+      "price": 3000,
+      "weight": null,
+      "name": "Террасная доска NimTech Alpha DOUBLE 139×27×6000 мм (Шоколад)"
+    },
+    {
+      "id": "f69bfc64-be66-11f1-0a80-0d090034b683",
+      "productId": "9cf87e41-dfd8-11ef-0a80-0bc1000f439a",
+      "color": "Махагон",
+      "price": 11933.33,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×4000 мм (Махагон)"
+    },
+    {
+      "id": "f6d8dc3d-be7a-11f1-0a80-1695003b6ab5",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Кофе",
+      "price": 3300,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Кофе)"
+    },
+    {
+      "id": "f8800e22-be7a-11f1-0a80-112c003c6b24",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Шоколад",
+      "price": 3300,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Шоколад)"
+    },
+    {
+      "id": "fa0b5ad1-be78-11f1-0a80-0d09003b9598",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Песочный",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Песочный)"
+    },
+    {
+      "id": "fa0f3bb7-be7a-11f1-0a80-084d003c69c3",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Терракот",
+      "price": 3300,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Терракот)"
+    },
+    {
+      "id": "faf4f77f-c584-11f1-0a80-1a8900a1ee2e",
+      "productId": "9c0ccadb-c402-11f1-0a80-1760003da329",
+      "color": "Дуб",
+      "price": 3517.5,
+      "weight": null,
+      "name": "Террасная доска NimTech SM Гранд (Grand) 190×25×3000 мм (Дуб)"
+    },
+    {
+      "id": "fbb32f15-be78-11f1-0a80-084d003bcd0b",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Горячий песок",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Горячий песок)"
+    },
+    {
+      "id": "fbfaffa9-be7a-11f1-0a80-1c8b003e4dbf",
+      "productId": "b2bff424-be7a-11f1-0a80-1695003b518c",
+      "color": "Графит",
+      "price": 3300,
+      "weight": null,
+      "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм (Графит)"
+    },
+    {
+      "id": "fc281948-be65-11f1-0a80-065000334cd4",
+      "productId": "44b6d2a9-df39-11ef-0a80-029500009ee1",
+      "color": "Махагон",
+      "price": 2070,
+      "weight": null,
+      "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×3000 мм (Махагон)"
+    },
+    {
+      "id": "fd7240ea-be77-11f1-0a80-091c003b4fec",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Терракот",
+      "price": 3460,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Терракот)"
+    },
+    {
+      "id": "fdcfd77b-be78-11f1-0a80-0d09003b9672",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Бронза",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Бронза)"
+    },
+    {
+      "id": "fe39ef55-be66-11f1-0a80-0d090034bbfc",
+      "productId": "bb42364a-9315-11f1-0a80-05b00018e54b",
+      "color": "Серый",
+      "price": 9750,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×3000 мм (Серый)"
+    },
+    {
+      "id": "fefb356d-be77-11f1-0a80-14d3003b071b",
+      "productId": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
+      "color": "Графит",
+      "price": 3460,
+      "weight": null,
+      "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм (Графит)"
+    },
+    {
+      "id": "ff9d6709-be78-11f1-0a80-112c003bab33",
+      "productId": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
+      "color": "Бежевый",
+      "price": 2000,
+      "weight": null,
+      "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм (Бежевый)"
+    },
+    {
+      "id": "ffbdbd3a-be66-11f1-0a80-193c0035a7db",
+      "productId": "bb42364a-9315-11f1-0a80-05b00018e54b",
+      "color": "Махагон",
+      "price": 9750,
+      "weight": null,
+      "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×3000 мм (Махагон)"
+    }
+  ]
+}
