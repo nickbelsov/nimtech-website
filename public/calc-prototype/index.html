@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nimtech — калькулятор террасы</title>
+  <link rel="stylesheet" href="style.css?v=20261002-single-joists">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+<header class="appHeader">
+  <div class="brand">
+  <div class="brandWordmark" aria-label="NIMTECH">
+    <img class="brandLogoMark" src="assets/nimtech-mark.svg" alt="">
+    <span class="brandText">
+      <span class="brandName">NIMTECH</span>
+      <span class="brandTagline">ТЕХНОЛОГИИ ДЛЯ КОМФОРТНОЙ СРЕДЫ</span>
+    </span>
+  </div>
+  <span class="plannerTitle">Планировщик террасы</span>
+</div>
+  <nav class="topNav">
+    <a href="#project">Проект</a>
+    <a href="#materials">Материалы</a>
+    <a href="#spec">Ведомость</a>
+  </nav>
+  <button id="generatePdf" class="headerCta" type="button">Получить расчёт <span>→</span></button>
+</header>
+
+<main>
+<aside class="settingsPanel">
+  <button id="toggleLeft" class="panelToggle leftToggle" type="button" title="Свернуть параметры" aria-label="Свернуть параметры">‹</button>
+  <div class="panelContent" id="project">
+    <div class="setupSection">
+      <div class="stepNo">01</div>
+      <div class="stepBody">
+        <h2>Форма площадки</h2>
+        <label>Тип площадки</label>
+        <select id="shapeMode">
+          <option value="free">Произвольная форма</option>
+          <option value="rect">Прямоугольник</option>
+          <option value="lshape">L-образная</option>
+          <option value="tshape">T-образная</option>
+          <option value="ushape">U-образная</option>
+          <option value="oshape">O-образная</option>
+          <option value="circle">Круглая</option>
+        </select>
+
+        <label>Направление доски</label>
+        <select id="dir">
+          <option value="l">По длине</option>
+          <option value="w">По ширине</option>
+        </select>
+
+        <label>Вариант раскладки</label>
+        <select id="layoutMode">
+          <option value="optimal">Оптимальный раскрой</option>
+          <option value="aligned">Стыки в одну линию</option>
+          <option value="half" selected>Равномерная шахматка 1/2</option>
+          <option value="seamless">Без стыков</option>
+          <option value="frame" disabled>Рамка по периметру — следующий этап</option>
+          <option value="frameDivider" disabled>Рамка + разделительная доска — следующий этап</option>
+        </select>
+        <small id="layoutHint">Минимизация отходов с повторным использованием остатков.</small>
+
+        <label>Длина доски для расчёта</label>
+        <select id="boardStockLength" class="boardStockLengthSelect">
+          <option value="3000">3 м</option>
+          <option value="4000" selected>4 м</option>
+          <option value="6000">6 м</option>
+        </select>
+
+        <div id="rectControls" class="hidden">
+          <input id="L" type="hidden" value="6200">
+          <input id="W" type="hidden" value="3800">
+        </div>
+        <div id="freeControls" class="hidden">
+          <small>Нарисуй любой замкнутый контур прямо на рабочем поле. Размеры определяются самим контуром.</small>
+          <button id="drawPolygon" type="button" class="secondaryBtn">Нарисовать заново</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="setupSection">
+      <div class="stepNo">02</div>
+      <div class="stepBody">
+        <h2>Конструкция</h2>
+        <label>Тип основания</label>
+        <select id="base">
+          <option value="ground">Грунт / земля</option>
+          <option value="concrete">Бетон</option>
+          <option value="roof">Кровля / гидроизоляция</option>
+        </select>
+
+        <div id="ground" class="constructionFacts">
+          <span>Сваи 2500 мм</span>
+          <span>Пояс ≤ 1500 мм</span>
+          <span>Шаг свай ≤ 1500 мм</span>
+        </div>
+
+        <div id="concrete" class="hidden">
+          <label>Тип опоры</label>
+          <select id="concreteSupport">
+            <option value="rubber">Резиновые подкладки</option>
+            <option value="rebar">Арматурные штыри</option>
+          </select>
+          <div id="concreteSupportMeta" class="constructionFacts"></div>
+        </div>
+
+        <div id="roof" class="hidden">
+          <div class="constructionFacts">
+            <span>Регулируемые винтовые пластиковые опоры</span>
+            <span>Шаг опор ≤ 750 мм</span>
+            <span>Опора строго под лагой 40×40×2</span>
+          </div>
+        </div>
+
+        <label class="checkrow"><input id="hasHouse" type="checkbox"> Примыкание к дому</label>
+        <div id="houseControls" class="hidden">
+          <label>Сторона примыкания</label>
+          <select id="houseSide"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="setupSection" id="materials">
+      <div class="stepNo">03</div>
+      <div class="stepBody">
+        <h2>Материалы</h2>
+
+        <label>Коллекция</label><select id="boardCollection"></select>
+        <label>Модель</label><select id="boardModel"></select>
+        <label>Цвет</label><select id="boardColor"></select>
+        <div id="catalogLengthSlot"></div>
+        <input id="boardModule" type="hidden"><input id="boardHeight" type="hidden">
+        <div id="selectedBoardMeta" class="constructionFacts"></div>
+        <small id="catalogNote">Каталог и РРЦ МойСклад от 02.10.2026. Остатки не учитываются.</small>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<section class="workspace">
+  <div class="workspaceTop">
+    <div><span class="eyebrow">NIMTECH PLANNER</span><strong>Рабочий чертёж</strong></div>
+    <div class="viewSwitch">
+      <button id="view2D" type="button" class="active">2D</button>
+      <button id="view3D" type="button">3D</button>
+    </div>
+  </div>
+  <div class="canvasWrap">
+    <div class="canvasToolbar">
+      <div class="layerControls">
+        <label class="layerChip boardLayer"><input id="showBoards" type="checkbox" checked><span class="layerSwatch"></span><span>ДПК</span></label>
+        <label class="layerChip joistLayer"><input id="showJoists" type="checkbox" checked><span class="layerSwatch"></span><span>40×40×2</span></label>
+        <label class="layerChip beltLayer"><input id="showBelts" type="checkbox" checked><span class="layerSwatch"></span><span>80×80×2</span></label>
+        <label class="layerChip pileLayer"><input id="showPiles" type="checkbox" checked><span class="layerSwatch dot"></span><span>Сваи</span></label>
+      </div>
+      <div class="zoomControls">
+        <button id="zoomOut" class="iconBtn" type="button" title="Уменьшить" aria-label="Уменьшить">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 12h10"/></svg>
+        </button>
+        <button id="zoomReset" class="zoomValue" type="button" title="Сбросить масштаб">100%</button>
+        <button id="zoomIn" class="iconBtn" type="button" title="Увеличить" aria-label="Увеличить">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v10M7 12h10"/></svg>
+        </button>
+        <button id="zoomFit" class="iconBtn fitBtn" type="button" title="Вписать в экран" aria-label="Вписать в экран">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="canvasViewport" class="canvasViewport">
+      <div id="threeViewport" class="threeViewport hidden"></div>
+      <div id="canvasScene" class="canvasScene">
+    <div id="terrace" class="terraceCanvas">
+      <div id="constructionLayer" class="constructionLayer"></div>
+      <svg id="polygonEditor" class="polygonEditor hidden" viewBox="0 0 1000 700" preserveAspectRatio="none"></svg>
+    </div>
+
+      </div>
+    </div>
+
+    <div class="canvasFooter">
+      <div class="legend">
+      <span><i class="boardKey"></i> доска</span>
+      <span><i class="regularJoistKey"></i> профиль 40×40×2</span>
+      <span><i class="beltKey"></i> пояс 80×80</span>
+      <span><i class="pileKey"></i> свая</span>
+      </div>
+      <div class="canvasHint">ПКМ — перемещение · колесо — масштаб</div>
+    </div>
+  </div>
+</section>
+
+<aside class="result">
+  <button id="toggleRight" class="panelToggle rightToggle" type="button" title="Свернуть расчёт" aria-label="Свернуть расчёт">›</button>
+  <div class="panelContent" id="spec">
+
+    <div class="specCard">
+      <div class="panelHead"><span class="eyebrow">ИТОГОВАЯ ВЕДОМОСТЬ</span><h2>Расчёт проекта</h2></div>
+  <p>Площадь <b id="area"></b></p>
+  <p>Габарит контура <b id="bboxOut">—</b></p>
+  <p>Основание <b id="baseOut"></b></p>
+  <p>Режим раскладки <b id="layoutModeOut">—</b></p>
+
+  <div id="layoutWarning" class="info hidden"></div>
+
+  <h3>Проверка конструкции</h3>
+  <p>Макс. шаг 40×40×2 <b id="checkJoistStep">—</b></p>
+  <p>Свес доски по краям <b id="checkEdgeOverhang">—</b></p>
+  <p>Макс. шаг 80×80×2 <b id="checkBeltStep">—</b></p>
+  <p>Макс. шаг свай <b id="checkPileStep">—</b></p>
+
+  <h3>Склад</h3>
+  <div id="stockCheck" class="stockCheck">Складской режим выключен.</div>
+
+  <h3>Раскладка ДПК</h3>
+  <p>Доступные длины <b id="allowedLengthsOut">—</b></p>
+  <p>Рядов доски <b id="rows">—</b></p>
+  <p>Закупка 3 м <b id="buy3000">—</b></p>
+  <p>Закупка 4 м <b id="buy4000">—</b></p>
+  <p>Закупка 6 м <b id="buy6000">—</b></p>
+  <p>Всего досок <b id="boardCount">—</b></p>
+  <p>Повторно использовано остатков <b id="reusedOffcuts">—</b></p>
+  <p>Финальный остаток <b id="boardWaste">—</b></p>
+  <p>Торцевых стыков <b id="seams">—</b></p>
+  <div id="rowPlans" class="rowPlans"></div>
+
+  <h3>Профиль 40×40×2</h3>
+  <p>Расчётный шаг по осям <b id="joistStepOut">—</b></p>
+  <p>Основной профиль <b id="regularJoists">—</b></p>
+  <p>Доп. профиль под стыками <b id="doubleJoists">—</b></p>
+  <p>Всего профиль 40×40×2 <b id="joists">—</b></p>
+  <p>Закупка по 6 м <b id="joistPurchase">—</b></p>
+
+  <h3>Опорный пояс 80×80×2</h3>
+  <p>Количество рядов <b id="beltRows">—</b></p>
+  <p>Шаг / схема <b id="beltStepOut">—</b></p>
+  <p>Фактический погонаж <b id="belt">—</b></p>
+  <p>Закупка по 6 м <b id="beltPurchase">—</b></p>
+
+  <h3>Опоры / сваи</h3>
+  <p>Свай на один пояс <b id="pilesPerBelt">—</b></p>
+  <p>Шаг / схема свай <b id="pileStepOut">—</b></p>
+  <p>Всего свай / опор <b id="supports">—</b></p>
+  <p id="concreteMaterialRow" class="hidden">Материал опор <b id="concreteMaterialSpec">—</b></p>
+
+  <div id="pileInfo" class="info"></div>
+  <div id="tech"></div>
+
+  <h3>Стоимость материалов</h3>
+  <p>ДПК <b id="priceBoards">—</b></p>
+  <p>Профиль 40×40×2 <b id="priceJoists">—</b></p>
+  <p>Профиль 80×80×2 <b id="priceBelts">—</b></p>
+  <p>Сваи 2500 мм + оголовок <b id="pricePiles">—</b></p>
+  <p class="priceTotalRow">Итого по учтённым материалам <b id="priceTotal">—</b></p>
+  <div id="priceNote" class="info"></div>
+
+  <h3>Диагностика алгоритма</h3>
+  <div id="algorithmDiagnostics" class="algorithmDiagnostics"></div>
+    </div>
+  </div>
+</aside>
+</main>
+
+<script src="config.js?v=20260913-1610"></script>
+<script src="board-catalog.js?v=20261002"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+<script src="app.js?v=20261002-single-joists"></script>
+<script type="module" src="viewer3d.js?v=20260913-1845"></script>
+</body>
+</html>
