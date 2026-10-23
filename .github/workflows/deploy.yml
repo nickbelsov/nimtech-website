@@ -19,6 +19,7 @@ jobs:
         with:
           path: .
           node-version: '22'
+          package-manager: npm
   deploy:
     environment:
       name: github-pages
