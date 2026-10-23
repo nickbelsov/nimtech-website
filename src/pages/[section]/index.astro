@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+const sections={
+ 'terrasy-pod-klyuch':['Террасы под ключ','Проектирование, подбор материалов и профессиональный монтаж террас.'],
+ 'catalog':['Каталог материалов','Террасная доска ДПК, металлокаркас, опоры и крепёж. Каталог будет наполнен товарными позициями.'],
+ 'projects':['Наши проекты','Здесь появятся фотографии, характеристики и истории реализованных объектов.'],
+ 'calculator':['Калькулятор террасы','Полноценная интерактивная версия калькулятора будет перенесена из существующего проекта calc.'],
+ 'blog':['Блог','Статьи о проектировании, монтаже, материалах и уходе за террасами.'],
+ 'video':['Видео','Обзоры и инструкции с YouTube-канала NimTech. Автоматическую синхронизацию подключим отдельно.'],
+ 'contacts':['Контакты','Свяжитесь с NimTech для консультации и расчёта проекта.']
+};
+export function getStaticPaths(){return Object.keys(sections).map(section=>({params:{section}}));}
+const [title,description]=sections[Astro.params.section];
+---
+<Base title={title+' — NimTech'} description={description}><section class="wrap"><h1>{title}</h1><p>{description}</p><a class="btn" href="/">На главную →</a></section></Base>
