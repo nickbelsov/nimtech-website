@@ -1,0 +1,3982 @@
+const $ = id => document.getElementById(id);
+
+const baseNames = {
+  ground: "Грунт / земля",
+  concrete: "Бетон",
+  roof: "Кровля / гидроизоляция"
+};
+
+const layoutNames = {
+  optimal: "Оптимальный раскрой",
+  aligned: "Стыки в одну линию",
+  half: "Шахматка 1/2",
+  seamless: "Без стыков"
+};
+
+const layoutHints = {
+  optimal: "Минимизация отходов с повторным использованием остатков.",
+  aligned: "Все торцевые стыки располагаются на одинаковых осях.",
+  half: "Чётные ряды: 1/2 + 1/2 пролёта. Нечётные: 1/4 + 1/2 + 1/4.",
+  seamless: "Каждый ряд выполняется одной доской. Возможен только при длине ряда до 6000 мм."
+};
+
+let lastModel = null;
+let projectZones = [];
+let polygonPoints = [
+  {x:0,y:0},{x:6200,y:0},{x:6200,y:3800},{x:0,y:3800}
+];
+let polygonClosed = true;
+let drawingPolygon = false;
+let draggingVertex = -1;
+let polygonViewBoxLock = null;
+const FREE_DRAW_VIEWBOX = {x:0,y:0,w:50000,h:35000}; // 50 × 35 м, координаты в мм.
+
+function polygonArea(points){
+  if(points.length<3) return 0;
+  let sum=0;
+  for(let i=0;i<points.length;i++){
+    const a=points[i], b=points[(i+1)%points.length];
+    sum += a.x*b.y - b.x*a.y;
+  }
+  return Math.abs(sum)/2;
+}
+
+function polygonBounds(points){
+  if(!points.length) return {minX:0,maxX:1000,minY:0,maxY:700};
+  const xs=points.map(p=>p.x), ys=points.map(p=>p.y);
+  return {
+    minX:Math.min(...xs), maxX:Math.max(...xs),
+    minY:Math.min(...ys), maxY:Math.max(...ys)
+  };
+}
+
+function svgToMm(point,bounds,L,W){
+  const bw=Math.max(1,bounds.maxX-bounds.minX);
+  const bh=Math.max(1,bounds.maxY-bounds.minY);
+  return {
+    x:(point.x-bounds.minX)/bw*L,
+    y:(point.y-bounds.minY)/bh*W
+  };
+}
+
+function getPolygonMetrics(){
+  const b=polygonBounds(polygonPoints);
+  const areaMm2=polygonClosed?polygonArea(polygonPoints):0;
+  const bw=Math.max(1,b.maxX-b.minX);
+  const bh=Math.max(1,b.maxY-b.minY);
+
+  return {
+    areaM2:areaMm2/1e6,
+    bboxL:bw,
+    bboxW:bh,
+    bounds:b
+  };
+}
+
+function eventToSvg(svg,e){
+  const pt=svg.createSVGPoint();
+  pt.x=e.clientX; pt.y=e.clientY;
+  const ctm=svg.getScreenCTM();
+  return ctm ? pt.matrixTransform(ctm.inverse()) : {x:0,y:0};
+}
+
+function startDrawingPolygon(){
+  projectZones=[];
+  polygonPoints=[];
+  polygonClosed=false;
+  drawingPolygon=true;
+  draggingVertex=-1;
+  polygonViewBoxLock=null;
+
+  const terrace=$("terrace");
+  const layer=$("constructionLayer");
+  terrace.style.width="650px";
+  terrace.style.height="430px";
+  layer.innerHTML="";
+  layer.style.clipPath="none";
+  layer.style.webkitClipPath="none";
+
+  renderPolygonEditor();
+  resetCanvasView();
+}
+
+function closePolygon(){
+  if(polygonPoints.length<3) return;
+  polygonClosed=true;
+  drawingPolygon=false;
+  polygonViewBoxLock=null;
+  calculate();
+  setTimeout(fitCanvasView,40);
+}
+
+function resetPolygon(){
+  projectZones=[];
+  polygonPoints=[
+    {x:0,y:0},{x:6200,y:0},{x:6200,y:3800},{x:0,y:3800}
+  ];
+  polygonClosed=true;
+  drawingPolygon=false;
+  draggingVertex=-1;
+  polygonViewBoxLock=null;
+  calculate();
+  setTimeout(fitCanvasView,40);
+}
+
+function polygonClipPath(){
+  if(!polygonClosed || polygonPoints.length<3) return "none";
+  const b=polygonBounds(polygonPoints);
+  const bw=Math.max(1,b.maxX-b.minX);
+  const bh=Math.max(1,b.maxY-b.minY);
+  return "polygon(" + polygonPoints.map(p=>
+    (((p.x-b.minX)/bw)*100).toFixed(3)+"% "+
+    (((p.y-b.minY)/bh)*100).toFixed(3)+"%"
+  ).join(",") + ")";
+}
+
+function applyPolygonToTerrace(){
+  const terrace=$("terrace");
+  const layer=$("constructionLayer");
+  const polygonMode=$("shapeMode").value!=="rect";
+
+  terrace.classList.toggle("freeShape",polygonMode);
+
+  if(polygonMode && polygonClosed && polygonPoints.length>=3){
+    const clip=polygonClipPath();
+    layer.style.clipPath=clip;
+    layer.style.webkitClipPath=clip;
+  }else{
+    layer.style.clipPath="none";
+    layer.style.webkitClipPath="none";
+  }
+}
+
+function updatePolygonEditorViewBox(svg){
+  if(polygonViewBoxLock){
+    svg.setAttribute("viewBox",polygonViewBoxLock);
+    return;
+  }
+
+  if(drawingPolygon || polygonPoints.length<2){
+    const v=FREE_DRAW_VIEWBOX;
+    svg.setAttribute("viewBox",v.x+" "+v.y+" "+v.w+" "+v.h);
+    return;
+  }
+
+  const b=polygonBounds(polygonPoints);
+  const bw=Math.max(1,b.maxX-b.minX);
+  const bh=Math.max(1,b.maxY-b.minY);
+  svg.setAttribute("viewBox",b.minX+" "+b.minY+" "+bw+" "+bh);
+}
+
+function polygonVertexName(index){
+  let n=index+1;
+  let out="";
+  while(n>0){
+    n--;
+    out=String.fromCharCode(65+(n%26))+out;
+    n=Math.floor(n/26);
+  }
+  return out;
+}
+
+function renderPolygonEditor(){
+  const svg=$("polygonEditor");
+  if(!svg || $("shapeMode").value==="rect") return;
+  updatePolygonEditorViewBox(svg);
+  if(draggingVertex<0) applyPolygonToTerrace();
+  svg.innerHTML="";
+  svg.classList.toggle("drawing",drawingPolygon);
+
+  const ns="http://www.w3.org/2000/svg";
+
+  // Периметральный 80×80 рисуем в той же SVG-системе координат,
+  // что и редактируемый контур. Так наклонные стороны не перекрываются
+  // чёрной линией контура и остаются визуально видимыми.
+  const perimeterBelts=lastModel?.shapeMode==="free"
+    ? (lastModel?.polygonStructure?.angledSupportSegments||[])
+    : [];
+
+  if($("showBelts")?.checked && perimeterBelts.length){
+    for(const seg of perimeterBelts){
+      const line=document.createElementNS(ns,"line");
+      line.setAttribute("x1",String(seg.absX1));
+      line.setAttribute("y1",String(seg.absY1));
+      line.setAttribute("x2",String(seg.absX2));
+      line.setAttribute("y2",String(seg.absY2));
+      line.setAttribute("class","perimeterSupportSvg");
+      svg.appendChild(line);
+    }
+  }
+
+  if(polygonPoints.length>=2){
+    const shape=document.createElementNS(ns,polygonClosed?"polygon":"polyline");
+    shape.setAttribute("points",polygonPoints.map(p=>p.x+","+p.y).join(" "));
+    shape.setAttribute("class",polygonClosed?"polygonFill":"openPolyline");
+    svg.appendChild(shape);
+  }
+
+  const metrics=getPolygonMetrics();
+  const b=metrics.bounds;
+  const visualSpan=Math.max(1,b.maxX-b.minX,b.maxY-b.minY);
+  const handleR=Math.max(80,visualSpan*0.018);
+  const addR=Math.max(65,visualSpan*0.013);
+  const labelOffset=Math.max(140,visualSpan*0.035);
+  const labelSize=Math.min(220,Math.max(140,visualSpan*0.018));
+  const edgeCount=polygonClosed?polygonPoints.length:Math.max(0,polygonPoints.length-1);
+
+  for(let i=0;i<edgeCount;i++){
+    const p=polygonPoints[i];
+    const next=polygonPoints[(i+1)%polygonPoints.length];
+    const mx=(p.x+next.x)/2, my=(p.y+next.y)/2;
+
+    if(polygonClosed){
+      const add=document.createElementNS(ns,"circle");
+      add.setAttribute("cx",mx); add.setAttribute("cy",my); add.setAttribute("r",String(addR));
+      add.setAttribute("class","addHandle");
+      add.addEventListener("click",e=>{
+        e.stopPropagation();
+        projectZones=[];
+        polygonPoints.splice(i+1,0,{x:mx,y:my});
+        calculate();
+      });
+      svg.appendChild(add);
+    }
+
+    if(polygonClosed){
+      const dx=next.x-p.x,dy=next.y-p.y;
+      const length=Math.hypot(dx,dy);
+      const safeLength=Math.max(1,length);
+
+      // Размер всегда располагаем СНАРУЖИ контура.
+      // Берём нормаль к ребру и выбираем направление от центра площадки.
+      let nx=-dy/safeLength, ny=dx/safeLength;
+      const cx=(b.minX+b.maxX)/2, cy=(b.minY+b.maxY)/2;
+      if((cx-mx)*nx+(cy-my)*ny>0){
+        nx=-nx; ny=-ny;
+      }
+
+      const labelX=mx+nx*labelOffset;
+      const labelY=my+ny*labelOffset;
+      const sideName=polygonVertexName(i)+"–"+polygonVertexName((i+1)%polygonPoints.length);
+      const labelText=sideName+"  "+fmt(length)+" мм";
+      const bg=document.createElementNS(ns,"rect");
+      const approxW=Math.max(labelSize*2.15,labelText.length*labelSize*.56);
+      const approxH=labelSize*1.32;
+      bg.setAttribute("x",String(labelX-approxW/2));
+      bg.setAttribute("y",String(labelY-approxH*.74));
+      bg.setAttribute("width",String(approxW));
+      bg.setAttribute("height",String(approxH));
+      bg.setAttribute("rx",String(labelSize*.18));
+      bg.setAttribute("class","edgeLabelBg");
+      svg.appendChild(bg);
+
+      const label=document.createElementNS(ns,"text");
+      label.setAttribute("x",labelX); label.setAttribute("y",labelY);
+      label.setAttribute("text-anchor","middle");
+      label.setAttribute("font-size",String(labelSize));
+      label.setAttribute("class","edgeLabel");
+      label.textContent=labelText;
+      label.addEventListener("click",e=>{
+        e.stopPropagation();
+        const raw=window.prompt("Длина ребра, мм",String(Math.round(length)));
+        if(raw===null) return;
+        const desired=Number(String(raw).replace(",","."));
+        if(!Number.isFinite(desired)||desired<=0) return;
+        const scale=desired/Math.max(1,length);
+        const dx=next.x-p.x,dy=next.y-p.y;
+        projectZones=[];
+        polygonPoints[(i+1)%polygonPoints.length]={
+          x:p.x+dx*scale,
+          y:p.y+dy*scale
+        };
+        renderPolygonEditor();
+        calculate();
+      });
+      svg.appendChild(label);
+    }
+  }
+
+  polygonPoints.forEach((p,i)=>{
+    const c=document.createElementNS(ns,"circle");
+    c.setAttribute("cx",p.x); c.setAttribute("cy",p.y); c.setAttribute("r",String(i===0&&drawingPolygon&&polygonPoints.length>=3?handleR*1.25:handleR));
+    c.setAttribute("class","vertexHandle"+(i===0&&drawingPolygon&&polygonPoints.length>=3?" closeTarget":""));
+
+    if(i===0&&drawingPolygon&&polygonPoints.length>=3){
+      c.addEventListener("click",e=>{e.stopPropagation();closePolygon();});
+    } else if(polygonClosed){
+      c.addEventListener("pointerdown",e=>{
+        e.preventDefault(); e.stopPropagation();
+        draggingVertex=i;
+        polygonViewBoxLock=svg.getAttribute("viewBox");
+        svg.setPointerCapture(e.pointerId);
+      });
+    }
+    svg.appendChild(c);
+
+    const vertexText=document.createElementNS(ns,"text");
+    vertexText.setAttribute("x",p.x);
+    vertexText.setAttribute("y",p.y);
+    vertexText.setAttribute("text-anchor","middle");
+    vertexText.setAttribute("dominant-baseline","central");
+    vertexText.setAttribute("font-size",String(handleR*1.05));
+    vertexText.setAttribute("class","vertexLabel");
+    vertexText.textContent=polygonVertexName(i);
+    svg.appendChild(vertexText);
+  });
+}
+
+function installPolygonPointerHandlers(){
+  const svg=$("polygonEditor");
+  if(!svg||svg.dataset.handlersInstalled) return;
+  svg.dataset.handlersInstalled="1";
+
+  svg.addEventListener("click",e=>{
+    if(!drawingPolygon || e.target.classList.contains("vertexHandle")) return;
+    const loc=eventToSvg(svg,e);
+    projectZones=[];
+    polygonPoints.push({
+      x:loc.x,
+      y:loc.y
+    });
+    renderPolygonEditor();
+  });
+
+  svg.addEventListener("pointermove",e=>{
+    if(draggingVertex<0) return;
+    const loc=eventToSvg(svg,e);
+    projectZones=[];
+    polygonPoints[draggingVertex]={
+      x:loc.x,
+      y:loc.y
+    };
+    renderPolygonEditor();
+  });
+
+  const stop=e=>{
+    if(draggingVertex<0) return;
+    draggingVertex=-1;
+    polygonViewBoxLock=null;
+    try{if(svg.hasPointerCapture(e.pointerId))svg.releasePointerCapture(e.pointerId);}catch(_){}
+    calculate();
+  };
+  svg.addEventListener("pointerup",stop);
+  svg.addEventListener("pointercancel",stop);
+}
+
+function getSelectedWarehouseProduct(){
+  return window.NIMTECH_INVENTORY?.getProduct?.($("warehouseProduct")?.value) || null;
+}
+
+function getAllowedBoardLengths(){
+  const length=Number($("boardStockLength").value);
+  return catalogModel()?.items.some(i=>i.length===length) ? [length] : [];
+}
+
+
+function renderWarehouseUI(){
+  const api=window.NIMTECH_INVENTORY;
+  const select=$("warehouseProduct");
+  const status=$("warehouseStatus");
+  const lengths=$("warehouseLengths");
+  if(!api||!select||!status||!lengths) return;
+
+  if(!select.dataset.ready){
+    select.innerHTML="";
+    api.products.forEach(p=>{
+      const o=document.createElement("option");
+      o.value=p.id;
+      o.textContent=p.name;
+      select.appendChild(o);
+    });
+    select.dataset.ready="1";
+  }
+
+  const p=getSelectedWarehouseProduct();
+  if(!p) return;
+
+  status.textContent=api.mode==="mock"
+    ? "Тестовые остатки · позже заменим на API МоегоСклада"
+    : "Остатки синхронизированы с МоимСкладом";
+
+  lengths.innerHTML=[3000,4000,6000].map(len=>{
+    const v=p.variants?.[len]||{stock:0};
+    const cls=v.stock>0?"ok":"zero";
+    return '<span class="'+cls+'"><b>'+(len/1000)+' м</b><small>'+v.stock+' шт.</small></span>';
+  }).join("");
+
+  const lengthSelect=$("boardStockLength");
+  if(lengthSelect){
+    [...lengthSelect.options].forEach(option=>{
+      const len=Number(option.value);
+      option.disabled=$("useWarehouse")?.checked && ((p.variants?.[len]?.stock||0)<=0);
+    });
+
+    const selected=lengthSelect.selectedOptions?.[0];
+    if(selected?.disabled){
+      const firstAvailable=[...lengthSelect.options].find(o=>!o.disabled);
+      if(firstAvailable) lengthSelect.value=firstAvailable.value;
+    }
+  }
+}
+
+function renderStockCheck(boardRows){
+  const box=$("stockCheck");
+  if(!box) return;
+  if(!$("useWarehouse")?.checked){
+    box.className="stockCheck";
+    box.textContent="Складской режим выключен.";
+    return;
+  }
+
+  const p=getSelectedWarehouseProduct();
+  if(!p){
+    box.className="stockCheck bad";
+    box.textContent="Не выбрана складская позиция.";
+    return;
+  }
+
+  const shortages=[];
+  const lines=[3000,4000,6000].map(len=>{
+    const need=boardRows.purchases?.[len]||0;
+    const have=p.variants?.[len]?.stock||0;
+    if(need>have) shortages.push((len/1000)+" м: нужно "+need+", есть "+have);
+    return (len/1000)+" м — "+need+" / "+have+" шт.";
+  });
+
+  box.className="stockCheck "+(shortages.length?"bad":"good");
+  box.innerHTML="<strong>"+(shortages.length?"Недостаточно товара":"Товара достаточно")+"</strong><span>"+lines.join(" · ")+"</span>"+
+    (shortages.length?"<small>"+shortages.join("; ")+"</small>":"");
+}
+
+function emptyBoardResult(message){
+  return {
+    rows:[],
+    purchases:{3000:0,4000:0,6000:0},
+    reusedPieces:0,
+    finalWaste:0,
+    offcuts:[],
+    warning:message || "Не выбрана ни одна доступная длина доски."
+  };
+}
+
+function fmt(n, digits = 0) {
+  return Number(n).toLocaleString("ru-RU", {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits
+  });
+}
+function fmtRub(n){
+  if(!Number.isFinite(n)) return "—";
+  return new Intl.NumberFormat("ru-RU",{maximumFractionDigits:0}).format(Math.round(n))+" ₽";
+}
+
+function selectedBoardPricingKey(){
+  const selected=getSelectedBoardProduct?.();
+  return selected?.value||"custom";
+}
+
+
+function stockPurchase(meters) {
+  const stockM = CONFIG.metal.stockLength / 1000;
+  const sticks = Math.ceil(meters / stockM);
+  return { sticks, meters: sticks * stockM };
+}
+
+function joistStepByBoardHeight(height) {
+  return height <= CONFIG.joist.stepByBoardHeight.thinMaxHeight
+    ? CONFIG.joist.stepByBoardHeight.thinStep
+    : CONFIG.joist.stepByBoardHeight.thickStep;
+}
+
+function equalLayout(length, maxSpacing) {
+  const intervals = Math.max(1, Math.ceil(length / maxSpacing));
+  const step = length / intervals;
+  const positions = [];
+  for (let i = 0; i <= intervals; i++) positions.push(i * step);
+  return { intervals, count: intervals + 1, step, positions, houseOffsetApplied: false };
+}
+
+function engineeringAreaLoadNmm2(){
+  const e=CONFIG.engineering;
+  const totalKgM2=
+    e.designLiveLoadKgM2 +
+    e.deckingDeadLoadKgM2*e.deckingDeadLoadFactor;
+  // 1 kPa = 0.001 N/mm²
+  return totalKgM2*e.gravity/1e6;
+}
+
+function sectionSpanLimit(section,tributaryWidthMm){
+  const e=CONFIG.engineering;
+  const qArea=engineeringAreaLoadNmm2();
+  const qLine=qArea*Math.max(1,tributaryWidthMm);
+  const E=e.elasticModulusMPa;
+  const Ry=e.steelRyMPa;
+  const I=section.I_mm4;
+  const W=section.W_mm3;
+  const ratio=e.deflectionRatio;
+
+  const uniformStrength=Math.sqrt((8*Ry*W)/qLine);
+  const uniformDeflection=Math.cbrt((384*E*I)/(5*qLine*ratio));
+
+  const P=e.terracePointLoadKN*1000*e.terracePointLoadFactor;
+  const pointStrength=(4*Ry*W)/P;
+  const pointDeflection=Math.sqrt((48*E*I)/(P*ratio));
+
+  const governing=Math.min(
+    uniformStrength,
+    uniformDeflection,
+    pointStrength,
+    pointDeflection
+  );
+
+  return {
+    qLine,
+    uniformStrength,
+    uniformDeflection,
+    pointStrength,
+    pointDeflection,
+    governing
+  };
+}
+
+function terraceStructuralLimits(joistStepMm){
+  const e=CONFIG.engineering;
+  const joist=sectionSpanLimit(
+    e.sections.joist40x40x2,
+    joistStepMm
+  );
+
+  const joistSupportMax=Math.min(
+    CONFIG.belt.maxSpacing,
+    Math.floor(joist.governing/10)*10
+  );
+
+  // Для 80×80 берём максимально неблагоприятную полосу нагрузки,
+  // равную расстоянию между соседними поясами.
+  const belt=sectionSpanLimit(
+    e.sections.belt80x80x2,
+    Math.max(1,joistSupportMax)
+  );
+
+  const pileSpacingMax=Math.min(
+    CONFIG.ground.pileSpacingMax,
+    Math.floor(belt.governing/10)*10
+  );
+
+  return {
+    qAreaNmm2:engineeringAreaLoadNmm2(),
+    qAreaKPa:engineeringAreaLoadNmm2()*1000,
+    joist,
+    belt,
+    joistSupportMax,
+    pileSpacingMax
+  };
+}
+
+function supportLineLayout(length,maxSpacing,maxCantilever=200){
+  if(length<=0) return {positions:[],count:0,intervals:0,step:0,edgeStart:0,edgeEnd:0};
+
+  if(length<=maxCantilever*2){
+    return {
+      positions:[length/2],
+      count:1,
+      intervals:0,
+      step:0,
+      edgeStart:length/2,
+      edgeEnd:length/2
+    };
+  }
+
+  const start=maxCantilever;
+  const end=length-maxCantilever;
+  const span=end-start;
+  const intervals=Math.max(1,Math.ceil(span/maxSpacing));
+  const step=span/intervals;
+  const positions=[];
+
+  for(let i=0;i<=intervals;i++) positions.push(start+i*step);
+
+  return {
+    positions,
+    count:positions.length,
+    intervals,
+    step,
+    edgeStart:start,
+    edgeEnd:length-end
+  };
+}
+
+function endpointPileLayout(length,maxSpacing){
+  // Сваи обязаны стоять на обоих концах физического участка 80×80,
+  // промежуточные распределяются равномерно.
+  return equalLayout(length,maxSpacing);
+}
+
+function sharedZoneBoundaryBelts(zones){
+  const out=[];
+  const tol=1;
+
+  for(let i=0;i<zones.length;i++){
+    for(let j=i+1;j<zones.length;j++){
+      const a=zones[i],b=zones[j];
+
+      // Горизонтальная общая граница.
+      if(Math.abs((a.y+a.h)-b.y)<=tol || Math.abs((b.y+b.h)-a.y)<=tol){
+        const y=Math.abs((a.y+a.h)-b.y)<=tol ? b.y : a.y;
+        const start=Math.max(a.x,b.x);
+        const end=Math.min(a.x+a.w,b.x+b.w);
+        if(end-start>tol){
+          out.push({
+            orientation:"h",
+            axis:y,
+            start,
+            end,
+            zoneId:a.id+"+"+b.id,
+            pileLength:Math.max(a.pileLength||0,b.pileLength||0)||CONFIG.ground.pileLength,
+            reason:"shared-zone-boundary"
+          });
+        }
+      }
+
+      // Вертикальная общая граница.
+      if(Math.abs((a.x+a.w)-b.x)<=tol || Math.abs((b.x+b.w)-a.x)<=tol){
+        const x=Math.abs((a.x+a.w)-b.x)<=tol ? b.x : a.x;
+        const start=Math.max(a.y,b.y);
+        const end=Math.min(a.y+a.h,b.y+b.h);
+        if(end-start>tol){
+          out.push({
+            orientation:"v",
+            axis:x,
+            start,
+            end,
+            zoneId:a.id+"+"+b.id,
+            pileLength:Math.max(a.pileLength||0,b.pileLength||0)||CONFIG.ground.pileLength,
+            reason:"shared-zone-boundary"
+          });
+        }
+      }
+    }
+  }
+  return out;
+}
+
+function equalLayoutWithHouseOffset(length, maxSpacing, houseOffset, houseAtStart) {
+  if (length <= houseOffset) return equalLayout(length, maxSpacing);
+  const remaining = length - houseOffset;
+  const intervals = Math.max(1, Math.ceil(remaining / maxSpacing));
+  const step = remaining / intervals;
+  const positions = [];
+
+  if (houseAtStart) {
+    positions.push(houseOffset);
+    for (let i = 1; i <= intervals; i++) positions.push(houseOffset + i * step);
+  } else {
+    for (let i = 0; i <= intervals; i++) positions.push(i * step);
+    positions[positions.length - 1] = length - houseOffset;
+  }
+
+  return { intervals, count: positions.length, step, positions, houseOffsetApplied: true, houseOffset };
+}
+
+function chooseStockForRemaining(remaining, allowedLengths) {
+  const sorted = [...allowedLengths].sort((a,b)=>a-b);
+  if(!sorted.length) return null;
+  return sorted.find(x=>x>=remaining) || sorted[sorted.length-1];
+}
+
+function addPurchase(purchases, stock) {
+  purchases[stock] = (purchases[stock] || 0) + 1;
+}
+
+function makeRowFromLengths(lengths, reusedFlags = []) {
+  const gap=CONFIG.boardGap;
+  const pieces = lengths.map((length,i)=>({
+    length,
+    cutLength:length,
+    sourceLength:length,
+    stockLength:null,
+    reused:!!reusedFlags[i]
+  }));
+  let x=0;
+  const seams=[];
+  for(let i=0;i<pieces.length-1;i++){
+    x+=pieces[i].length;
+    seams.push(x+gap/2);
+    x+=gap;
+  }
+  return {pieces,seams,gap};
+}
+
+function chooseAlignedPattern(runLength, allowedLengths) {
+  const lengths=[...allowedLengths].sort((a,b)=>a-b);
+  const gap=CONFIG.boardGap;
+  let best=null;
+  if(!lengths.length) return null;
+  const maxPieces=Math.ceil(runLength/Math.min(...lengths))+3;
+
+  function coverage(sum,pieces){
+    return sum + Math.max(0,pieces-1)*gap;
+  }
+
+  function walk(combo,sum,depth){
+    const covered=coverage(sum,combo.length);
+    if(covered>=runLength){
+      const materialNeeded=Math.max(0,runLength-Math.max(0,combo.length-1)*gap);
+      const waste=sum-materialNeeded;
+      const cand={combo:[...combo],sum,waste,pieces:combo.length,materialNeeded};
+      if(!best || cand.waste<best.waste || (Math.abs(cand.waste-best.waste)<.001 && cand.pieces<best.pieces)) best=cand;
+      return;
+    }
+    if(depth>=maxPieces) return;
+    for(const len of lengths){
+      combo.push(len);
+      walk(combo,sum+len,depth+1);
+      combo.pop();
+    }
+  }
+
+  walk([],0,0);
+  if(!best) return null;
+
+  const actual=[...best.combo];
+  if(best.waste>0) actual[actual.length-1]-=best.waste;
+  return {...best,actual};
+}
+
+function buildRowsAligned(runLength,rowCount,allowedLengths){
+  const pattern=chooseAlignedPattern(runLength,allowedLengths);
+  if(!pattern) return emptyBoardResult();
+  const purchases={3000:0,4000:0,6000:0};
+
+  pattern.combo.forEach(stock=>{
+    purchases[stock]=(purchases[stock]||0)+rowCount;
+  });
+
+  const rows=[];
+  for(let r=0;r<rowCount;r++){
+    const row=makeRowFromLengths(pattern.actual);
+    row.pieces.forEach((piece,index)=>{
+      piece.stockLength=pattern.combo[index]||piece.length;
+      piece.sourceLength=piece.stockLength;
+    });
+    rows.push(row);
+  }
+
+  return {
+    rows,purchases,reusedPieces:0,
+    finalWaste:pattern.waste*rowCount,
+    offcuts:[],
+    warning:""
+  };
+}
+
+function buildRowsSeamless(runLength,rowCount,allowedLengths){
+  const purchases={3000:0,4000:0,6000:0};
+
+  if(runLength>6000){
+    const fallback=buildRowsOptimal(runLength,rowCount,allowedLengths);
+    fallback.warning="Режим «Без стыков» невозможен: длина ряда больше 6000 мм. Временно показан оптимальный раскрой.";
+    return fallback;
+  }
+
+  const stock=chooseStockForRemaining(runLength,allowedLengths);
+  if(!stock || stock<runLength) {
+    const fallback=buildRowsOptimal(runLength,rowCount,allowedLengths);
+    fallback.warning="Режим «Без стыков» невозможен с выбранными длинами доски.";
+    return fallback;
+  }
+  purchases[stock]=rowCount;
+  const waste=(stock-runLength)*rowCount;
+  const rows=Array.from({length:rowCount},()=>{
+    const row=makeRowFromLengths([runLength]);
+    row.pieces[0].stockLength=stock;
+    row.pieces[0].sourceLength=stock;
+    return row;
+  });
+
+  return {rows,purchases,reusedPieces:0,finalWaste:waste,offcuts:[],warning:""};
+}
+
+function packPiecesIntoStock(pieceLengths,allowedLengths){
+  const purchases={3000:0,4000:0,6000:0};
+  const bins=[];
+  let reusedPieces=0;
+
+  const stocks=[...allowedLengths].sort((a,b)=>a-b);
+  if(!stocks.length) return emptyBoardResult();
+
+  const maxStock=Math.max(...stocks);
+  const oversized=pieceLengths.find(piece=>piece>maxStock+0.001);
+  if(oversized){
+    return emptyBoardResult(
+      "Раскладка невозможна: требуется цельная деталь "+fmt(oversized)+" мм, а максимальная выбранная длина доски — "+fmt(maxStock)+" мм."
+    );
+  }
+
+  const pieces=pieceLengths
+    .map((length,index)=>({length,index}))
+    .sort((a,b)=>b.length-a.length);
+
+  const allocations=Array(pieceLengths.length).fill(null);
+
+  for(const piece of pieces){
+    let bestBin=-1;
+    let bestRemaining=Infinity;
+
+    for(let j=0;j<bins.length;j++){
+      if(bins[j].remaining+0.001>=piece.length){
+        const after=bins[j].remaining-piece.length;
+        if(after<bestRemaining){
+          bestRemaining=after;
+          bestBin=j;
+        }
+      }
+    }
+
+    if(bestBin>=0){
+      const bin=bins[bestBin];
+      bin.remaining-=piece.length;
+      bin.cuts.push(piece.length);
+      allocations[piece.index]={
+        cutLength:piece.length,
+        stockLength:bin.stock,
+        reused:true
+      };
+      reusedPieces++;
+      continue;
+    }
+
+    const stock=stocks.find(x=>x+0.001>=piece.length);
+    if(!stock){
+      return emptyBoardResult(
+        "Раскладка невозможна: деталь "+fmt(piece.length)+" мм не помещается ни в одну из выбранных длин."
+      );
+    }
+
+    addPurchase(purchases,stock);
+    const bin={stock,remaining:stock-piece.length,cuts:[piece.length]};
+    bins.push(bin);
+    allocations[piece.index]={
+      cutLength:piece.length,
+      stockLength:stock,
+      reused:false
+    };
+  }
+
+  const offcuts=bins.map(b=>Math.max(0,b.remaining)).filter(x=>x>0.5).sort((a,b)=>b-a);
+
+  return {
+    purchases,
+    reusedPieces,
+    finalWaste:offcuts.reduce((x,y)=>x+y,0),
+    offcuts,
+    allocations,
+    bins,
+    warning:""
+  };
+}
+
+function buildHalfRowLengths(runLength,stockLength,shifted=false){
+  const gap=CONFIG.boardGap;
+  const lengths=[];
+  let remaining=runLength;
+
+  if(remaining<=0.5) return lengths;
+
+  const firstTarget=shifted ? stockLength/2 : stockLength;
+  const first=Math.min(firstTarget,remaining);
+  lengths.push(first);
+  remaining-=first;
+
+  while(remaining>0.5){
+    remaining-=gap;
+    if(remaining<=0.5) break;
+
+    const used=Math.min(stockLength,remaining);
+    lengths.push(used);
+    remaining-=used;
+  }
+
+  return lengths;
+}
+
+function checkerboardAxesForSpan(start,runLength,stockLength,shifted=false,domainLength=runLength){
+  const gap=CONFIG.boardGap;
+  const period=stockLength+gap;
+  const firstOffset=(shifted ? stockLength/2 : stockLength)+gap/2;
+  const out=[];
+
+  // Расширяем регулярную систему осей в обе стороны от опорного ряда,
+  // чтобы любой более короткий/смещённый ряд произвольного контура
+  // тоже никогда не требовал деталь длиннее выбранной складской доски.
+  let x=start+firstOffset;
+  while(x-period>0) x-=period;
+
+  for(;x<domainLength-1;x+=period){
+    if(x>1) out.push(x);
+  }
+
+  return uniquePositions(out);
+}
+
+function buildRowsHalf(runLength,rowCount,allowedLengths){
+  const rows=[];
+  const allPieceLengths=[];
+  const pieceRefs=[];
+  const stockLength=Math.max(...allowedLengths);
+
+  for(let r=0;r<rowCount;r++){
+    const lengths=buildHalfRowLengths(
+      runLength,
+      stockLength,
+      r%2===1
+    );
+
+    const row=makeRowFromLengths(lengths);
+    rows.push(row);
+
+    row.pieces.forEach(piece=>{
+      allPieceLengths.push(piece.length);
+      pieceRefs.push(piece);
+    });
+  }
+
+  const packed=packPiecesIntoStock(allPieceLengths,allowedLengths);
+  if(packed.warning){
+    return {
+      rows:[],
+      purchases:packed.purchases||{3000:0,4000:0,6000:0},
+      reusedPieces:0,
+      finalWaste:0,
+      offcuts:[],
+      warning:packed.warning
+    };
+  }
+
+  (packed.allocations||[]).forEach((allocation,index)=>{
+    const piece=pieceRefs[index];
+    if(!piece||!allocation) return;
+    piece.cutLength=allocation.cutLength;
+    piece.stockLength=allocation.stockLength;
+    piece.sourceLength=allocation.stockLength;
+    piece.reused=allocation.reused;
+  });
+
+  return {
+    rows,
+    purchases:packed.purchases,
+    reusedPieces:packed.reusedPieces,
+    finalWaste:packed.finalWaste,
+    offcuts:packed.offcuts,
+    bins:packed.bins,
+    checkerboardStockLength:stockLength,
+    warning:"Равномерная шахматка 1/2 строится от выбранной складской длины "+fmt(stockLength)+" мм: соседний ряд смещён на половину этой длины. Между торцами ДПК — 3 мм."
+  };
+}
+
+function takeBestOffcut(offcuts,remaining){
+  let bestIndex=-1;
+  let bestScore=Infinity;
+  for(let i=0;i<offcuts.length;i++){
+    const len=offcuts[i];
+    if(len<=0) continue;
+    const used=Math.min(len,remaining);
+    const remainder=remaining-used;
+    const score=remainder===0?0:remainder+(len>remaining?len-remaining:0);
+    if(score<bestScore){bestScore=score;bestIndex=i;}
+  }
+  return bestIndex;
+}
+
+function buildRowsOptimal(runLength,rowCount,allowedLengths){
+  const offcuts=[];
+  const purchases={3000:0,4000:0,6000:0};
+  const rows=[];
+  let reusedPieces=0;
+  const gap=CONFIG.boardGap;
+
+  for(let r=0;r<rowCount;r++){
+    let remaining=runLength;
+    const pieces=[];
+
+    while(remaining>0.5){
+      if(pieces.length) remaining=Math.max(0,remaining-gap);
+      if(remaining<=0.5) break;
+
+      let usedFromOffcut=false;
+      const idx=takeBestOffcut(offcuts,remaining);
+
+      if(idx>=0){
+        const available=offcuts[idx];
+        if(available>=remaining || remaining>3000){
+          const used=Math.min(available,remaining);
+          pieces.push({length:used,cutLength:used,sourceLength:available,stockLength:available,reused:true});
+          reusedPieces++;
+          if(available>used+0.5) offcuts[idx]=available-used;
+          else offcuts.splice(idx,1);
+          remaining-=used;
+          usedFromOffcut=true;
+        }
+      }
+
+      if(usedFromOffcut) continue;
+
+      const stock=chooseStockForRemaining(remaining,allowedLengths);
+      if(!stock) return emptyBoardResult();
+      addPurchase(purchases,stock);
+      const used=Math.min(stock,remaining);
+      pieces.push({length:used,cutLength:used,sourceLength:stock,stockLength:stock,reused:false});
+      remaining-=used;
+
+      const leftover=stock-used;
+      if(leftover>0.5) offcuts.push(leftover);
+    }
+
+    if(r%2===1) pieces.reverse();
+
+    let x=0;
+    const seams=[];
+    for(let i=0;i<pieces.length-1;i++){
+      x+=pieces[i].length;
+      seams.push(x+gap/2);
+      x+=gap;
+    }
+    rows.push({pieces,seams,gap});
+  }
+
+  offcuts.sort((a,b)=>b-a);
+
+  return {
+    rows,purchases,reusedPieces,
+    finalWaste:offcuts.reduce((a,b)=>a+b,0),
+    offcuts,warning:""
+  };
+}
+
+function buildBoardRows(runLength,rowCount,mode,allowedLengths){
+  if(!allowedLengths.length) return emptyBoardResult();
+  if(mode==="aligned") return buildRowsAligned(runLength,rowCount,allowedLengths);
+  if(mode==="half") return buildRowsHalf(runLength,rowCount,allowedLengths);
+  if(mode==="seamless") return buildRowsSeamless(runLength,rowCount,allowedLengths);
+  return buildRowsOptimal(runLength,rowCount,allowedLengths);
+}
+
+function polygonScanlineSegments(axisValue,direction,L,W){
+  if(!polygonClosed||polygonPoints.length<3) return [];
+  const b=polygonBounds(polygonPoints);
+  const scan = direction==="l"
+    ? b.minY + axisValue
+    : b.minX + axisValue;
+
+  const hits=[];
+  for(let i=0;i<polygonPoints.length;i++){
+    const a=polygonPoints[i], c=polygonPoints[(i+1)%polygonPoints.length];
+    if(direction==="l"){
+      if((a.y<=scan&&c.y>scan)||(c.y<=scan&&a.y>scan)){
+        const t=(scan-a.y)/(c.y-a.y);
+        hits.push(a.x+t*(c.x-a.x));
+      }
+    }else{
+      if((a.x<=scan&&c.x>scan)||(c.x<=scan&&a.x>scan)){
+        const t=(scan-a.x)/(c.x-a.x);
+        hits.push(a.y+t*(c.y-a.y));
+      }
+    }
+  }
+  hits.sort((a,b)=>a-b);
+
+  const segments=[];
+  for(let i=0;i+1<hits.length;i+=2){
+    const start=hits[i],end=hits[i+1];
+    if(end-start<0.5) continue;
+    if(direction==="l"){
+      segments.push({start:start-b.minX,length:end-start});
+    }else{
+      segments.push({start:start-b.minY,length:end-start});
+    }
+  }
+  return segments;
+}
+
+function polygonCrosslineSegments(runPosition,direction,L,W){
+  if(!polygonClosed||polygonPoints.length<3) return [];
+  const b=polygonBounds(polygonPoints);
+
+  // Линия профиля 40×40 перпендикулярна доске:
+  // при direction=l фиксируем X и получаем участки по Y;
+  // при direction=w фиксируем Y и получаем участки по X.
+  const fixed=direction==="l"
+    ? b.minX+runPosition
+    : b.minY+runPosition;
+
+  const hits=[];
+  for(let i=0;i<polygonPoints.length;i++){
+    const p=polygonPoints[i],q=polygonPoints[(i+1)%polygonPoints.length];
+
+    if(direction==="l"){
+      if((p.x<=fixed&&q.x>fixed)||(q.x<=fixed&&p.x>fixed)){
+        const t=(fixed-p.x)/(q.x-p.x);
+        hits.push(p.y+t*(q.y-p.y));
+      }
+    }else{
+      if((p.y<=fixed&&q.y>fixed)||(q.y<=fixed&&p.y>fixed)){
+        const t=(fixed-p.y)/(q.y-p.y);
+        hits.push(p.x+t*(q.x-p.x));
+      }
+    }
+  }
+
+  hits.sort((x,y)=>x-y);
+  const segments=[];
+  for(let i=0;i+1<hits.length;i+=2){
+    const start=hits[i],end=hits[i+1];
+    if(end-start<0.5) continue;
+    segments.push({
+      start:direction==="l"?start-b.minY:start-b.minX,
+      length:end-start
+    });
+  }
+  return segments;
+}
+
+function polygonJoistMeters(positions,direction,L,W){
+  let total=0;
+  for(const p of positions){
+    const spans=polygonCrosslineSegments(p,direction,L,W);
+    total+=spans.reduce((sum,s)=>sum+s.length,0)/1000;
+  }
+  return total;
+}
+
+function mergePurchases(target,source){
+  [3000,4000,6000].forEach(k=>target[k]=(target[k]||0)+(source[k]||0));
+}
+
+function buildPolygonBoardRows(L,W,direction,boardModule,mode,allowedLengths){
+  const across=direction==="l"?W:L;
+  const boardPitch=boardModule+CONFIG.boardGap;
+  const rowCount=Math.ceil(across/boardPitch);
+  const rows=[];
+  const purchases={3000:0,4000:0,6000:0};
+  let reusedPieces=0,finalWaste=0;
+  const offcuts=[];
+  let warning="";
+
+  for(let r=0;r<rowCount;r++){
+    const axis=Math.min(across-0.001,r*boardPitch+boardModule/2);
+    const spans=polygonScanlineSegments(axis,direction,L,W);
+    const row={axis,segments:[],seams:[]};
+
+    for(const span of spans){
+      const built=buildBoardRows(span.length,1,mode,allowedLengths);
+      if(built.warning&&!warning) warning=built.warning;
+      if(!built.rows.length) continue;
+      const local=built.rows[0];
+      row.segments.push({start:span.start,length:span.length,pieces:local.pieces,seams:local.seams});
+      local.seams.forEach(s=>row.seams.push(span.start+s));
+      mergePurchases(purchases,built.purchases);
+      reusedPieces+=built.reusedPieces||0;
+      finalWaste+=built.finalWaste||0;
+      if(built.offcuts) offcuts.push(...built.offcuts);
+    }
+    rows.push(row);
+  }
+
+  return {rows,purchases,reusedPieces,finalWaste,offcuts,warning,polygon:true};
+}
+
+function getLongestPolygonSegment(boardRows){
+  if(!boardRows?.polygon) return null;
+  let best=null;
+
+  for(const row of boardRows.rows){
+    for(const seg of row.segments||[]){
+      if(!best || seg.length>best.length){
+        best={
+          start:seg.start,
+          length:seg.length
+        };
+      }
+    }
+  }
+
+  return best;
+}
+
+function getPolygonSeamPatterns(boardRows,mode,allowedLengths,runLength){
+  const master=getLongestPolygonSegment(boardRows);
+  if(!master) return {even:[],odd:[],all:[]};
+
+  const start=master.start;
+  const len=master.length;
+
+  if(mode==="half"){
+    const stockLength=Math.max(...allowedLengths);
+
+    // Ряд A: полная складская доска, далее полные доски + остаток.
+    // Ряд B: старт с 1/2 складской доски, далее полные доски + остаток.
+    // Оси продолжаем через всю площадку, чтобы не плодить локальные
+    // стыковые лаги в каждом укороченном ряду.
+    const even=checkerboardAxesForSpan(
+      start,len,stockLength,false,runLength
+    );
+    const odd=checkerboardAxesForSpan(
+      start,len,stockLength,true,runLength
+    );
+
+    return {
+      even,
+      odd,
+      all:uniquePositions([...even,...odd]),
+      stockLength
+    };
+  }
+
+  let bestRowSegment=null;
+  for(const row of boardRows.rows){
+    for(const seg of row.segments||[]){
+      if(!bestRowSegment || seg.length>bestRowSegment.length) bestRowSegment=seg;
+    }
+  }
+
+  const common=bestRowSegment
+    ? (bestRowSegment.seams||[]).map(x=>bestRowSegment.start+x)
+    : [];
+
+  return {even:common,odd:common,all:uniquePositions(common)};
+}
+
+function applyPolygonSeamPatterns(boardRows,patterns,allowedLengths){
+  if(!boardRows?.polygon) return boardRows;
+
+  const pieceRefs=[];
+  const pieceLengths=[];
+
+  boardRows.rows.forEach((row,rowIndex)=>{
+    const axes=(rowIndex%2===0 ? patterns.even : patterns.odd) || [];
+    const nextSegments=[];
+
+    for(const seg of row.segments||[]){
+      const inside=axes
+        .filter(x=>x>seg.start+1 && x<seg.start+seg.length-1)
+        .sort((x,y)=>x-y);
+
+      const cuts=[seg.start,...inside,seg.start+seg.length];
+      const pieces=[];
+      const seams=[];
+
+      for(let j=0;j<cuts.length-1;j++){
+        const leftGap=j>0 ? CONFIG.boardGap/2 : 0;
+        const rightGap=j<cuts.length-2 ? CONFIG.boardGap/2 : 0;
+        const len=Math.max(0,cuts[j+1]-cuts[j]-leftGap-rightGap);
+        const piece={
+          length:len,
+          cutLength:len,
+          sourceLength:len,
+          stockLength:null,
+          reused:false
+        };
+        pieces.push(piece);
+        pieceRefs.push(piece);
+        pieceLengths.push(len);
+        if(j<cuts.length-2) seams.push(cuts[j+1]-seg.start);
+      }
+
+      nextSegments.push({start:seg.start,length:seg.length,pieces,seams});
+    }
+
+    row.segments=nextSegments;
+    row.seams=[];
+    for(const seg of nextSegments){
+      for(const seam of seg.seams) row.seams.push(seg.start+seam);
+    }
+  });
+
+  const packed=packPiecesIntoStock(pieceLengths,allowedLengths);
+  if(packed.warning){
+    boardRows.warning=[boardRows.warning,packed.warning].filter(Boolean).join(" ");
+    boardRows.purchases={3000:0,4000:0,6000:0};
+    boardRows.finalWaste=0;
+    boardRows.reusedPieces=0;
+    return boardRows;
+  }
+
+  (packed.allocations||[]).forEach((allocation,index)=>{
+    const piece=pieceRefs[index];
+    if(!piece||!allocation) return;
+    piece.stockLength=allocation.stockLength;
+    piece.sourceLength=allocation.stockLength;
+    piece.reused=allocation.reused;
+  });
+
+  boardRows.purchases=packed.purchases;
+  boardRows.reusedPieces=packed.reusedPieces;
+  boardRows.finalWaste=packed.finalWaste;
+  boardRows.offcuts=packed.offcuts;
+  boardRows.bins=packed.bins;
+
+  return boardRows;
+}
+
+function uniquePositions(values,tolerance=2){
+  const sorted=[...values].sort((a,b)=>a-b);
+  const out=[];
+  for(const v of sorted){
+    if(!out.length || Math.abs(out[out.length-1]-v)>tolerance) out.push(v);
+  }
+  return out;
+}
+
+function regularJoistPositions(run,maxStep){
+  const edge=Math.min(CONFIG.joist.maxEdgeCantilever,run/2);
+  const start=edge;
+  const end=run-edge;
+  if(end<=start) return [run/2];
+
+  const span=end-start;
+  const intervals=Math.max(1,Math.ceil(span/maxStep));
+  const step=span/intervals;
+  const positions=[];
+
+  for(let i=0;i<=intervals;i++) positions.push(start+step*i);
+  return positions;
+}
+
+function buildJoists(run,allSeams,maxStep){
+  const seamOffset=CONFIG.joist.seamOverhang;
+
+  // Ось стыка — отдельная обязательная сущность.
+  // Для равномерной шахматки 1/2 это должны быть три глобальные оси:
+  // 1/4, 1/2 и 3/4 опорного пролёта.
+  const seamAxes=uniquePositions(
+    (allSeams||[]).filter(x=>x>1&&x<run-1)
+  );
+
+  const seamPairs=[];
+  const seamJoists=[];
+
+  for(const axis of seamAxes){
+    const left=axis-seamOffset;
+    const right=axis+seamOffset;
+    const pair=[];
+
+    if(left>0){
+      seamJoists.push(left);
+      pair.push(left);
+    }
+    if(right<run){
+      seamJoists.push(right);
+      pair.push(right);
+    }
+
+    seamPairs.push({
+      axis,
+      positions:pair
+    });
+  }
+
+  // Эти трубы обязательны и никогда не удаляются/не заменяются
+  // обычной сеткой лаг.
+  const seam=uniquePositions(seamJoists);
+  const edge=Math.min(CONFIG.joist.maxEdgeCantilever,run/2);
+
+  const anchors=uniquePositions(
+    [edge,...seam,run-edge].filter(x=>x>=0&&x<=run)
+  );
+  const regular=[];
+
+  for(let i=0;i<anchors.length-1;i++){
+    const a=anchors[i],b=anchors[i+1];
+    const span=b-a;
+    const intervals=Math.max(1,Math.ceil(span/maxStep));
+    const step=span/intervals;
+
+    for(let j=1;j<intervals;j++){
+      const p=a+step*j;
+      // Не ставим обычную лагу почти поверх обязательным профилем под стыком.
+      if(!seam.some(s=>Math.abs(s-p)<5)) regular.push(p);
+    }
+  }
+
+  [edge,run-edge].forEach(p=>{
+    if(!seam.some(s=>Math.abs(s-p)<5)) regular.push(p);
+  });
+
+  const regularUnique=uniquePositions(regular);
+  const all=uniquePositions([...regularUnique,...seam]);
+
+  let actualMaxStep=0;
+  for(let i=0;i<all.length-1;i++){
+    actualMaxStep=Math.max(actualMaxStep,all[i+1]-all[i]);
+  }
+
+  return {
+    regular:regularUnique,
+    seam,
+    seamAxes,
+    seamPairs,
+    all,
+    actualMaxStep,
+    edgeOverhangStart:all.length?all[0]:run/2,
+    edgeOverhangEnd:all.length?run-all[all.length-1]:run/2
+  };
+}
+
+function enforcePileEdgeCantilever(spanLength,layout,maxCantilever=200,options={}){
+  if(!layout || !layout.positions?.length) return layout;
+
+  const exemptStart=!!options.exemptStart;
+  const exemptEnd=!!options.exemptEnd;
+  let positions=[...layout.positions].sort((x,y)=>x-y);
+
+  if(!exemptStart && positions[0]>maxCantilever){
+    positions.unshift(maxCantilever);
+  }
+  if(!exemptEnd && spanLength-positions[positions.length-1]>maxCantilever){
+    positions.push(spanLength-maxCantilever);
+  }
+
+  positions=uniquePositions(positions,1);
+
+  let maxStep=0;
+  for(let j=0;j<positions.length-1;j++){
+    maxStep=Math.max(maxStep,positions[j+1]-positions[j]);
+  }
+
+  return {
+    ...layout,
+    positions,
+    count:positions.length,
+    step:maxStep||layout.step,
+    edgeCantileverStart:positions[0],
+    edgeCantileverEnd:spanLength-positions[positions.length-1],
+    cantileverExemptStart:exemptStart,
+    cantileverExemptEnd:exemptEnd
+  };
+}
+
+function polygonEdgeLength(a,b){
+  return Math.hypot(b.x-a.x,b.y-a.y);
+}
+
+function selectedHouseEdge(houseSide){
+  const explicitIndex=resolveHouseEdgeIndex(houseSide);
+  if(explicitIndex>=0 && polygonClosed && polygonPoints.length>=2){
+    const p=polygonPoints[explicitIndex];
+    const q=polygonPoints[(explicitIndex+1)%polygonPoints.length];
+    return {p,q,index:explicitIndex};
+  }
+
+  if(!polygonClosed||polygonPoints.length<2) return null;
+  const b=polygonBounds(polygonPoints);
+  const tol=Math.max(2,Math.max(b.maxX-b.minX,b.maxY-b.minY)*0.002);
+
+  for(let i=0;i<polygonPoints.length;i++){
+    const p=polygonPoints[i],q=polygonPoints[(i+1)%polygonPoints.length];
+    if(houseSide==="top" && Math.abs(p.y-b.minY)<=tol && Math.abs(q.y-b.minY)<=tol) return {p,q,index:i};
+    if(houseSide==="bottom" && Math.abs(p.y-b.maxY)<=tol && Math.abs(q.y-b.maxY)<=tol) return {p,q,index:i};
+    if(houseSide==="left" && Math.abs(p.x-b.minX)<=tol && Math.abs(q.x-b.minX)<=tol) return {p,q,index:i};
+    if(houseSide==="right" && Math.abs(p.x-b.maxX)<=tol && Math.abs(q.x-b.maxX)<=tol) return {p,q,index:i};
+  }
+  return null;
+}
+
+function pointToSegmentDistance(point,a,b){
+  const vx=b.x-a.x,vy=b.y-a.y;
+  const wx=point.x-a.x,wy=point.y-a.y;
+  const vv=vx*vx+vy*vy;
+  if(vv<1e-9) return Math.hypot(point.x-a.x,point.y-a.y);
+  const t=Math.max(0,Math.min(1,(wx*vx+wy*vy)/vv));
+  const px=a.x+t*vx,py=a.y+t*vy;
+  return Math.hypot(point.x-px,point.y-py);
+}
+
+function endpointPileLayoutWithHouse(length,maxSpacing,houseAtStart,houseAtEnd){
+  const offset=Math.min(CONFIG.ground.houseOffset,Math.max(0,length/2));
+
+  if(houseAtStart && houseAtEnd){
+    if(length<=offset*2){
+      return {
+        intervals:0,
+        count:1,
+        step:0,
+        positions:[length/2],
+        houseOffsetApplied:true,
+        houseOffset:Math.min(offset,length/2)
+      };
+    }
+    const usable=length-offset*2;
+    const intervals=Math.max(1,Math.ceil(usable/maxSpacing));
+    const step=usable/intervals;
+    const positions=[];
+    for(let i=0;i<=intervals;i++) positions.push(offset+i*step);
+    return {intervals,count:positions.length,step,positions,houseOffsetApplied:true,houseOffset:offset};
+  }
+
+  if(houseAtStart) return equalLayoutWithHouseOffset(length,maxSpacing,offset,true);
+  if(houseAtEnd) return equalLayoutWithHouseOffset(length,maxSpacing,offset,false);
+  return endpointPileLayout(length,maxSpacing);
+}
+
+function polygonFreePerimeterSegments(hasHouse=false,houseSide="top"){
+  if(!polygonClosed||polygonPoints.length<3) return [];
+  const b=polygonBounds(polygonPoints);
+  const tol=Math.max(2,Math.max(b.maxX-b.minX,b.maxY-b.minY)*0.002);
+  const segments=[];
+
+  const isHouseEdge=(p,q,edgeIndex)=>{
+    if(!hasHouse) return false;
+    const explicitIndex=resolveHouseEdgeIndex(houseSide);
+    if(explicitIndex>=0) return edgeIndex===explicitIndex;
+
+    if(houseSide==="top"){
+      return Math.abs(p.y-b.minY)<=tol && Math.abs(q.y-b.minY)<=tol;
+    }
+    if(houseSide==="bottom"){
+      return Math.abs(p.y-b.maxY)<=tol && Math.abs(q.y-b.maxY)<=tol;
+    }
+    if(houseSide==="left"){
+      return Math.abs(p.x-b.minX)<=tol && Math.abs(q.x-b.minX)<=tol;
+    }
+    if(houseSide==="right"){
+      return Math.abs(p.x-b.maxX)<=tol && Math.abs(q.x-b.maxX)<=tol;
+    }
+    return false;
+  };
+
+  for(let i=0;i<polygonPoints.length;i++){
+    const p=polygonPoints[i],q=polygonPoints[(i+1)%polygonPoints.length];
+    const len=polygonEdgeLength(p,q);
+    if(len<1) continue;
+    if(isHouseEdge(p,q,i)) continue;
+
+    segments.push({
+      x1:p.x-b.minX,
+      y1:p.y-b.minY,
+      x2:q.x-b.minX,
+      y2:q.y-b.minY,
+      absX1:p.x,
+      absY1:p.y,
+      absX2:q.x,
+      absY2:q.y,
+      length:len,
+      reason:"perimeter",
+      pileLength:CONFIG.ground.pileLength
+    });
+  }
+
+  return segments;
+}
+
+function polygonCentroidApprox(){
+  if(!polygonPoints.length) return {x:0,y:0};
+  const b=polygonBounds(polygonPoints);
+  return {
+    x:(b.minX+b.maxX)/2,
+    y:(b.minY+b.maxY)/2
+  };
+}
+
+function angledInsetSupportSegments(direction,hasHouse=false,houseSide="top",maxLagOverhang=200){
+  const perimeter=polygonFreePerimeterSegments(hasHouse,houseSide);
+  const center=polygonCentroidApprox();
+  const b=polygonBounds(polygonPoints);
+  const out=[];
+  const axisTol=2;
+
+  for(const edge of perimeter){
+    const dx=edge.absX2-edge.absX1;
+    const dy=edge.absY2-edge.absY1;
+    const len=Math.hypot(dx,dy);
+    if(len<1) continue;
+
+    // Только реально наклонные стороны. Горизонтальные/вертикальные
+    // уже обслуживаются обычной системой параллельных поясов.
+    if(Math.abs(dx)<=axisTol || Math.abs(dy)<=axisTol) continue;
+
+    const tx=dx/len, ty=dy/len;
+    let nx=-ty, ny=tx;
+
+    const mx=(edge.absX1+edge.absX2)/2;
+    const my=(edge.absY1+edge.absY2)/2;
+
+    // Нормаль должна смотреть внутрь площадки.
+    if((center.x-mx)*nx+(center.y-my)*ny<0){
+      nx=-nx; ny=-ny;
+    }
+
+    // Выбираем перпендикулярное смещение так, чтобы расстояние
+    // ВДОЛЬ ЛАГИ от её конца до пересечения с поясом было <= 200 мм.
+    // direction=l => лаги вертикальные, direction=w => горизонтальные.
+    const normalAlongJoist = direction==="l" ? Math.abs(ny) : Math.abs(nx);
+    if(normalAlongJoist<0.05) continue;
+
+    const normalOffset=Math.min(
+      maxLagOverhang,
+      Math.max(40,maxLagOverhang*normalAlongJoist)
+    );
+
+    const ax1=edge.absX1+nx*normalOffset;
+    const ay1=edge.absY1+ny*normalOffset;
+    const ax2=edge.absX2+nx*normalOffset;
+    const ay2=edge.absY2+ny*normalOffset;
+
+    out.push({
+      x1:ax1-b.minX,
+      y1:ay1-b.minY,
+      x2:ax2-b.minX,
+      y2:ay2-b.minY,
+      absX1:ax1,
+      absY1:ay1,
+      absX2:ax2,
+      absY2:ay2,
+      length:len,
+      reason:"angled-inset-support",
+      sourceEdge:edge,
+      normalOffset,
+      lagOverhang:normalOffset/normalAlongJoist,
+      pileLength:CONFIG.ground.pileLength
+    });
+  }
+
+  return out;
+}
+
+function perimeterPilePoints(segments,maxSpacing,pileLength=CONFIG.ground.pileLength){
+  const points=[];
+
+  for(const seg of segments){
+    const layout=endpointPileLayout(seg.length,maxSpacing);
+    const dx=seg.x2-seg.x1;
+    const dy=seg.y2-seg.y1;
+    const len=Math.max(1,seg.length);
+
+    for(const d of layout.positions){
+      const t=d/len;
+      points.push({
+        x:seg.x1+dx*t,
+        y:seg.y1+dy*t,
+        pileLength:seg.pileLength||pileLength,
+        zones:["perimeter"]
+      });
+    }
+  }
+
+  return mergeSupportPoints(points,2);
+}
+
+function nearestDistancePointToSegment(px,py,x1,y1,x2,y2){
+  const vx=x2-x1,vy=y2-y1;
+  const wx=px-x1,wy=py-y1;
+  const vv=vx*vx+vy*vy;
+  if(vv<=1e-9) return Math.hypot(px-x1,py-y1);
+  let t=(wx*vx+wy*vy)/vv;
+  t=Math.max(0,Math.min(1,t));
+  const cx=x1+t*vx,cy=y1+t*vy;
+  return Math.hypot(px-cx,py-cy);
+}
+
+function maxJoistEndToSupportDistance(joistPositions,direction,L,W,perimeterSegments,internalBelts){
+  let maxDistance=0;
+
+  for(const pos of joistPositions){
+    const spans=polygonCrosslineSegments(pos,direction,L,W);
+    for(const span of spans){
+      const endpoints=direction==="l"
+        ? [
+            {x:pos,y:span.start},
+            {x:pos,y:span.start+span.length}
+          ]
+        : [
+            {x:span.start,y:pos},
+            {x:span.start+span.length,y:pos}
+          ];
+
+      for(const ep of endpoints){
+        let best=Infinity;
+
+        for(const seg of perimeterSegments||[]){
+          best=Math.min(best,nearestDistancePointToSegment(
+            ep.x,ep.y,seg.x1,seg.y1,seg.x2,seg.y2
+          ));
+        }
+
+        // Internal belts are axis-aligned support lines.
+        for(const belt of internalBelts||[]){
+          if(direction==="l"){
+            if(ep.x>=belt.start-1 && ep.x<=belt.start+belt.length+1){
+              best=Math.min(best,Math.abs(ep.y-belt.axis));
+            }
+          }else{
+            if(ep.y>=belt.start-1 && ep.y<=belt.start+belt.length+1){
+              best=Math.min(best,Math.abs(ep.x-belt.axis));
+            }
+          }
+        }
+
+        if(Number.isFinite(best)) maxDistance=Math.max(maxDistance,best);
+      }
+    }
+  }
+
+  return maxDistance;
+}
+
+function addArbitrarySegment(parent,seg,L,W,cls){
+  const w=parent.clientWidth,h=parent.clientHeight;
+  const x1=seg.x1/L*w,y1=seg.y1/W*h;
+  const x2=seg.x2/L*w,y2=seg.y2/W*h;
+  const dx=x2-x1,dy=y2-y1;
+  const len=Math.hypot(dx,dy);
+  const angle=Math.atan2(dy,dx)*180/Math.PI;
+
+  const el=document.createElement("div");
+  el.className=cls+" arbitrarySegment cad-angled";
+  Object.assign(el.style,{
+    left:x1+"px",
+    top:y1+"px",
+    width:Math.max(1,len)+"px",
+    height:"0",
+    transformOrigin:"0 50%",
+    transform:"rotate("+angle+"deg)"
+  });
+  parent.appendChild(el);
+}
+
+function trimInterval(interval,cuts,tol=1){
+  let parts=[{start:interval.start,end:interval.end}];
+  for(const cut of cuts){
+    const next=[];
+    for(const p of parts){
+      if(cut.end<=p.start+tol || cut.start>=p.end-tol){
+        next.push(p);
+        continue;
+      }
+      if(cut.start>p.start+tol) next.push({start:p.start,end:Math.min(cut.start,p.end)});
+      if(cut.end<p.end-tol) next.push({start:Math.max(cut.end,p.start),end:p.end});
+    }
+    parts=next;
+  }
+  return parts.filter(p=>p.end-p.start>tol);
+}
+
+function redundantIntervalFromAngledSupport(beltAxis,segStart,segEnd,direction,angled,maxLagOverhang){
+  const cuts=[];
+
+  for(const s of angled||[]){
+    if(direction==="l"){
+      // Внутренний пояс горизонтальный, лаги вертикальные.
+      const x1=s.x1,x2=s.x2,y1=s.y1,y2=s.y2;
+      const lo=Math.max(segStart,Math.min(x1,x2));
+      const hi=Math.min(segEnd,Math.max(x1,x2));
+      if(hi-lo<=1 || Math.abs(x2-x1)<1e-6) continue;
+
+      const yAt=x=>y1+(y2-y1)*((x-x1)/(x2-x1));
+      // |beltAxis - y(x)| <= maxLagOverhang.
+      const samples=[lo,hi];
+      const slope=(y2-y1)/(x2-x1);
+      if(Math.abs(slope)>1e-9){
+        samples.push(x1+(beltAxis-maxLagOverhang-y1)/slope);
+        samples.push(x1+(beltAxis+maxLagOverhang-y1)/slope);
+      }
+      const xs=samples.filter(x=>x>=lo-1&&x<=hi+1).sort((m,n)=>m-n);
+      for(let i=0;i<xs.length-1;i++){
+        const mid=(xs[i]+xs[i+1])/2;
+        if(Math.abs(beltAxis-yAt(mid))<=maxLagOverhang+1){
+          cuts.push({start:Math.max(lo,xs[i]),end:Math.min(hi,xs[i+1])});
+        }
+      }
+    }else{
+      // Внутренний пояс вертикальный, лаги горизонтальные.
+      const y1=s.y1,y2=s.y2,x1=s.x1,x2=s.x2;
+      const lo=Math.max(segStart,Math.min(y1,y2));
+      const hi=Math.min(segEnd,Math.max(y1,y2));
+      if(hi-lo<=1 || Math.abs(y2-y1)<1e-6) continue;
+
+      const xAt=y=>x1+(x2-x1)*((y-y1)/(y2-y1));
+      const samples=[lo,hi];
+      const slope=(x2-x1)/(y2-y1);
+      if(Math.abs(slope)>1e-9){
+        samples.push(y1+(beltAxis-maxLagOverhang-x1)/slope);
+        samples.push(y1+(beltAxis+maxLagOverhang-x1)/slope);
+      }
+      const ys=samples.filter(y=>y>=lo-1&&y<=hi+1).sort((m,n)=>m-n);
+      for(let i=0;i<ys.length-1;i++){
+        const mid=(ys[i]+ys[i+1])/2;
+        if(Math.abs(beltAxis-xAt(mid))<=maxLagOverhang+1){
+          cuts.push({start:Math.max(lo,ys[i]),end:Math.min(hi,ys[i+1])});
+        }
+      }
+    }
+  }
+
+  return cuts;
+}
+
+function pruneInternalBeltsNearAngledSupports(belts,direction,angled,maxLagOverhang){
+  for(const belt of belts){
+    const nextSegments=[];
+    for(const seg of belt.segments){
+      const segStart=seg.start;
+      const segEnd=seg.start+seg.length;
+      const cuts=redundantIntervalFromAngledSupport(
+        belt.axis,segStart,segEnd,direction,angled,maxLagOverhang
+      );
+      const parts=trimInterval({start:segStart,end:segEnd},cuts,2);
+
+      for(const p of parts){
+        nextSegments.push({
+          start:p.start,
+          length:p.end-p.start,
+          piles:[],
+          pileStep:0,
+          houseOffsetApplied:false
+        });
+      }
+    }
+    belt.segments=nextSegments;
+  }
+  return belts;
+}
+
+function buildPolygonBeltsAndPiles(L,W,direction,beltPositions,hasHouse,houseSide,structuralLimits=null){
+  const limits=structuralLimits||terraceStructuralLimits(CONFIG.joist.stepByBoardHeight.thinStep);
+  const belts=[];
+  const pileSteps=[];
+
+  // 1) Сначала получаем геометрию внутренних прямых поясов.
+  for(const beltPos of beltPositions){
+    const across=direction==="l"?W:L;
+    const scanPos=Math.min(across-0.001,Math.max(0.001,beltPos));
+    const spans=polygonScanlineSegments(scanPos,direction,L,W);
+    belts.push({
+      axis:beltPos,
+      segments:spans.map(span=>({
+        start:span.start,
+        length:span.length,
+        piles:[],
+        pileStep:0,
+        houseOffsetApplied:false
+      }))
+    });
+  }
+
+  // 2) Отдельные пояса вдоль свободных наклонных сторон.
+  const angledSupportSegments=angledInsetSupportSegments(
+    direction,
+    hasHouse,
+    houseSide,
+    CONFIG.joist.maxEdgeCantilever
+  );
+
+  // 3) Убираем дублирование: если наклонный крайний пояс уже
+  // поддерживает лаги со свесом <=200 мм, кусок внутреннего 80×80
+  // в этой зоне не нужен.
+  pruneInternalBeltsNearAngledSupports(
+    belts,
+    direction,
+    angledSupportSegments,
+    CONFIG.joist.maxEdgeCantilever
+  );
+
+  // 4) После обрезки заново считаем сваи и метраж внутренних поясов.
+  let beltMeters=0;
+  const internalPilePoints=[];
+
+  const houseEdge=hasHouse ? selectedHouseEdge(houseSide) : null;
+  const houseTol=8;
+
+  for(const belt of belts){
+    for(const seg of belt.segments){
+      let houseAtStart=false,houseAtEnd=false;
+
+      if(houseEdge){
+        const startPoint=direction==="l"
+          ? {x:seg.start,y:belt.axis}
+          : {x:belt.axis,y:seg.start};
+        const endPoint=direction==="l"
+          ? {x:seg.start+seg.length,y:belt.axis}
+          : {x:belt.axis,y:seg.start+seg.length};
+
+        houseAtStart=pointToSegmentDistance(startPoint,houseEdge.p,houseEdge.q)<=houseTol;
+        houseAtEnd=pointToSegmentDistance(endPoint,houseEdge.p,houseEdge.q)<=houseTol;
+      }
+
+      const layout=endpointPileLayoutWithHouse(
+        seg.length,
+        limits.pileSpacingMax,
+        houseAtStart,
+        houseAtEnd
+      );
+
+      seg.piles=layout.positions.map(p=>seg.start+p);
+      seg.pileStep=layout.step;
+      seg.houseOffsetApplied=!!layout.houseOffsetApplied;
+      seg.houseAtStart=houseAtStart;
+      seg.houseAtEnd=houseAtEnd;
+
+      beltMeters+=seg.length/1000;
+      if(layout.step) pileSteps.push(layout.step);
+
+      for(const p of seg.piles){
+        if(direction==="l"){
+          internalPilePoints.push({
+            x:p,
+            y:belt.axis,
+            pileLength:CONFIG.ground.pileLength,
+            zones:["internal"]
+          });
+        }else{
+          internalPilePoints.push({
+            x:belt.axis,
+            y:p,
+            pileLength:CONFIG.ground.pileLength,
+            zones:["internal"]
+          });
+        }
+      }
+    }
+  }
+
+  // 5) Наклонные пояса тоже участвуют в метраже и сваях.
+  beltMeters+=angledSupportSegments.reduce((sum,s)=>sum+s.length/1000,0);
+
+  const angledPilePoints=perimeterPilePoints(
+    angledSupportSegments,
+    limits.pileSpacingMax,
+    CONFIG.ground.pileLength
+  );
+
+  const pilePoints=mergeSupportPoints(
+    [...angledPilePoints,...internalPilePoints],
+    2
+  );
+
+  return {
+    belts,
+    angledSupportSegments,
+    perimeterSegments:[],
+    pilePoints,
+    beltMeters,
+    totalPiles:pilePoints.length,
+    maxPilesPerBelt:Math.max(
+      0,
+      ...belts.flatMap(b=>b.segments.map(s=>s.piles.length)),
+      ...angledSupportSegments.map(s=>endpointPileLayout(s.length,limits.pileSpacingMax).count)
+    ),
+    minPileStep:pileSteps.length?Math.min(...pileSteps):0,
+    maxPileStep:Math.max(
+      pileSteps.length?Math.max(...pileSteps):0,
+      ...angledSupportSegments.map(s=>endpointPileLayout(s.length,limits.pileSpacingMax).step||0)
+    ),
+    maxAngledLagOverhang:angledSupportSegments.length
+      ? Math.max(...angledSupportSegments.map(s=>s.lagOverhang||0))
+      : 0
+  };
+}
+
+function addBeltSegment(parent,direction,axis,across,start,length,run){
+  const w=parent.clientWidth;
+  const h=parent.clientHeight;
+  const line=document.createElement("div");
+  line.className="beltLine "+(direction==="l"?"cad-h":"cad-v");
+
+  if(direction==="l"){
+    Object.assign(line.style,{
+      left:(start/run*w)+"px",
+      width:Math.max(1,length/run*w)+"px",
+      top:(axis/across*h)+"px",
+      height:"4px"
+    });
+  }else{
+    Object.assign(line.style,{
+      top:(start/run*h)+"px",
+      height:Math.max(1,length/run*h)+"px",
+      left:(axis/across*w)+"px",
+      width:"4px"
+    });
+  }
+
+  parent.appendChild(line);
+}
+
+function houseAffectsAxis(direction,houseSide,axis){
+  if(resolveHouseEdgeIndex(houseSide)>=0) return false;
+  if(axis==="across"){
+    return direction==="l"?["top","bottom"].includes(houseSide):["left","right"].includes(houseSide);
+  }
+  return direction==="l"?["left","right"].includes(houseSide):["top","bottom"].includes(houseSide);
+}
+
+function houseAtAxisStart(direction,houseSide,axis){
+  if(resolveHouseEdgeIndex(houseSide)>=0) return false;
+  if(axis==="across") return direction==="l"?houseSide==="top":houseSide==="left";
+  return direction==="l"?houseSide==="left":houseSide==="top";
+}
+
+function addLine(parent,cls,direction,pos,axisLength,isRunAxis){
+  const w=parent.clientWidth;
+  const h=parent.clientHeight;
+  const px=isRunAxis
+    ? pos/axisLength*(direction==="l"?w:h)
+    : pos/axisLength*(direction==="l"?h:w);
+
+  const line=document.createElement("div");
+
+  if(isRunAxis){
+    if(direction==="l"){
+      line.className=cls+" cad-v";
+      Object.assign(line.style,{left:px+"px",top:"0",width:"0",height:"100%"});
+    }else{
+      line.className=cls+" cad-h";
+      Object.assign(line.style,{top:px+"px",left:"0",height:"0",width:"100%"});
+    }
+  }else{
+    if(direction==="l"){
+      line.className=cls+" cad-h";
+      Object.assign(line.style,{top:px+"px",left:"0",height:"0",width:"100%"});
+    }else{
+      line.className=cls+" cad-v";
+      Object.assign(line.style,{left:px+"px",top:"0",width:"0",height:"100%"});
+    }
+  }
+
+  parent.appendChild(line);
+}
+
+function renderBoardRows(parent,model){
+  const {direction,run,across,boardRows}=model;
+  const w=parent.clientWidth,h=parent.clientHeight;
+
+  const addPiece=(piece,rowStart,rowSize,cursor,index,count)=>{
+    // Расчётная геометрия сохраняет реальный 3-мм зазор.
+    // Для визуала заполняем половину зазора с каждой стороны,
+    // чтобы на масштабе он не выглядел как широкая белая полоса.
+    const halfGap=CONFIG.boardGap/2;
+    const visualStart=Math.max(0,cursor-(index>0?halfGap:0));
+    const visualEnd=Math.min(run,cursor+piece.length+(index<count-1?halfGap:0));
+
+    const el=document.createElement("div");
+    el.className="boardPiece "+(direction==="l"?"board-h":"board-v")+(piece.reused?" alt":"");
+    const a=visualStart/run,b=visualEnd/run;
+
+    if(direction==="l"){
+      Object.assign(el.style,{
+        left:(a*w)+"px",
+        width:Math.max(1,(b-a)*w)+"px",
+        top:(rowStart*h)+"px",
+        height:Math.max(2,rowSize*h)+"px"
+      });
+    }else{
+      Object.assign(el.style,{
+        top:(a*h)+"px",
+        height:Math.max(1,(b-a)*h)+"px",
+        left:(rowStart*w)+"px",
+        width:Math.max(2,rowSize*w)+"px"
+      });
+    }
+
+    parent.appendChild(el);
+  };
+
+  if(boardRows.polygon){
+    boardRows.rows.forEach(row=>{
+      const boardWidth=+$("boardModule")?.value||CONFIG.defaultBoardModule;
+      const rowStart=Math.max(0,(row.axis-boardWidth/2)/across);
+      const rowSize=Math.min(1,boardWidth/across);
+
+      row.segments.forEach(seg=>{
+        let cursor=seg.start;
+        seg.pieces.forEach((piece,index)=>{
+          addPiece(piece,rowStart,rowSize,cursor,index,seg.pieces.length);
+          cursor+=piece.length;
+          if(index<seg.pieces.length-1) cursor+=CONFIG.boardGap;
+        });
+      });
+    });
+    return;
+  }
+
+  const boardWidth=+$("boardModule")?.value||CONFIG.defaultBoardModule;
+  const pitch=boardWidth+CONFIG.boardGap;
+  boardRows.rows.forEach((row,rowIndex)=>{
+    const rowStart=(rowIndex*pitch)/across;
+    const rowSize=Math.min(1,boardWidth/across);
+    let cursor=0;
+    row.pieces.forEach((piece,index)=>{
+      addPiece(piece,rowStart,rowSize,cursor,index,row.pieces.length);
+      cursor+=piece.length;
+      if(index<row.pieces.length-1) cursor+=CONFIG.boardGap;
+    });
+  });
+}
+
+function renderEngineeringDimensions(layer,model){
+  if(model.shapeMode!=="rect") return;
+  const L=+$("L").value||6200;
+  const W=+$("W").value||3800;
+
+  [
+    {cls:"top",text:"A–B  "+fmt(L)+" мм"},
+    {cls:"right",text:"B–C  "+fmt(W)+" мм"},
+    {cls:"bottom",text:"C–D  "+fmt(L)+" мм"},
+    {cls:"left",text:"D–A  "+fmt(W)+" мм"}
+  ].forEach(item=>{
+    const el=document.createElement("div");
+    el.className="rectSideLabel "+item.cls;
+    el.textContent=item.text;
+    layer.appendChild(el);
+  });
+
+  [
+    {name:"A",cls:"a"},
+    {name:"B",cls:"b"},
+    {name:"C",cls:"c"},
+    {name:"D",cls:"d"}
+  ].forEach(v=>{
+    const el=document.createElement("div");
+    el.className="rectVertexLabel "+v.cls;
+    el.textContent=v.name;
+    layer.appendChild(el);
+  });
+
+  const mark=document.createElement("div");
+  mark.className="planCornerMark";
+  mark.textContent="ПЛАН · мм";
+  layer.appendChild(mark);
+}
+
+function zoneAxisOrigin(zone,direction,axis){
+  if(axis==="run") return direction==="l" ? zone.x : zone.y;
+  return direction==="l" ? zone.y : zone.x;
+}
+
+function zoneAxisLength(zone,direction,axis){
+  if(axis==="run") return direction==="l" ? zone.w : zone.h;
+  return direction==="l" ? zone.h : zone.w;
+}
+
+function mergeCollinearSegments(segments,tolerance=1){
+  const groups=new Map();
+
+  for(const seg of segments){
+    const key=seg.orientation+":"+Math.round(seg.axis/tolerance);
+    if(!groups.has(key)) groups.set(key,[]);
+    groups.get(key).push({...seg});
+  }
+
+  const merged=[];
+  for(const items of groups.values()){
+    items.sort((x,y)=>x.start-y.start);
+    let cur=null;
+
+    for(const seg of items){
+      if(!cur){
+        cur={...seg};
+        continue;
+      }
+      if(seg.start<=cur.end+tolerance){
+        cur.end=Math.max(cur.end,seg.end);
+        if(seg.pileLength||cur.pileLength){
+          cur.pileLength=Math.max(cur.pileLength||0,seg.pileLength||0);
+        }
+      }else{
+        merged.push(cur);
+        cur={...seg};
+      }
+    }
+    if(cur) merged.push(cur);
+  }
+  return merged;
+}
+
+function mergeSupportPoints(points,tolerance=2){
+  const out=[];
+  for(const p of points){
+    const existing=out.find(q=>Math.hypot(q.x-p.x,q.y-p.y)<=tolerance);
+    if(existing){
+      existing.pileLength=Math.max(existing.pileLength||0,p.pileLength||0);
+      existing.zones=[...new Set([...(existing.zones||[]),...(p.zones||[])])];
+    }else{
+      out.push({...p,zones:[...(p.zones||[])]});
+    }
+  }
+  return out;
+}
+
+function supportFrameTieBelts(zone,direction,beltLayout,hasHouse,houseSide){
+  if(!beltLayout?.positions?.length) return [];
+
+  const first=beltLayout.positions[0];
+  const last=beltLayout.positions[beltLayout.positions.length-1];
+  const out=[];
+
+  const runStartSide=direction==="l" ? "left" : "top";
+  const runEndSide=direction==="l" ? "right" : "bottom";
+  const omitStart=hasHouse && houseSide===runStartSide;
+  const omitEnd=hasHouse && houseSide===runEndSide;
+
+  if(direction==="l"){
+    // Основные 80×80 горизонтальны; торцевые связи вертикальны.
+    if(!omitStart){
+      out.push({
+        orientation:"v",
+        axis:zone.x,
+        start:zone.y+first,
+        end:zone.y+last,
+        zoneId:zone.id,
+        pileLength:zone.pileLength||CONFIG.ground.pileLength,
+        reason:"support-frame-tie"
+      });
+    }
+    if(!omitEnd){
+      out.push({
+        orientation:"v",
+        axis:zone.x+zone.w,
+        start:zone.y+first,
+        end:zone.y+last,
+        zoneId:zone.id,
+        pileLength:zone.pileLength||CONFIG.ground.pileLength,
+        reason:"support-frame-tie"
+      });
+    }
+  }else{
+    // Основные 80×80 вертикальны; торцевые связи горизонтальны.
+    if(!omitStart){
+      out.push({
+        orientation:"h",
+        axis:zone.y,
+        start:zone.x+first,
+        end:zone.x+last,
+        zoneId:zone.id,
+        pileLength:zone.pileLength||CONFIG.ground.pileLength,
+        reason:"support-frame-tie"
+      });
+    }
+    if(!omitEnd){
+      out.push({
+        orientation:"h",
+        axis:zone.y+zone.h,
+        start:zone.x+first,
+        end:zone.x+last,
+        zoneId:zone.id,
+        pileLength:zone.pileLength||CONFIG.ground.pileLength,
+        reason:"support-frame-tie"
+      });
+    }
+  }
+
+  return out;
+}
+
+function buildZonedStructure(zones,direction,seamPatterns,joistStep,base,hasHouse=false,houseSide="top",structuralLimits=null){
+  if(!zones?.length) return null;
+  const limits=structuralLimits||terraceStructuralLimits(joistStep);
+
+  const zoneModels=[];
+  const joistSegments=[];
+  const beltSegments=[];
+  const pilePoints=[];
+
+  for(const zone of zones){
+    const runOrigin=zoneAxisOrigin(zone,direction,"run");
+    const acrossOrigin=zoneAxisOrigin(zone,direction,"across");
+    const run=zoneAxisLength(zone,direction,"run");
+    const across=zoneAxisLength(zone,direction,"across");
+
+    const globalSeams=(seamPatterns?.all||[]);
+    const localSeams=globalSeams
+      .filter(x=>x>runOrigin+1&&x<runOrigin+run-1)
+      .map(x=>x-runOrigin);
+
+    const joists=buildJoists(run,localSeams,joistStep);
+    const beltLayout=supportLineLayout(
+      across,
+      limits.joistSupportMax,
+      CONFIG.joist.maxEdgeCantilever
+    );
+    const pileLayout=endpointPileLayout(run,limits.pileSpacingMax);
+
+    const makeJoistSegment=(pos,type)=>{
+      if(direction==="l"){
+        return {orientation:"v",axis:zone.x+pos,start:zone.y,end:zone.y+zone.h,type,zoneId:zone.id};
+      }
+      return {orientation:"h",axis:zone.y+pos,start:zone.x,end:zone.x+zone.w,type,zoneId:zone.id};
+    };
+
+    joists.regular.forEach(pos=>joistSegments.push(makeJoistSegment(pos,"regular")));
+    joists.seam.forEach(pos=>joistSegments.push(makeJoistSegment(pos,"seam")));
+
+    for(const pos of beltLayout.positions){
+      if(direction==="l"){
+        beltSegments.push({orientation:"h",axis:zone.y+pos,start:zone.x,end:zone.x+zone.w,zoneId:zone.id,pileLength:zone.pileLength||CONFIG.ground.pileLength,reason:"joist-support"});
+      }else{
+        beltSegments.push({orientation:"v",axis:zone.x+pos,start:zone.y,end:zone.y+zone.h,zoneId:zone.id,pileLength:zone.pileLength||CONFIG.ground.pileLength,reason:"joist-support"});
+      }
+    }
+
+    beltSegments.push(...supportFrameTieBelts(zone,direction,beltLayout,hasHouse,houseSide));
+
+    zoneModels.push({
+      ...zone,
+      runOrigin,acrossOrigin,run,across,
+      joists,beltLayout,pileLayout,
+      regularJoistMeters:joists.regular.length*across/1000,
+      seamJoistMeters:joists.seam.length*across/1000
+    });
+  }
+
+  beltSegments.push(...sharedZoneBoundaryBelts(zones));
+
+  const mergedBelts=mergeCollinearSegments(beltSegments);
+  const pileSteps=[];
+
+  $("concreteMaterialRow")?.classList.toggle("hidden",base!=="concrete"&&base!=="roof");
+
+  if(base==="ground"){
+    for(const seg of mergedBelts){
+      const length=seg.end-seg.start;
+      const layout=endpointPileLayout(length,limits.pileSpacingMax);
+      pileSteps.push(layout.step||0);
+
+      for(const p of layout.positions){
+        pilePoints.push(seg.orientation==="h"
+          ? {
+              x:seg.start+p,
+              y:seg.axis,
+              pileLength:seg.pileLength||CONFIG.ground.pileLength,
+              zones:seg.zoneId?[seg.zoneId]:[]
+            }
+          : {
+              x:seg.axis,
+              y:seg.start+p,
+              pileLength:seg.pileLength||CONFIG.ground.pileLength,
+              zones:seg.zoneId?[seg.zoneId]:[]
+            }
+        );
+      }
+    }
+  }
+
+  const mergedPiles=mergeSupportPoints(pilePoints);
+
+  return {
+    zones:zoneModels,
+    joistSegments,
+    beltSegments:mergedBelts,
+    pilePoints:mergedPiles,
+    regularJoistMeters:zoneModels.reduce((sum,z)=>sum+z.regularJoistMeters,0),
+    seamJoistMeters:zoneModels.reduce((sum,z)=>sum+z.seamJoistMeters,0),
+    totalJoistMeters:zoneModels.reduce((sum,z)=>sum+z.regularJoistMeters+z.seamJoistMeters,0),
+    beltMeters:mergedBelts.reduce((sum,s)=>sum+(s.end-s.start)/1000,0),
+    totalPiles:mergedPiles.length,
+    pileCountsByLength:mergedPiles.reduce((acc,p)=>{
+      const len=p.pileLength||CONFIG.ground.pileLength;
+      acc[len]=(acc[len]||0)+1;
+      return acc;
+    },{}),
+    maxPileStep:Math.max(0,...pileSteps),
+    maxBeltStep:Math.max(0,...zoneModels.map(z=>z.beltLayout.step||0))
+  };
+}
+
+function addAbsoluteSegment(parent,seg,L,W,cls){
+  const w=parent.clientWidth,h=parent.clientHeight;
+  const el=document.createElement("div");
+  el.className=cls+" "+(seg.orientation==="h"?"cad-h":"cad-v");
+
+  if(seg.orientation==="h"){
+    Object.assign(el.style,{
+      left:(seg.start/L*w)+"px",
+      width:Math.max(1,(seg.end-seg.start)/L*w)+"px",
+      top:(seg.axis/W*h)+"px",
+      height:"0"
+    });
+  }else{
+    Object.assign(el.style,{
+      top:(seg.start/W*h)+"px",
+      height:Math.max(1,(seg.end-seg.start)/W*h)+"px",
+      left:(seg.axis/L*w)+"px",
+      width:"0"
+    });
+  }
+  parent.appendChild(el);
+}
+
+function renderZoneOutlines(parent,zoned,L,W){
+  if(!zoned?.zones?.length) return;
+  const w=parent.clientWidth,h=parent.clientHeight;
+
+  zoned.zones.forEach(zone=>{
+    const box=document.createElement("div");
+    box.className="zoneOutline zone-"+(zone.type||"area");
+    Object.assign(box.style,{
+      left:(zone.x/L*w)+"px",
+      top:(zone.y/W*h)+"px",
+      width:(zone.w/L*w)+"px",
+      height:(zone.h/W*h)+"px"
+    });
+
+    const label=document.createElement("span");
+    label.textContent=zone.name||zone.id;
+    box.appendChild(label);
+    parent.appendChild(box);
+  });
+}
+
+function pointInPolygonMm(point){
+  if(!polygonClosed||polygonPoints.length<3) return true;
+  let inside=false;
+  for(let i=0,j=polygonPoints.length-1;i<polygonPoints.length;j=i++){
+    const pi=polygonPoints[i],pj=polygonPoints[j];
+    const hit=((pi.y>point.y)!==(pj.y>point.y)) &&
+      (point.x < (pj.x-pi.x)*(point.y-pi.y)/((pj.y-pi.y)||1e-9)+pi.x);
+    if(hit) inside=!inside;
+  }
+  return inside;
+}
+
+function supportPointsAlongJoists(L,W,direction,shapeMode,joists,maxSpacing){
+  const points=[];
+  const positions=uniquePositions([...(joists?.regular||[]),...(joists?.seam||[])]);
+  const fullLength=direction==="l"?W:L;
+  for(const pos of positions){
+    const spans=(shapeMode==="free"&&polygonClosed)
+      ? polygonCrosslineSegments(pos,direction,L,W)
+      : [{start:0,length:fullLength}];
+    for(const span of spans){
+      const layout=supportLineLayout(span.length,maxSpacing,Math.min(40,maxSpacing/4));
+      for(const d of layout.positions){
+        const along=span.start+d;
+        points.push(direction==="l"?{x:pos,y:along}:{x:along,y:pos});
+      }
+    }
+  }
+  return mergeSupportPoints(points,2);
+}
+
+function buildConcreteStructure(L,W,direction,shapeMode,areaM2,supportKey="rubber",joists=null){
+  const tieStepMax=CONFIG.rules.concreteTieStepMaxMm||1500;
+  const across=direction==="l"?W:L;
+  const tieLayout=equalLayout(across,tieStepMax);
+  const tieSegments=[];
+  for(const pos of tieLayout.positions){
+    const spans=(shapeMode==="free"&&polygonClosed)
+      ? polygonScanlineSegments(pos,direction,L,W)
+      : [{start:0,length:direction==="l"?L:W}];
+    for(const span of spans){
+      tieSegments.push(direction==="l"
+        ? {orientation:"h",axis:pos,start:span.start,end:span.start+span.length,type:"concrete-tie"}
+        : {orientation:"v",axis:pos,start:span.start,end:span.start+span.length,type:"concrete-tie"});
+    }
+  }
+  const tieMeters=tieSegments.reduce((sum,seg)=>sum+(seg.end-seg.start)/1000,0);
+  const maxSpacing=CONFIG.rules.concreteSupportMaxSpacingMm||500;
+  const supportPoints=supportPointsAlongJoists(L,W,direction,shapeMode,joists,maxSpacing);
+  const supportCount=supportPoints.length;
+  const specs=CONFIG.concreteSupportSpecs||{};
+  let materialSpec,materialQuantity;
+  if(supportKey==="rebar"){
+    const d=specs.rebar?.diameterMm||10, hh=specs.rebar?.heightMm||100;
+    materialSpec="Арматурный штырь Ø"+d+"×"+hh+" мм";
+    materialQuantity=supportCount+" шт. · "+fmt(supportCount*hh/1000,1)+" м арматуры Ø"+d+" мм";
+  }else{
+    const r=specs.rubber||{widthMm:100,depthMm:100,thicknessMm:5};
+    materialSpec="Резиновая подкладка "+r.widthMm+"×"+r.depthMm+"×"+r.thicknessMm+" мм";
+    materialQuantity=supportCount+" шт.";
+  }
+  return {supportKey,materialSpec,materialQuantity,supportCount,supportPoints,maxSupportSpacing:maxSpacing,
+    tieStep:tieLayout.step,tiePositions:tieLayout.positions,tieSegments,tieMeters};
+}
+
+function buildRoofStructure(L,W,direction,shapeMode,areaM2,joists){
+  const maxSpacing=CONFIG.rules.roofSupportMaxSpacingMm||750;
+  const supportPoints=supportPointsAlongJoists(L,W,direction,shapeMode,joists,maxSpacing);
+  return {supportCount:supportPoints.length,actualSupportCount:supportPoints.length,maxSupportSpacing:maxSpacing,
+    supportPoints,materialSpec:"Регулируемая винтовая пластиковая опора",
+    materialQuantity:supportPoints.length+" шт.",placedUnderJoists:true};
+}
+
+function renderPlan(model){
+  const terrace=$("terrace");
+  const layer=$("constructionLayer");
+  layer.innerHTML="";
+  applyPolygonToTerrace();
+
+  const {run,across,direction,joists,beltLayout,pileLayout,base,polygonStructure,zonedStructure}=model;
+  const modelL=direction==="l"?run:across;
+  const modelW=direction==="l"?across:run;
+
+  if(model.shapeMode==="free" && (!polygonClosed || polygonPoints.length<3)){
+    layer.innerHTML="";
+    return;
+  }
+
+  if($("showBelts").checked && base!=="concrete"){
+    if(zonedStructure){
+      for(const seg of zonedStructure.beltSegments){
+        addAbsoluteSegment(layer,seg,modelL,modelW,"beltLine");
+      }
+    }else if(model.shapeMode==="free" && polygonStructure){
+      for(const belt of polygonStructure.belts){
+        for(const seg of belt.segments){
+          addBeltSegment(layer,direction,belt.axis,across,seg.start,seg.length,run);
+        }
+      }
+      for(const seg of polygonStructure.angledSupportSegments||[]){
+        addArbitrarySegment(layer,seg,modelL,modelW,"beltLine angledSupportBelt");
+      }
+    }else{
+      for(const pos of beltLayout.positions) addLine(layer,"beltLine",direction,pos,across,false);
+    }
+  }
+
+  if($("showJoists").checked){
+    if(zonedStructure){
+      for(const seg of zonedStructure.joistSegments){
+        addAbsoluteSegment(layer,seg,modelL,modelW,"joistLine");
+      }
+    }else if(model.shapeMode==="free" && polygonClosed){
+      const addPolygonJoist=function(pos,cls){
+        const spans=polygonCrosslineSegments(pos,direction,modelL,modelW);
+        for(const span of spans){
+          const seg=direction==="l"
+            ? {orientation:"v",axis:pos,start:span.start,end:span.start+span.length}
+            : {orientation:"h",axis:pos,start:span.start,end:span.start+span.length};
+          addAbsoluteSegment(layer,seg,modelL,modelW,cls);
+        }
+      };
+      for(const pos of joists.regular) addPolygonJoist(pos,"joistLine");
+      for(const pos of joists.seam) addPolygonJoist(pos,"joistLine");
+    }else{
+      for(const pos of joists.regular) addLine(layer,"joistLine",direction,pos,run,true);
+      for(const pos of joists.seam) addLine(layer,"joistLine",direction,pos,run,true);
+    }
+
+    if(base==="concrete" && model.concreteStructure){
+      for(const seg of model.concreteStructure.tieSegments){
+        addAbsoluteSegment(layer,seg,modelL,modelW,"joistLine concreteTie");
+      }
+    }
+  }
+
+  if($("showBoards").checked) renderBoardRows(layer,model);
+
+  if($("showPiles").checked && base==="ground"){
+    const w=layer.clientWidth;
+    const h=layer.clientHeight;
+
+    if(zonedStructure){
+      for(const p of zonedStructure.pilePoints){
+        const dot=document.createElement("div");
+        dot.className="pileDot";
+        dot.style.left=(p.x/modelL*w)+"px";
+        dot.style.top=(p.y/modelW*h)+"px";
+        dot.title="Свая "+fmt(p.pileLength)+" мм";
+        layer.appendChild(dot);
+      }
+    }else if(model.shapeMode==="free" && polygonStructure){
+      for(const p of polygonStructure.pilePoints||[]){
+        const dot=document.createElement("div");
+        dot.className="pileDot";
+        dot.style.left=(p.x/modelL*w)+"px";
+        dot.style.top=(p.y/modelW*h)+"px";
+        layer.appendChild(dot);
+      }
+    }else{
+      for(const beltPos of beltLayout.positions){
+        for(const pilePos of pileLayout.positions){
+          const dot=document.createElement("div");
+          dot.className="pileDot";
+
+          if(direction==="l"){
+            dot.style.left=(pilePos/run*w)+"px";
+            dot.style.top=(beltPos/across*h)+"px";
+          }else{
+            dot.style.left=(beltPos/across*w)+"px";
+            dot.style.top=(pilePos/run*h)+"px";
+          }
+
+          layer.appendChild(dot);
+        }
+      }
+    }
+  }
+
+  if($("showPiles").checked && base==="concrete" && model.concreteStructure){
+    const w=layer.clientWidth,h=layer.clientHeight;
+    for(const p of model.concreteStructure.supportPoints){
+      const dot=document.createElement("div");
+      dot.className="concreteSupportDot support-"+(model.concreteStructure.supportKey||"rubber");
+      dot.style.left=(p.x/modelL*w)+"px";
+      dot.style.top=(p.y/modelW*h)+"px";
+      dot.title=model.concreteStructure.materialSpec||"Опора";
+      layer.appendChild(dot);
+    }
+  }
+
+  if($("showPiles").checked && base==="roof" && model.roofStructure){
+    const w=layer.clientWidth,h=layer.clientHeight;
+    for(const p of model.roofStructure.supportPoints){
+      const dot=document.createElement("div");
+      dot.className="concreteSupportDot support-plastic roofSupportDot";
+      // KRONEX top view: dimensions supplied by the project owner.
+      dot.style.setProperty("--roof-base-width",(195/modelL*w)+"px");
+      dot.style.setProperty("--roof-base-height",(195/modelW*h)+"px");
+      dot.innerHTML='<svg viewBox="-97.5 -97.5 195 195" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true"><circle cx="0" cy="0" r="96.5" fill="#e1e3e5" stroke="#51565b" stroke-width="2"/><circle cx="0" cy="0" r="73.5" fill="#bfc3c7" stroke="#51565b" stroke-width="2"/><path d="M-97.5 0H-73.5 M73.5 0H97.5 M0 -97.5V-73.5 M0 73.5V97.5" fill="none" stroke="#777d83" stroke-width="2"/></svg>';
+      dot.style.left=(p.x/modelL*w)+"px";
+      dot.style.top=(p.y/modelW*h)+"px";
+      dot.title="Опора KRONEX · основание Ø195 мм · верхняя часть Ø147 мм";
+      layer.appendChild(dot);
+    }
+  }
+
+  // Physical profile widths in plan units; the workspace transform handles zoom.
+  for(const el of layer.querySelectorAll(".joistLine,.beltLine")){
+    const profileMm=el.classList.contains("beltLine")?80:40;
+    const pair=1;
+    const horizontal=el.classList.contains("cad-h");
+    let pxPerMm=horizontal?layer.clientHeight/modelW:layer.clientWidth/modelL;
+    if(el.classList.contains("cad-angled")){
+      const angle=Number(el.style.transform.match(/rotate\\(([-\\d.]+)deg\\)/)?.[1]||0)*Math.PI/180;
+      pxPerMm=1/Math.hypot(Math.sin(angle)/(layer.clientWidth/modelL),Math.cos(angle)/(layer.clientHeight/modelW));
+    }
+    el.style.setProperty("--profile-plan-width",(profileMm*pair*pxPerMm)+"px");
+    el.style.setProperty("--profile-center-line",(pxPerMm)+"px");
+  }
+  if(zonedStructure) renderZoneOutlines(layer,zonedStructure,modelL,modelW);
+  renderEngineeringDimensions(layer,model);
+}
+
+function renderRowPlans(boardRows){
+  const box=$("rowPlans");
+  box.innerHTML="";
+  const nonEmpty=boardRows.rows.filter(r=>boardRows.polygon ? r.segments.length : true);
+  const maxShown=Math.min(nonEmpty.length,12);
+
+  for(let i=0;i<maxShown;i++){
+    const row=nonEmpty[i];
+    const div=document.createElement("div");
+    div.className="rowPlan";
+    let pieces;
+
+    if(boardRows.polygon){
+      pieces=row.segments.map(seg=>
+        seg.pieces.map(p=>{
+          const cut=fmt(p.cutLength||p.length)+" мм";
+          return p.stockLength && Math.abs(p.stockLength-(p.cutLength||p.length))>1
+            ? cut+" ← "+fmt(p.stockLength)
+            : cut;
+        }).join(" + ")
+      ).join("  |  ");
+    }else{
+      pieces=row.pieces.map(p=>{
+        const cut=fmt(p.cutLength||p.length)+" мм";
+        const stock=p.stockLength && Math.abs(p.stockLength-(p.cutLength||p.length))>1
+          ? " ← "+fmt(p.stockLength)
+          : "";
+        return (p.reused?"остаток ":"")+cut+stock;
+      }).join(" + ");
+    }
+
+    div.innerHTML="<span>Ряд "+(i+1)+"</span><b>"+pieces+"</b>";
+    box.appendChild(div);
+  }
+
+  if(nonEmpty.length>maxShown){
+    const div=document.createElement("div");
+    div.className="rowPlan";
+    div.innerHTML="<span>…</span><b>ещё "+(nonEmpty.length-maxShown)+" рядов</b>";
+    box.appendChild(div);
+  }
+}
+
+function updateViewSize(L,W){
+  const t=$("terrace");
+  if(!t) return;
+
+  const safeL=Math.max(1,L);
+  const safeW=Math.max(1,W);
+  const scale=Math.min(650/safeL,430/safeW);
+
+  // Не искажаем пропорции даже у очень длинных / узких контуров.
+  t.style.width=Math.max(24,safeL*scale)+"px";
+  t.style.height=Math.max(24,safeW*scale)+"px";
+}
+
+function buildAlgorithmDiagnostics(model){
+  const lines=[];
+  const {run,across,joists,beltLayout,pileLayout,base,boardRows,seamPatterns,shapeMode}=model;
+
+  if(model.zonedStructure){
+    lines.push({
+      title:"Зоны проекта",
+      text:model.zonedStructure.zones.map(z=>
+        z.name+" "+fmt(z.w)+"×"+fmt(z.h)+" мм"+(z.pileLength?" · сваи "+fmt(z.pileLength)+" мм":"")
+      ).join(" | ")+" Общие опоры и участки пояса объединяются."
+    });
+  }
+
+  if(model.structuralLimits){
+    const sl=model.structuralLimits;
+    lines.push({
+      title:"Расчётная нагрузка",
+      text:"Равномерная нагрузка "+fmt(sl.qAreaKPa,2)+" кПа (500 кг/м² эксплуатационная + до 25 кг/м² ДПК с коэффициентом 1,10). "+
+        "Сталь: Ry 230 МПа, E 200 ГПа. Критерий прогиба L/"+CONFIG.engineering.deflectionRatio+"."
+    });
+    lines.push({
+      title:"Допустимый пролёт 40×40×2",
+      text:"По расчёту: "+fmt(sl.joist.governing)+" мм; в модели принимаем не более "+
+        fmt(sl.joistSupportMax)+" мм между поясами 80×80×2."
+    });
+    lines.push({
+      title:"Допустимый пролёт 80×80×2",
+      text:"По расчёту: "+fmt(sl.belt.governing)+" мм; шаг свай ограничиваем "+
+        fmt(sl.pileSpacingMax)+" мм."
+    });
+  }
+
+  lines.push({
+    title:"Свес ДПК на лаге",
+    text:"Не более 40 мм от крайней опорной лаги 40×40×2 до свободного торца доски. На стыке каждый торец опирается на свою лагу."
+  });
+
+  lines.push({
+    title:"Технологический зазор ДПК",
+    text:"3 мм всегда: между соседними досками по ширине и между торцами досок в местах продольных стыков. Зазор участвует в геометрии раскладки и количестве материала."
+  });
+
+  lines.push({
+    title:"ДПК",
+    text:"Закупочные длины: "+getAllowedBoardLengths().map(x=>x/1000+" м").join(" / ")+
+      ". Фактические детали считаются отдельно от закупочных досок."
+  });
+
+  if($("layoutMode").value==="half"){
+    const aSeams=shapeMode==="free" ? seamPatterns.even : [run/2];
+    const bSeams=shapeMode==="free" ? seamPatterns.odd : [run/4,3*run/4];
+    lines.push({
+      title:"Шахматка",
+      text:"Шахматка от складской длины "+fmt(seamPatterns.stockLength||Math.max(...getAllowedBoardLengths()))+
+        " мм. Ряд B смещён на 1/2 доски. Оси A: "+
+        (aSeams.length?aSeams.map(fmt).join(", ")+" мм":"нет")+
+        ". Оси B: "+(bSeams.length?bSeams.map(fmt).join(", ")+" мм":"нет")+"."
+    });
+  }
+
+  if($("layoutMode").value==="half"){
+    const axes=(joists.seamAxes||[]);
+    lines.push({
+      title:"Двойные лаги на стыках",
+      text:axes.length
+        ? "Обязательные оси: "+axes.map(x=>fmt(x)+" мм").join(" / ")+
+          ". На каждой оси ставятся две трубы 40×40×2: по одной под каждый конец ДПК."
+        : "Оси стыков не найдены — проверь геометрию раскладки."
+    });
+  }
+
+  lines.push({
+    title:"40×40×2",
+    text:"Шаг по осям не более "+joistStepByBoardHeight(+$("boardHeight").value||23)+
+      " мм. Обычных линий: "+(model.zonedStructure
+        ? model.zonedStructure.zones.reduce((sum,z)=>sum+z.joists.regular.length,0)
+        : joists.regular.length)+
+      ", осей стыков: "+(model.zonedStructure
+        ? model.zonedStructure.zones.reduce((sum,z)=>sum+(z.joists.seamAxes?.length||0),0)
+        : (joists.seamAxes?.length||0))+
+      ", физических лаг под стыками: "+(model.zonedStructure
+        ? model.zonedStructure.zones.reduce((sum,z)=>sum+z.joists.seam.length,0)
+        : joists.seam.length)+
+      ". Фактический максимальный шаг: "+fmt(joists.actualMaxStep)+" мм."+
+      (shapeMode==="free"?" Метраж считается по фактическим участкам внутри контура.":"")
+  });
+
+  lines.push({
+    title:"Края 40×40×2",
+    text:"Свес слева/справа: "+fmt(joists.edgeOverhangStart)+" / "+fmt(joists.edgeOverhangEnd)+
+      " мм, предел "+CONFIG.joist.maxEdgeCantilever+" мм."
+  });
+
+  if(model.polygonStructure?.angledSupportSegments?.length){
+    lines.push({
+      title:"Пояса вдоль косых сторон",
+      text:model.polygonStructure.angledSupportSegments.map((s,i)=>
+        "№"+(i+1)+": "+fmt(s.length)+" мм, свес лаг "+fmt(s.lagOverhang)+" мм"
+      ).join(" | ")
+    });
+  }
+
+  if(model.supportDistanceCheck!=null){
+    lines.push({
+      title:"Контроль свеса лаг",
+      text:"Максимальное расстояние от конца лаги 40×40×2 до ближайшего пояса 80×80×2: "+
+        fmt(model.supportDistanceCheck)+" мм / допустимо "+CONFIG.joist.maxEdgeCantilever+" мм."
+    });
+  }
+
+  if(model.base!=="concrete") lines.push({
+    title:"80×80×2",
+    text:model.zonedStructure
+      ? model.zonedStructure.zones.map(z=>
+          z.name+": "+z.beltLayout.count+" ряда, шаг "+fmt(z.beltLayout.step)+" мм, свес лаг "+
+          fmt(z.beltLayout.edgeStart)+" / "+fmt(z.beltLayout.edgeEnd)+" мм"
+        ).join(" | ")+". Расчётный предел шага "+fmt(model.structuralLimits?.joistSupportMax||CONFIG.belt.maxSpacing)+" мм; свес лаг ≤ "+CONFIG.joist.maxEdgeCantilever+" мм. Свободные торцы несущих линий связаны поперечным 80×80×2; со стороны примыкания к дому замыкающий профиль не добавляется."
+      : "Рядов: "+beltLayout.count+
+        ", фактический шаг ≈ "+fmt(beltLayout.step)+" мм, предел "+CONFIG.belt.maxSpacing+" мм."
+  });
+
+  if(base==="ground" && $("hasHouse")?.checked){
+    lines.push({
+      title:"Отступ свай от дома",
+      text:"По выбранной стороне примыкания крайние сваи на поясах 80×80×2 отнесены от стены минимум на "+CONFIG.ground.houseOffset+" мм."
+    });
+  }
+
+  if(base==="ground" && pileLayout){
+    const houseException="";
+    lines.push({
+      title:"Сваи",
+      text:"На один пояс: "+pileLayout.count+
+        ", равномерный шаг "+fmt(pileLayout.step)+" мм, предел "+CONFIG.ground.pileSpacingMax+" мм."+
+        houseException
+    });
+  }else if(base==="ground" && model.polygonStructure){
+    lines.push({
+      title:"Сваи",
+      text:"Расставлены по каждому фактическому участку пояса; максимальный найденный шаг "+
+        fmt(model.polygonStructure.maxPileStep)+" мм."
+    });
+  }
+
+  if(model.base==="concrete" && model.concreteStructure){
+    lines.push({
+      title:"Бетонное основание",
+      text:model.concreteStructure.materialSpec+": "+model.concreteStructure.materialQuantity+"; точки опирания рассчитаны по фактическим лагам 40×40×2 с шагом вдоль лаги не более "+fmt(model.concreteStructure.maxSupportSpacing)+" мм. Пояс 80×80×2 отсутствует. "+
+        "Перемычки 40×40×2: "+fmt(model.concreteStructure.tieMeters,1)+" м.п., шаг "+
+        fmt(model.concreteStructure.tieStep)+" мм."
+    });
+  }
+  if(model.base==="roof" && model.roofStructure){
+    lines.push({
+      title:"Опоры на кровле",
+      text:model.roofStructure.materialSpec+": "+model.roofStructure.actualSupportCount+" шт.; шаг вдоль лаги не более "+fmt(model.roofStructure.maxSupportSpacing)+" мм. Все опоры привязаны к осям лаг 40×40×2."
+    });
+  }
+
+  const joistBuy=stockPurchase(model.totalJoistMeters||0);
+  const beltBuy=stockPurchase(model.beltMeters||0);
+  lines.push({
+    title:"Металл",
+    text:"40×40×2: "+fmt(model.totalJoistMeters||0,1)+" м.п. → "+
+      joistBuy.sticks+" × 6 м. 80×80×2: "+fmt(model.beltMeters||0,1)+" м.п. → "+
+      beltBuy.sticks+" × 6 м. Резка и сварка разрешены."
+  });
+
+  const purchases=boardRows?.purchases||{};
+  lines.push({
+    title:"Закупка ДПК",
+    text:"3 м: "+(purchases[3000]||0)+" шт.; 4 м: "+(purchases[4000]||0)+
+      " шт.; 6 м: "+(purchases[6000]||0)+" шт. Обрезки можно использовать как самостоятельные детали, но нельзя соединять обратно в одну доску."
+  });
+
+  return lines;
+}
+
+function renderAlgorithmDiagnostics(model){
+  const box=$("algorithmDiagnostics");
+  if(!box||!model) return;
+  const lines=buildAlgorithmDiagnostics(model);
+  box.innerHTML=lines.map(line=>
+    '<div class="diagRow"><strong>'+line.title+'</strong><span>'+line.text+'</span></div>'
+  ).join("");
+}
+
+function calculate(){
+  const selectedShapeMode=$("shapeMode").value;
+  const shapeMode=selectedShapeMode==="rect" ? "rect" : "free";
+  const freeMetrics=shapeMode==="free" ? getPolygonMetrics() : null;
+  const L=shapeMode==="free" ? freeMetrics.bboxL : (+$("L").value||6200);
+  const W=shapeMode==="free" ? freeMetrics.bboxW : (+$("W").value||3800);
+  const direction=$("dir").value;
+  const layoutMode=$("layoutMode").value;
+  const base=$("base").value;
+  const concreteSupportKey=$("concreteSupport")?.value||"rubber";
+  const concreteSupportType=$("concreteSupport")?.selectedOptions?.[0]?.textContent||"Резиновые подкладки";
+  const boardModule=+$("boardModule").value||CONFIG.defaultBoardModule;
+  const boardHeight=+$("boardHeight").value||23;
+  const hasHouse=$("hasHouse").checked;
+  const houseSide=$("houseSide").value;
+  const allowedLengths=getAllowedBoardLengths();
+
+  const run=direction==="l"?L:W;
+  const across=direction==="l"?W:L;
+
+  const joistStep=joistStepByBoardHeight(boardHeight);
+  const structuralLimits=terraceStructuralLimits(joistStep);
+  const boardPitch=boardModule+CONFIG.boardGap;
+  const rowCount=Math.ceil(across/boardPitch);
+  let boardRows = shapeMode==="free" && polygonClosed
+    ? buildPolygonBoardRows(L,W,direction,boardModule,layoutMode,allowedLengths)
+    : buildBoardRows(run,rowCount,layoutMode,allowedLengths);
+
+  let seamPatterns={even:[],odd:[],all:[]};
+  let allSeams=[];
+
+  if(shapeMode==="free" && boardRows.polygon){
+    seamPatterns=getPolygonSeamPatterns(boardRows,layoutMode,allowedLengths,run);
+    boardRows=applyPolygonSeamPatterns(boardRows,seamPatterns,allowedLengths);
+    allSeams=seamPatterns.all;
+  }else{
+    allSeams=uniquePositions((boardRows.rows||[]).flatMap(r=>r.seams));
+  }
+
+  const joists=buildJoists(run,allSeams,joistStep);
+  const zonedStructure=projectZones.length
+    ? buildZonedStructure(projectZones,direction,seamPatterns,joistStep,base,hasHouse,houseSide,structuralLimits)
+    : null;
+
+  const joistLengthM=across/1000;
+  const regularJoistMeters=shapeMode==="free"&&polygonClosed
+    ? polygonJoistMeters(joists.regular,direction,L,W)
+    : joists.regular.length*joistLengthM;
+  const seamJoistMeters=shapeMode==="free"&&polygonClosed
+    ? polygonJoistMeters(joists.seam,direction,L,W)
+    : joists.seam.length*joistLengthM;
+  let effectiveRegularJoistMeters=regularJoistMeters;
+  let effectiveSeamJoistMeters=seamJoistMeters;
+  let totalJoistMeters=regularJoistMeters+seamJoistMeters;
+
+  if(zonedStructure){
+    effectiveRegularJoistMeters=zonedStructure.regularJoistMeters;
+    effectiveSeamJoistMeters=zonedStructure.seamJoistMeters;
+    totalJoistMeters=zonedStructure.totalJoistMeters;
+  }
+
+  let joistBuy=stockPurchase(totalJoistMeters);
+
+  const totalBoards=Object.values(boardRows.purchases).reduce((a,b)=>a+b,0);
+  const totalSeams=boardRows.rows.reduce((sum,row)=>sum+row.seams.length,0);
+
+  const beltAffected=hasHouse && houseAffectsAxis(direction,houseSide,"across");
+  const beltLayout=supportLineLayout(
+    across,
+    structuralLimits.joistSupportMax,
+    CONFIG.joist.maxEdgeCantilever
+  );
+
+  let polygonStructure=null;
+  let beltMeters=0;
+  let pileLayout=null;
+  let totalPiles=0;
+
+  if(shapeMode==="free" && polygonClosed){
+    polygonStructure=buildPolygonBeltsAndPiles(
+      L,W,direction,beltLayout.positions,hasHouse,houseSide,structuralLimits
+    );
+    beltMeters=polygonStructure.beltMeters;
+    totalPiles=polygonStructure.totalPiles;
+  }else{
+    const beltLengthM=run/1000;
+    beltMeters=beltLayout.count*beltLengthM;
+
+    const pileAffected=hasHouse && houseAffectsAxis(direction,houseSide,"run");
+    pileLayout=endpointPileLayout(run,structuralLimits.pileSpacingMax);
+
+    totalPiles=beltLayout.count*pileLayout.count;
+  }
+
+  if(zonedStructure){
+    beltMeters=zonedStructure.beltMeters;
+    totalPiles=zonedStructure.totalPiles;
+  }
+
+  const supportDistanceCheck=
+    shapeMode==="free" && polygonStructure && !zonedStructure
+      ? maxJoistEndToSupportDistance(
+          joists.all,
+          direction,
+          L,
+          W,
+          polygonStructure.angledSupportSegments||[],
+          polygonStructure.belts.flatMap(b=>
+            b.segments.map(s=>({
+              axis:b.axis,
+              start:s.start,
+              length:s.length
+            }))
+          )
+        )
+      : null;
+
+  const beltBuy=stockPurchase(beltMeters);
+
+  const shapeMetrics = shapeMode==="free" ? freeMetrics : {areaM2:L*W/1e6,bboxL:L,bboxW:W};
+  const concreteStructure=base==="concrete"
+    ? buildConcreteStructure(L,W,direction,shapeMode,shapeMetrics.areaM2,concreteSupportKey,joists)
+    : null;
+  const roofStructure=base==="roof"
+    ? buildRoofStructure(L,W,direction,shapeMode,shapeMetrics.areaM2,joists)
+    : null;
+
+  if(concreteStructure){
+    // На бетоне 80×80 не применяется. Перемычки 40×40 входят в общий метраж 40×40.
+    beltMeters=0;
+    totalPiles=0;
+    totalJoistMeters+=concreteStructure.tieMeters;
+    joistBuy=stockPurchase(totalJoistMeters);
+  }
+  $("area").textContent=fmt(shapeMetrics.areaM2,2)+" м²";
+  $("bboxOut").textContent=fmt(shapeMetrics.bboxL)+" × "+fmt(shapeMetrics.bboxW)+" мм";
+  $("baseOut").textContent=baseNames[base];
+  $("layoutModeOut").textContent=layoutNames[layoutMode];
+  $("allowedLengthsOut").textContent=allowedLengths.length
+    ? allowedLengths.map(x=>x/1000+" м").join(" / ")
+    : "не выбраны";
+
+  const warning=$("layoutWarning");
+  const freeWarning = shapeMode==="free" && !polygonClosed
+    ? "Замкните контур кликом по первой точке — после этого начнётся расчёт раскладки внутри формы."
+    : shapeMode==="free"
+      ? (layoutMode==="half"
+          ? "Шахматка привязана к самому длинному непрерывному ряду. 80×80×2 строится по фактическим концам лаг 40×40×2: свес ≤200 мм, внутренний шаг ≤1500 мм. Сваи ставятся на концах каждого участка 80×80 и далее равномерно ≤1500 мм."
+          : "Для произвольной формы оси стыков берутся по самому длинному непрерывному ряду и протягиваются через всю площадку. Пояс 80×80 и сваи уже обрезаются по реальному контуру.")
+      : "";
+  warning.textContent=[boardRows.warning,freeWarning].filter(Boolean).join(" ");
+  warning.classList.toggle("hidden",!warning.textContent);
+
+  $("rows").textContent=boardRows.rows.length ? rowCount+" шт." : "—";
+  $("buy3000").textContent=(boardRows.purchases[3000]||0)+" шт.";
+  $("buy4000").textContent=(boardRows.purchases[4000]||0)+" шт.";
+  $("buy6000").textContent=(boardRows.purchases[6000]||0)+" шт.";
+  $("boardCount").textContent=totalBoards+" шт.";
+
+  const pricing=CONFIG.pricing||{};
+  const boardPricing=catalogPrices();
+  let boardCost=0;
+  let boardCostKnown=!!boardPricing;
+  for(const len of [3000,4000,6000]){
+    const qty=boardRows.purchases[len]||0;
+    const unit=boardPricing?.[len];
+    if(qty>0 && !Number.isFinite(unit)) boardCostKnown=false;
+    if(qty>0 && Number.isFinite(unit)) boardCost+=qty*unit;
+  }
+  $("reusedOffcuts").textContent=boardRows.reusedPieces+" шт.";
+  $("boardWaste").textContent=fmt(boardRows.finalWaste/1000,2)+" м";
+  $("seams").textContent=totalSeams+" шт.";
+  renderRowPlans(boardRows);
+  renderStockCheck(boardRows);
+
+  $("joistStepOut").textContent="до "+fmt(joists.actualMaxStep||joistStep)+" мм";
+  $("checkJoistStep").textContent=fmt(joists.actualMaxStep||joistStep)+" / "+joistStep+" мм";
+  $("checkEdgeOverhang").textContent=fmt(joists.edgeOverhangStart)+" / "+fmt(joists.edgeOverhangEnd)+" мм";
+  $("checkBeltStep").textContent=zonedStructure
+    ? fmt(zonedStructure.maxBeltStep)+" / "+fmt(structuralLimits.joistSupportMax)+" мм"
+    : fmt(beltLayout.step)+" / "+fmt(structuralLimits.joistSupportMax)+" мм";
+  const regularCount=zonedStructure
+    ? zonedStructure.zones.reduce((sum,z)=>sum+z.joists.regular.length,0)
+    : joists.regular.length;
+  const seamCount=zonedStructure
+    ? zonedStructure.zones.reduce((sum,z)=>sum+z.joists.seam.length,0)
+    : joists.seam.length;
+
+  $("regularJoists").textContent=regularCount+" шт. / "+fmt(effectiveRegularJoistMeters,1)+" м.п.";
+  $("doubleJoists").textContent=seamCount+" шт. / "+fmt(effectiveSeamJoistMeters,1)+" м.п.";
+  $("joists").textContent=fmt(totalJoistMeters,1)+" м.п.";
+  $("joistPurchase").textContent=joistBuy.sticks+" хлыстов / "+fmt(joistBuy.meters)+" м";
+
+  $("beltRows").textContent=zonedStructure
+    ? zonedStructure.zones.map(z=>z.name+": "+z.beltLayout.count).join(" / ")
+    : beltLayout.count+" шт.";
+  $("beltStepOut").textContent=zonedStructure
+    ? "до "+fmt(zonedStructure.maxBeltStep)+" мм; крайние ≤200 мм"
+    : "до "+fmt(beltLayout.step)+" мм; свес "+fmt(beltLayout.edgeStart)+" / "+fmt(beltLayout.edgeEnd)+" мм";
+  $("belt").textContent=fmt(beltMeters,1)+" м.п.";
+  $("beltPurchase").textContent=beltBuy.sticks+" хлыстов / "+fmt(beltBuy.meters)+" м";
+
+
+  const joistCost=(pricing.profile40x40x2_per_m||0)*joistBuy.meters;
+  const beltCost=base==="concrete"||base==="roof"
+    ? 0
+    : (pricing.profile80x80x2_per_m||0)*beltBuy.meters;
+  const pileCost=base==="ground"
+    ? totalPiles*(pricing.pileD76_2500_with_head||0)
+    : 0;
+  const knownSubtotal=(boardCostKnown?boardCost:0)+joistCost+beltCost+pileCost;
+
+  $("priceBoards").textContent=boardCostKnown
+    ? fmtRub(boardCost)
+    : "РРЦ отсутствует";
+  $("priceJoists").textContent=fmtRub(joistCost)+" · "+fmtRub(pricing.profile40x40x2_per_m||0)+"/м";
+  $("priceBelts").textContent=base==="concrete"||base==="roof"
+    ? "не применяется"
+    : fmtRub(beltCost)+" · "+fmtRub(pricing.profile80x80x2_per_m||0)+"/м";
+  $("pricePiles").textContent=base==="ground"
+    ? fmtRub(pileCost)+" · "+fmtRub(pricing.pileD76_2500_with_head||0)+"/шт"
+    : "не применяется";
+  $("priceTotal").textContent=fmtRub(knownSubtotal);
+  $("priceNote").textContent=(window.NIMTECH_BOARD_CATALOG.source+"; металлокаркас — цены от 13.09.2026")+
+    (boardCostKnown
+      ? ". В итог включены только ДПК, профиль 40×40×2, профиль 80×80×2 и сваи 2500 мм с оголовком."
+      : ". РРЦ выбранной модификации отсутствует; итог неполный.")+
+    ((base==="concrete"||base==="roof")
+      ? " Стоимость резиновых подкладок, арматурных штырей и регулируемых опор пока не включена."
+      : "");
+  if(base==="ground"){
+    if(zonedStructure){
+      const parts=Object.entries(zonedStructure.pileCountsByLength)
+        .sort((x,y)=>Number(y[0])-Number(x[0]))
+        .map(([len,count])=>count+" свай × "+fmt(Number(len))+" мм");
+      $("pilesPerBelt").textContent="по зонам";
+      $("pileStepOut").textContent="до "+fmt(zonedStructure.maxPileStep)+" мм";
+      $("checkPileStep").textContent=fmt(zonedStructure.maxPileStep)+" / "+fmt(structuralLimits.pileSpacingMax)+" мм";
+      $("supports").textContent=parts.join(" + ");
+      $("pileInfo").textContent=
+        "80×80×2 строится как несущая система под 40×40×2: крайняя линия не дальше 200 мм от конца лаги, внутренний шаг ≤1500 мм. Сваи стоят на концах каждого физического участка 80×80×2 и равномерно между ними с шагом ≤1500 мм. На общей границе террасы и крыльца добавлен отдельный несущий профиль.";
+    }else if(shapeMode==="free" && polygonStructure){
+      $("pilesPerBelt").textContent="по фактическим участкам";
+      $("pileStepOut").textContent=polygonStructure.maxPileStep
+        ? "до "+fmt(polygonStructure.maxPileStep)+" мм"
+        : "—";
+      $("checkPileStep").textContent=polygonStructure.maxPileStep
+        ? fmt(polygonStructure.maxPileStep)+" / 1500 мм"
+        : "—";
+      $("supports").textContent=totalPiles+" свай × 2500 мм";
+      $("pileInfo").textContent=
+        "Для каждой свободной наклонной стороны строится отдельный внутренний пояс 80×80×2, параллельный стороне. Его положение рассчитывается так, чтобы свес конца лаги 40×40×2 до точки опоры был не более 200 мм. Сваи стоят на концах пояса и далее равномерно с шагом не более 1500 мм."+
+        (hasHouse?" Со стороны дома применяется отступ 400 мм.":"")+
+        (pileLayout?.edgeCantileverStart!=null
+          ? " Крайний свес 40×40 относительно опоры: "+fmt(pileLayout.edgeCantileverStart)+" / "+fmt(pileLayout.edgeCantileverEnd)+" мм, максимум 200 мм."
+          : "");
+    }else{
+      $("pilesPerBelt").textContent=pileLayout.count+" шт.";
+      $("pileStepOut").textContent=fmt(pileLayout.step)+" мм";
+      $("checkPileStep").textContent=fmt(pileLayout.step)+" / "+fmt(structuralLimits.pileSpacingMax)+" мм";
+      $("supports").textContent=totalPiles+" свай × 2500 мм";
+      $("pileInfo").textContent=
+        "Рядов пояса: "+beltLayout.count+
+        ". На каждом поясе: "+pileLayout.count+
+        " свай. Максимальный шаг — 1500 мм."+
+        (hasHouse?" Со стороны дома применяется отдельный отступ 400 мм; правило 200 мм к этой стороне не применяется.":"");
+    }
+  }else if(base==="roof"){
+    $("pilesPerBelt").textContent="—";
+    $("pileStepOut").textContent="под лагами 40×40×2";
+    $("checkPileStep").textContent="—";
+    $("supports").textContent=roofStructure.actualSupportCount+" шт. · регулируемые винтовые пластиковые опоры";
+    $("concreteMaterialRow")?.classList.remove("hidden");
+    $("concreteMaterialSpec").textContent=roofStructure.materialSpec+" — "+roofStructure.materialQuantity;
+    $("pileInfo").textContent=
+      "Кровля / гидроизоляция: только регулируемые винтовые пластиковые опоры. "+
+      "Опоры рассчитываются по фактическим лагам с шагом вдоль лаги не более "+fmt(roofStructure.maxSupportSpacing)+" мм. Каждая опора располагается строго под лагой 40×40×2; "+
+      "верхняя площадка опоры непосредственно несёт лагу. Сваи и арматурные штыри не применяются.";
+
+    $("beltRows").textContent="не применяется";
+    $("beltStepOut").textContent="—";
+    $("checkBeltStep").textContent="—";
+    $("belt").textContent="0 м.п.";
+    $("beltPurchase").textContent="0 хлыстов / 0 м";
+  }else{
+    $("pilesPerBelt").textContent="—";
+    $("pileStepOut").textContent="—";
+    $("checkPileStep").textContent="—";
+    $("supports").textContent=concreteStructure.supportCount+" шт. · "+concreteSupportType;
+    $("concreteMaterialRow")?.classList.remove("hidden");
+    $("concreteMaterialSpec").textContent=concreteStructure.materialSpec+" — "+concreteStructure.materialQuantity;
+    $("pileInfo").textContent=
+      concreteStructure.materialSpec+": "+concreteStructure.supportCount+" шт. по фактическим точкам опирания лаг, шаг вдоль лаги ≤"+fmt(concreteStructure.maxSupportSpacing)+" мм. "+
+      "Опорный пояс 80×80×2 не применяется. Лаги 40×40×2 свариваются перемычками 40×40×2 "+
+      "в единую сетку с шагом не более "+fmt(concreteStructure.tieStep)+" мм.";
+
+    $("beltRows").textContent="не применяется";
+    $("beltStepOut").textContent="—";
+    $("checkBeltStep").textContent="—";
+    $("belt").textContent="0 м.п.";
+    $("beltPurchase").textContent="0 хлыстов / 0 м";
+
+    $("joists").textContent=fmt(totalJoistMeters,1)+" м.п.";
+    $("joistPurchase").textContent=joistBuy.sticks+" хлыстов / "+fmt(joistBuy.meters)+" м";
+  }
+
+  $("tech").textContent=base==="ground"
+    ? (zonedStructure
+        ? "ДПК → профиль 40×40×2 → пояс 80×80×2 → зональные сваи: 2500 мм основная площадка / 2000 мм крыльцо. Металл закупается хлыстами по 6 м."
+        : "ДПК → профиль 40×40×2 → пояс 80×80×2 → сваи 2500 мм. Металл закупается хлыстами по 6 м.")
+    : base==="roof"
+      ? "Кровля / гидроизоляция: регулируемые винтовые пластиковые опоры стоят строго под лагами 40×40×2 → металлический каркас → ДПК."
+      : "Бетон: ДПК → лаги 40×40×2 + сварные перемычки 40×40×2 с шагом ≤1500 мм → "+concreteSupportType+" в фактических точках опирания лаг. Пояс 80×80×2 не применяется.";
+
+  updateViewSize(L,W);
+
+  lastModel={
+    run,across,direction,boardRows,joists,beltLayout,pileLayout,base,shapeMode,selectedShapeMode,seamPatterns,polygonStructure,
+    totalJoistMeters,
+    regularJoistMeters:effectiveRegularJoistMeters,
+    seamJoistMeters:effectiveSeamJoistMeters,
+    beltMeters,totalPiles,zonedStructure,supportDistanceCheck,structuralLimits,concreteStructure,concreteSupportType,concreteSupportKey,roofStructure,shapeMetrics,
+    pricing:{boardCost:boardCostKnown?boardCost:null,joistCost,beltCost,pileCost,total:knownSubtotal},
+    algorithmVersion:"5.6"
+  };
+  updateCatalogCost();
+  renderAlgorithmDiagnostics(lastModel);
+  setTimeout(()=>{
+    renderPlan(lastModel);
+    if(shapeMode==="free") renderPolygonEditor();
+    updateWorldGrid();
+    notify3D();
+  },0);
+}
+
+function applyStandardShapePreset(mode){
+  const L=Math.max(1000,Number($("L")?.value)||6200);
+  const W=Math.max(1000,Number($("W")?.value)||3800);
+  const x1=L*.34,x2=L*.66;
+  const y1=W*.34,y2=W*.66;
+
+  const presets={
+    lshape:[
+      {x:0,y:0},{x:L,y:0},{x:L,y:W},{x:x1,y:W},{x:x1,y:y1},{x:0,y:y1}
+    ],
+    tshape:[
+      {x:0,y:0},{x:L,y:0},{x:L,y:y1},{x:x2,y:y1},{x:x2,y:W},{x:x1,y:W},{x:x1,y:y1},{x:0,y:y1}
+    ],
+    ushape:[
+      {x:0,y:0},{x:x1,y:0},{x:x1,y:y2},{x:x2,y:y2},{x:x2,y:0},{x:L,y:0},{x:L,y:W},{x:0,y:W}
+    ],
+    oshape:[
+      // O-форма требует отверстия; до отдельной поддержки holes используем
+      // внешний контур как редактируемый пресет и сохраняем тип для следующего этапа.
+      {x:0,y:0},{x:L,y:0},{x:L,y:W},{x:0,y:W}
+    ]
+  };
+
+  if(mode==="circle"){
+    const pts=[];
+    const cx=L/2,cy=W/2,rx=L/2,ry=W/2;
+    for(let i=0;i<48;i++){
+      const t=Math.PI*2*i/48;
+      pts.push({x:cx+Math.cos(t)*rx,y:cy+Math.sin(t)*ry});
+    }
+    polygonPoints=pts;
+  }else if(presets[mode]){
+    polygonPoints=presets[mode];
+  }else return;
+
+  polygonClosed=true;
+  drawingPolygon=false;
+  draggingVertex=-1;
+  polygonViewBoxLock=null;
+}
+
+function updateHouseSideOptions(){
+  const select=$("houseSide");
+  if(!select) return;
+  const old=select.value;
+  const mode=$("shapeMode")?.value||"free";
+  const options=[];
+  if(mode==="rect"){
+    options.push({value:"top",label:"A–B"},{value:"right",label:"B–C"},{value:"bottom",label:"C–D"},{value:"left",label:"D–A"});
+  }else if(polygonClosed && polygonPoints.length>=3){
+    for(let i=0;i<polygonPoints.length;i++) options.push({value:"edge:"+i,label:polygonVertexName(i)+"–"+polygonVertexName((i+1)%polygonPoints.length)});
+  }
+  select.innerHTML=options.map(o=>'<option value="'+o.value+'">'+o.label+'</option>').join("");
+  if(options.some(o=>o.value===old)) select.value=old;
+  else if(options.length) select.value=options[0].value;
+}
+function resolveHouseEdgeIndex(houseSide){
+  if(typeof houseSide==="string"&&houseSide.startsWith("edge:")){
+    const n=Number(houseSide.slice(5)); return Number.isInteger(n)?n:-1;
+  }
+  return -1;
+}
+function updateControls(){
+  const base=$("base").value;
+  const layoutMode=$("layoutMode").value;
+
+  $("ground").classList.toggle("hidden",base!=="ground");
+  $("concrete").classList.toggle("hidden",base!=="concrete");
+  $("roof")?.classList.toggle("hidden",base!=="roof");
+  const concreteKey=$("concreteSupport")?.value||"rubber";
+  const meta=$("concreteSupportMeta");
+  if(meta){
+    const specs=CONFIG.concreteSupportSpecs||{};
+    meta.innerHTML=concreteKey==="rebar"
+      ? "<span>Ø"+(specs.rebar?.diameterMm||10)+" мм</span><span>Высота "+(specs.rebar?.heightMm||100)+" мм</span><span>по точкам опирания лаг</span>"
+      : concreteKey==="rubber"
+        ? "<span>"+(specs.rubber?.widthMm||100)+"×"+(specs.rubber?.depthMm||100)+"×"+(specs.rubber?.thicknessMm||5)+" мм</span><span>по точкам опирания лаг</span>"
+        : "<span>Винтовая регулируемая</span><span>5 шт./м²</span>";
+  }
+  document.querySelector(".beltLayer")?.classList.toggle("hidden",base==="concrete");
+  const supportChip=document.querySelector(".pileLayer span:last-child");
+  if(supportChip) supportChip.textContent=(base==="concrete"||base==="roof")?"Опоры":"Сваи";
+  $("houseControls").classList.toggle("hidden",!$("hasHouse").checked);
+  updateHouseSideOptions();
+  const mode=$("shapeMode").value;
+  const free=mode!=="rect";
+  $("rectControls").classList.toggle("hidden",mode==="free");
+  $("freeControls").classList.toggle("hidden",mode!=="free");
+  $("polygonEditor").classList.toggle("hidden",!free);
+  applyPolygonToTerrace();
+  if(free) setTimeout(renderPolygonEditor,0);
+  renderWarehouseUI();
+  const allowed=getAllowedBoardLengths();
+  $("layoutHint").textContent=allowed.length
+    ? (layoutHints[layoutMode]||"")
+    : "Выберите хотя бы одну длину доски для расчёта.";
+}
+
+function catalogModel(){return window.NIMTECH_BOARD_CATALOG.models.find(m=>m.id===$("boardModel").value);}
+function getSelectedBoardProduct(){const m=catalogModel();return m?{value:m.id,dataset:{width:m.width,height:m.height}}:null;}
+function catalogItem(length=Number($("boardStockLength").value)){return catalogModel()?.items.find(i=>i.color===$("boardColor").value && i.length===length);}
+function catalogPrices(){return Object.fromEntries([...new Set(catalogModel()?.items.map(i=>i.length)||[])].map(l=>[l,catalogItem(l)?.price]));}
+function fillCatalogSelect(id,entries,previous){const el=$(id);el.replaceChildren(...entries.map(([value,text])=>new Option(text,String(value))));if(entries.some(e=>String(e[0])===previous))el.value=previous;}
+function applySelectedBoardProduct(){
+ const m=catalogModel();if(!m)return;
+ $("boardModule").value=m.width;$("boardHeight").value=m.height;
+ const price=catalogItem()?.price;
+ $("selectedBoardMeta").textContent=m.width+" × "+m.height+" мм · "+(Number.isFinite(price)?fmtRub(price)+"/шт":"РРЦ отсутствует");
+}
+function updateCatalog(level){
+ const models=window.NIMTECH_BOARD_CATALOG.models;
+ const oldModel=$("boardModel").value,oldColor=$("boardColor").value,oldLength=$("boardStockLength").value;
+ if(level==="collection")fillCatalogSelect("boardModel",models.filter(m=>m.collection===$("boardCollection").value).map(m=>[m.id,m.name]),oldModel);
+ const m=catalogModel();
+ fillCatalogSelect("boardColor",[...new Set(m.items.map(i=>i.color))].sort((a,b)=>a.localeCompare(b,"ru")).map(c=>[c,c]),oldColor);
+ fillCatalogSelect("boardStockLength",[...new Set(m.items.map(i=>i.length))].sort((a,b)=>a-b).map(l=>[l,l/1000+" м"]),oldLength);
+ applySelectedBoardProduct();
+}
+function updateCatalogCost(){
+ applySelectedBoardProduct();if(!lastModel)return;
+ const prices=catalogPrices(), purchases=lastModel.boardRows.purchases;
+ let cost=0,known=true;
+ const positions=[];
+ for(const [length,qty] of Object.entries(purchases)){if(!qty)continue;const item=catalogItem(Number(length));if(!Number.isFinite(item?.price))known=false;else cost+=qty*item.price;if(item)positions.push({...item,quantity:qty});}
+ const pricing=lastModel.pricing;pricing.boardCost=known?cost:null;pricing.total=(known?cost:0)+pricing.joistCost+pricing.beltCost+pricing.pileCost;
+ lastModel.boardSelection={modelId:catalogModel().id,color:$("boardColor").value,positions};
+ $("priceBoards").textContent=known?fmtRub(cost):"РРЦ отсутствует";
+ $("priceTotal").textContent=known?fmtRub(pricing.total):"неполный расчёт · "+fmtRub(pricing.total);
+}
+const lengthControl=$("boardStockLength");const lengthLabel=lengthControl.previousElementSibling;
+$("catalogLengthSlot").append(lengthLabel,lengthControl);
+fillCatalogSelect("boardCollection",[["Alpha","Альфа"],["Beta","Бета"],["Gamma","Гамма"],["Mars","Марс"]],"Alpha");
+updateCatalog("collection");
+for(const id of ["boardCollection","boardModel"]){$(id).addEventListener("change",()=>{updateCatalog(id==="boardCollection"?"collection":"model");updateControls();calculate();});}
+$("boardColor").addEventListener("change",updateCatalogCost);
+
+["L","W","dir","layoutMode","base","concreteSupport","boardModule","boardHeight","hasHouse","houseSide","boardStockLength"].forEach(id=>{
+  const el=$(id);
+  if(el){
+    el.addEventListener("input",()=>{if(id==="boardModule"||id==="boardHeight") applySelectedBoardProduct(); updateControls();calculate();});
+    el.addEventListener("change",()=>{if(id==="boardModule"||id==="boardHeight") applySelectedBoardProduct(); updateControls();calculate();});
+  }
+});
+
+$("shapeMode")?.addEventListener("change",()=>{
+  const mode=$("shapeMode").value;
+  if(mode!=="rect" && mode!=="free") applyStandardShapePreset(mode);
+  if(mode==="free" && (!polygonClosed || polygonPoints.length<3)) resetPolygon();
+  updateControls();
+  calculate();
+  if(mode!=="rect") setTimeout(fitCanvasView,50);
+});
+
+["showBoards","showJoists","showBelts","showPiles"].forEach(id=>{
+  $(id).addEventListener("change",()=>{if(lastModel)renderPlan(lastModel);});
+});
+
+function loadControlScheme(){
+  // Контрольный чертёж из загруженной схемы.
+  // Основная площадка 4500×3500 мм + центральное крыльцо 600×1200 мм.
+  projectZones=[
+    {id:"main",name:"Основная терраса",type:"terrace",x:0,y:0,w:4500,h:3500,pileLength:2500},
+    {id:"porch",name:"Крыльцо",type:"porch",x:1950,y:3500,w:600,h:1200,pileLength:2000}
+  ];
+
+  polygonPoints=[
+    {x:0,y:0},
+    {x:4500,y:0},
+    {x:4500,y:3500},
+    {x:2550,y:3500},
+    {x:2550,y:4700},
+    {x:1950,y:4700},
+    {x:1950,y:3500},
+    {x:0,y:3500}
+  ];
+  polygonClosed=true;
+  drawingPolygon=false;
+  draggingVertex=-1;
+  polygonViewBoxLock=null;
+
+  $("shapeMode").value="free";
+  $("dir").value="w";
+  $("hasHouse").checked=true;
+  updateControls();
+  $("houseSide").value="edge:0";
+  calculate();
+  setTimeout(fitCanvasView,60);
+}
+
+$("drawPolygon")?.addEventListener("click",startDrawingPolygon);
+$("loadControlScheme")?.addEventListener("click",loadControlScheme);
+$("resetPolygon")?.addEventListener("click",resetPolygon);
+$("calc")?.addEventListener("click",calculate);
+
+installPolygonPointerHandlers();
+applySelectedBoardProduct();
+updateControls();
+calculate();
+
+function pdfWait(ms){ return new Promise(function(resolve){ setTimeout(resolve,ms); }); }
+
+function pdfBoardInfo(){const m=catalogModel();return {key:m.id,name:m.name+" · "+$("boardColor").value,width:m.width,height:m.height};}
+
+function pdfMaterialRows(model){
+  var rows=[], pricing=CONFIG.pricing||{}, info=pdfBoardInfo();
+  var bp=catalogPrices();
+  var purchases=model && model.boardRows && model.boardRows.purchases || {};
+  [3000,4000,6000].forEach(function(len){
+    var qty=Number(purchases[len]||0);
+    if(!qty) return;
+    var price=bp ? Number(bp[len]) : NaN;
+    rows.push({
+      name:"ДПК "+info.name+" "+info.width+"×"+info.height+" мм, "+(len/1000)+" м",
+      unit:"шт.", qty:qty,
+      price:Number.isFinite(price)?price:null,
+      total:Number.isFinite(price)?qty*price:null
+    });
+  });
+
+  var jb=stockPurchase(Number(model && model.totalJoistMeters || 0));
+  if(jb.sticks){
+    var jp=Number(pricing.profile40x40x2_per_m||0)*6;
+    rows.push({name:"Труба профильная 40×40×2, хлыст 6 м",unit:"шт.",qty:jb.sticks,price:jp,total:jb.sticks*jp});
+  }
+
+  if(model && model.base==="ground" && Number(model.beltMeters||0)>0){
+    var bb=stockPurchase(Number(model.beltMeters||0));
+    var bprice=Number(pricing.profile80x80x2_per_m||0)*6;
+    rows.push({name:"Труба профильная 80×80×2, хлыст 6 м",unit:"шт.",qty:bb.sticks,price:bprice,total:bb.sticks*bprice});
+  }
+
+  if(model && model.base==="ground"){
+    if(model.zonedStructure && model.zonedStructure.pileCountsByLength){
+      Object.keys(model.zonedStructure.pileCountsByLength).sort(function(a,b){return Number(b)-Number(a);}).forEach(function(lenKey){
+        var len=Number(lenKey), qty=Number(model.zonedStructure.pileCountsByLength[lenKey]||0);
+        if(!qty) return;
+        var pp=len===2500 ? Number(pricing.pileD76_2500_with_head||0) : NaN;
+        rows.push({name:"Свая винтовая D76, "+len+" мм"+(len===2500?" + оголовок":""),unit:"шт.",qty:qty,price:Number.isFinite(pp)?pp:null,total:Number.isFinite(pp)?qty*pp:null});
+      });
+    }else{
+      var pq=Number(model.totalPiles||0);
+      if(pq){
+        var pprice=Number(pricing.pileD76_2500_with_head||0);
+        rows.push({name:"Свая винтовая D76, 2500 мм + оголовок",unit:"шт.",qty:pq,price:pprice,total:pq*pprice});
+      }
+    }
+  }
+
+  if(model && model.base==="concrete" && model.concreteStructure && model.concreteStructure.supportCount){
+    rows.push({name:model.concreteStructure.materialSpec||"Опоры бетонного основания",unit:"шт.",qty:Number(model.concreteStructure.supportCount),price:null,total:null});
+  }
+  if(model && model.base==="roof" && model.roofStructure && model.roofStructure.actualSupportCount){
+    rows.push({name:model.roofStructure.materialSpec||"Регулируемая винтовая пластиковая опора",unit:"шт.",qty:Number(model.roofStructure.actualSupportCount),price:null,total:null});
+  }
+  return rows;
+}
+
+async function pdfCapturePlan(kind){
+  var viewport=$("canvasViewport");
+  if(!viewport || !lastModel) throw new Error("Чертёж не рассчитан.");
+  var ids=["showBoards","showJoists","showBelts","showPiles"];
+  var saved={};
+  ids.forEach(function(id){ saved[id]=$(id).checked; });
+  var oldScale=viewScale, oldX=viewX, oldY=viewY, was3d=document.body.classList.contains("view3d");
+  var oldPolygonViewBoxLock=polygonViewBoxLock;
+
+  try{
+    if(lastModel.shapeMode==="free" && polygonClosed && polygonPoints.length>=3){
+      var pb=polygonBounds(polygonPoints);
+      var pw=Math.max(1,pb.maxX-pb.minX), ph=Math.max(1,pb.maxY-pb.minY);
+      var pm=Math.max(450,Math.max(pw,ph)*0.10);
+      polygonViewBoxLock=(pb.minX-pm)+" "+(pb.minY-pm)+" "+(pw+pm*2)+" "+(ph+pm*2);
+    }
+    document.body.classList.remove("view3d");
+    if(kind==="boards"){
+      $("showBoards").checked=true; $("showJoists").checked=false; $("showBelts").checked=false; $("showPiles").checked=false;
+    }else{
+      $("showBoards").checked=false; $("showJoists").checked=true; $("showBelts").checked=true; $("showPiles").checked=true;
+    }
+    renderPlan(lastModel);
+    if(lastModel.shapeMode==="free") renderPolygonEditor();
+    await pdfWait(30);
+    fitCanvasView();
+    // В PDF оставляем дополнительное поле вокруг контура,
+    // чтобы подписи A–B / B–C и габаритные размеры не обрезались.
+    setCanvasZoom(viewScale*0.80);
+    await pdfWait(180);
+    var canvas=await html2canvas(viewport,{
+      backgroundColor:"#ffffff",
+      scale:2,
+      useCORS:true,
+      logging:false,
+      scrollX:0,
+      scrollY:0
+    });
+    return canvas.toDataURL("image/png");
+  }finally{
+    ids.forEach(function(id){ $(id).checked=saved[id]; });
+    polygonViewBoxLock=oldPolygonViewBoxLock;
+    viewScale=oldScale; viewX=oldX; viewY=oldY;
+    if(was3d) document.body.classList.add("view3d");
+    renderPlan(lastModel);
+    if(lastModel.shapeMode==="free") renderPolygonEditor();
+    applyCanvasTransform();
+    updateWorldGrid();
+  }
+}
+
+function pdfLoadImage(src){
+  return new Promise(function(resolve,reject){
+    var img=new Image();
+    img.onload=function(){resolve(img);};
+    img.onerror=reject;
+    img.src=src;
+  });
+}
+
+
+async function pdfCapture3D(){
+  if(typeof window.captureNimtech3D!=="function") return null;
+  try{
+    return await window.captureNimtech3D();
+  }catch(err){
+    console.warn("Не удалось получить 3D-превью для PDF",err);
+    return null;
+  }
+}
+
+async function pdfPageBase(title,subtitle){
+  var canvas=document.createElement("canvas");
+  canvas.width=1684; canvas.height=1190;
+  var ctx=canvas.getContext("2d");
+  ctx.fillStyle="#ffffff"; ctx.fillRect(0,0,canvas.width,canvas.height);
+  try{
+    var logo=await pdfLoadImage("assets/nimtech-mark.svg");
+    ctx.drawImage(logo,72,52,58,68);
+  }catch(e){}
+  ctx.fillStyle="#111416"; ctx.font="700 38px Arial"; ctx.fillText("NIMTECH",150,86);
+  ctx.fillStyle="#92999d"; ctx.font="12px Arial"; ctx.fillText("ТЕХНОЛОГИИ ДЛЯ КОМФОРТНОЙ СРЕДЫ",150,110);
+  ctx.textAlign="right"; ctx.font="16px Arial"; ctx.fillText("РАСЧЁТ ТЕРРАСЫ",1612,76);
+  ctx.font="14px Arial"; ctx.fillText(new Date().toLocaleDateString("ru-RU"),1612,102);
+  ctx.textAlign="left";
+  ctx.strokeStyle="#e2e5e7"; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(72,142); ctx.lineTo(1612,142); ctx.stroke();
+  ctx.fillStyle="#111416"; ctx.font="700 36px Arial"; ctx.fillText(title,72,202);
+  ctx.fillStyle="#7b8387"; ctx.font="17px Arial"; ctx.fillText(subtitle,72,232);
+  return {canvas:canvas,ctx:ctx};
+}
+
+
+async function pdfDeckPage(deckImage,threeDImage){
+  var page=await pdfPageBase(
+    "План раскладки ДПК",
+    "Раскладка террасной доски с габаритными размерами площадки и 3D-превью проекта."
+  );
+  var ctx=page.ctx;
+  var deck=await pdfLoadImage(deckImage);
+
+  var leftX=72,leftY=270,leftW=1010,leftH=760;
+  ctx.strokeStyle="#dde1e3";
+  ctx.lineWidth=1;
+  ctx.strokeRect(leftX,leftY,leftW,leftH);
+
+  var ds=Math.min((leftW-28)/deck.width,(leftH-28)/deck.height);
+  var ddw=deck.width*ds, ddh=deck.height*ds;
+  ctx.drawImage(deck,leftX+(leftW-ddw)/2,leftY+(leftH-ddh)/2,ddw,ddh);
+
+  var rightX=1110,rightY=270,rightW=502,rightH=430;
+  ctx.fillStyle="#f6f7f7";
+  ctx.fillRect(rightX,rightY,rightW,rightH);
+  ctx.strokeStyle="#dde1e3";
+  ctx.strokeRect(rightX,rightY,rightW,rightH);
+
+  ctx.fillStyle="#687075";
+  ctx.font="700 16px Arial";
+  ctx.fillText("3D-превью",rightX+18,rightY+28);
+
+  if(threeDImage){
+    try{
+      var img3d=await pdfLoadImage(threeDImage);
+      var s3=Math.min((rightW-26)/img3d.width,(rightH-58)/img3d.height);
+      var w3=img3d.width*s3,h3=img3d.height*s3;
+      ctx.drawImage(img3d,rightX+(rightW-w3)/2,rightY+42+(rightH-50-h3)/2,w3,h3);
+    }catch(e){}
+  }else{
+    ctx.fillStyle="#a0a6a9";
+    ctx.font="14px Arial";
+    ctx.fillText("3D-превью недоступно",rightX+18,rightY+72);
+  }
+
+  ctx.fillStyle="#f8f8f7";
+  ctx.fillRect(rightX,730,rightW,300);
+  ctx.strokeStyle="#dde1e3";
+  ctx.strokeRect(rightX,730,rightW,300);
+
+  var info=pdfBoardInfo();
+  var shapeArea=lastModel && lastModel.shapeMetrics
+    ? lastModel.shapeMetrics.areaM2
+    : ($("shapeMode") && $("shapeMode").value!=="rect" ? getPolygonMetrics().areaM2 : ((+$("L").value||0)*(+$("W").value||0)/1e6));
+  var lines=[
+    ["Доска",info.name+" "+info.width+"×"+info.height+" мм"],
+    ["Направление",$("dir") && $("dir").selectedOptions[0] ? $("dir").selectedOptions[0].textContent : "—"],
+    ["Раскладка",$("layoutMode") && $("layoutMode").selectedOptions[0] ? $("layoutMode").selectedOptions[0].textContent : "—"],
+    ["Длина",$("boardStockLength") && $("boardStockLength").selectedOptions[0] ? $("boardStockLength").selectedOptions[0].textContent : "—"],
+    ["Площадь",Number.isFinite(shapeArea)?fmt(shapeArea,2)+" м²":"—"]
+  ];
+  var yy=770;
+  lines.forEach(function(row){
+    ctx.fillStyle="#8b9296";
+    ctx.font="14px Arial";
+    ctx.fillText(row[0],rightX+18,yy);
+    ctx.textAlign="right";
+    ctx.fillStyle="#202427";
+    ctx.font="700 14px Arial";
+    ctx.fillText(row[1],rightX+rightW-18,yy);
+    ctx.textAlign="left";
+    yy+=48;
+  });
+
+  ctx.fillStyle="#8d9498";
+  ctx.font="15px Arial";
+  ctx.fillText("ДПК · технологический зазор между досками 3 мм",80,1095);
+  return page.canvas;
+}
+
+async function pdfDrawingPage(title,subtitle,imageData,legend){
+  var page=await pdfPageBase(title,subtitle), ctx=page.ctx;
+  var img=await pdfLoadImage(imageData);
+  var x=92,y=285,w=1500,h=745;
+  ctx.strokeStyle="#dde1e3"; ctx.strokeRect(x,y,w,h);
+  var scale=Math.min((w-30)/img.width,(h-30)/img.height);
+  var dw=img.width*scale, dh=img.height*scale;
+  ctx.drawImage(img,x+(w-dw)/2,y+(h-dh)/2,dw,dh);
+
+  if(legend){
+    var ly=1090;
+    ctx.font="15px Arial"; ctx.fillStyle="#687075";
+    ctx.strokeStyle="#4f7187"; ctx.lineWidth=4; ctx.beginPath();ctx.moveTo(80,ly);ctx.lineTo(120,ly);ctx.stroke();ctx.fillText("40×40×2",132,ly+5);
+    ctx.strokeStyle="#d94d45";ctx.beginPath();ctx.moveTo(270,ly);ctx.lineTo(310,ly);ctx.stroke();ctx.fillText("80×80×2",322,ly+5);
+    ctx.strokeStyle="#df8796";ctx.lineWidth=3;ctx.beginPath();ctx.arc(475,ly,8,0,Math.PI*2);ctx.stroke();ctx.fillText("Сваи / опоры",494,ly+5);
+    ctx.textAlign="right";ctx.fillStyle="#9ba1a4";ctx.fillText("Все размеры в мм",1600,ly+5);ctx.textAlign="left";
+  }else{
+    ctx.fillStyle="#8d9498"; ctx.font="15px Arial"; ctx.fillText("ДПК · технологический зазор между досками 3 мм",80,1095);
+  }
+  return page.canvas;
+}
+
+function pdfMoney(v){ return Number.isFinite(v) ? new Intl.NumberFormat("ru-RU").format(Math.round(v))+" ₽" : "—"; }
+
+async function pdfSpecPage(rows){
+  var page=await pdfPageBase("Спецификация материалов","Количество и стоимость материалов по текущему расчёту проекта.");
+  var ctx=page.ctx, x=72, y=280;
+  var widths=[60,760,100,140,190,210], headers=["№","Наименование","Ед.","Количество","Цена за ед.","Итого"];
+  var total=0, missing=false;
+  rows.forEach(function(r){ if(Number.isFinite(r.total)) total+=r.total; else missing=true; });
+
+  ctx.fillStyle="#f2f4f5"; ctx.fillRect(x,y,1540,48);
+  ctx.font="700 15px Arial"; ctx.fillStyle="#626b70";
+  var cx=x;
+  headers.forEach(function(h,i){ ctx.fillText(h,cx+10,y+30); cx+=widths[i]; });
+  y+=48;
+
+  ctx.font="15px Arial";
+  rows.forEach(function(r,i){
+    var rh=58; ctx.strokeStyle="#e2e5e7"; ctx.strokeRect(x,y,1540,rh);
+    var vals=[String(i+1),r.name,r.unit,String(r.qty),pdfMoney(r.price),pdfMoney(r.total)];
+    var px=x;
+    vals.forEach(function(v,j){
+      ctx.fillStyle=j===5?"#111416":"#353a3d";
+      ctx.font=(j===5?"700 ":"")+"15px Arial";
+      var text=v;
+      if(j===1 && ctx.measureText(text).width>widths[j]-20){
+        while(text.length>5 && ctx.measureText(text+"…").width>widths[j]-20) text=text.slice(0,-1);
+        text+="…";
+      }
+      ctx.fillText(text,px+10,y+35);
+      px+=widths[j];
+    });
+    y+=rh;
+  });
+
+  var ty=Math.max(y+45,930);
+  ctx.strokeStyle="#111416";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(1100,ty);ctx.lineTo(1612,ty);ctx.stroke();
+  ctx.fillStyle="#687075";ctx.font="20px Arial";ctx.fillText("ИТОГО",1100,ty+48);
+  ctx.textAlign="right";ctx.fillStyle="#111416";ctx.font="700 38px Arial";ctx.fillText(pdfMoney(total),1612,ty+48);ctx.textAlign="left";
+  ctx.fillStyle="#969da1";ctx.font="13px Arial";ctx.fillText("Цены: "+(CONFIG.pricing&&CONFIG.pricing.source||"РРЦ")+(missing?". Позиции без цены не включены в итог.":""),1100,ty+78);
+  return page.canvas;
+}
+
+async function generateProjectPdf(){
+  if(!lastModel) calculate();
+  if(!lastModel) throw new Error("Сначала задайте параметры проекта.");
+  if(typeof html2canvas!=="function" || !window.jspdf || !window.jspdf.jsPDF) throw new Error("Модули PDF ещё загружаются. Повторите через несколько секунд.");
+
+  var btn=$("generatePdf"), old=btn ? btn.innerHTML : "";
+  if(btn){ btn.disabled=true; btn.innerHTML="Формируем PDF…"; }
+  try{
+    calculate(); await pdfWait(100);
+    var deckImage=await pdfCapturePlan("boards");
+    var structureImage=await pdfCapturePlan("structure");
+    var threeDImage=await pdfCapture3D();
+    var rows=pdfMaterialRows(lastModel);
+
+    var p1=await pdfDeckPage(deckImage,threeDImage);
+    var p2=await pdfDrawingPage("План подконструкции","Подконструкция без слоя ДПК. Показаны габариты площадки, профиль 40×40×2, пояс 80×80×2 и сваи / опоры.",structureImage,true);
+    var p3=await pdfSpecPage(rows);
+
+    var jsPDF=window.jspdf.jsPDF;
+    var pdf=new jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true});
+    [p1,p2,p3].forEach(function(c,i){
+      if(i) pdf.addPage("a4","landscape");
+      pdf.addImage(c.toDataURL("image/jpeg",0.94),"JPEG",0,0,297,210,undefined,"FAST");
+    });
+    pdf.save("NIMTECH_terrace_calculation_"+new Date().toISOString().slice(0,10)+".pdf");
+  }finally{
+    if(btn){btn.disabled=false;btn.innerHTML=old||"Получить расчёт";}
+  }
+}
+
+$("generatePdf")?.addEventListener("click",function(){
+  generateProjectPdf().catch(function(err){
+    console.error(err);
+    alert("Не удалось сформировать PDF: "+(err && err.message ? err.message : err));
+  });
+});
+
+function updatePanelToggleTitles(){
+  const leftCollapsed=document.body.classList.contains("leftCollapsed");
+  const rightCollapsed=document.body.classList.contains("rightCollapsed");
+  const left=$("toggleLeft"),right=$("toggleRight");
+  if(left){
+    left.title=leftCollapsed?"Развернуть параметры":"Свернуть параметры";
+    left.setAttribute("aria-label",left.title);
+  }
+  if(right){
+    right.title=rightCollapsed?"Развернуть расчёт":"Свернуть расчёт";
+    right.setAttribute("aria-label",right.title);
+  }
+}
+
+$("toggleLeft")?.addEventListener("click",()=>{
+  document.body.classList.toggle("leftCollapsed");
+  localStorage.setItem("nimtechLeftCollapsed",document.body.classList.contains("leftCollapsed")?"1":"0");
+  updatePanelToggleTitles();
+  setTimeout(()=>{ if(lastModel) renderPlan(lastModel); },240);
+});
+
+$("toggleRight")?.addEventListener("click",()=>{
+  document.body.classList.toggle("rightCollapsed");
+  localStorage.setItem("nimtechRightCollapsed",document.body.classList.contains("rightCollapsed")?"1":"0");
+  updatePanelToggleTitles();
+  setTimeout(()=>{ if(lastModel) renderPlan(lastModel); },240);
+});
+
+if(localStorage.getItem("nimtechLeftCollapsed")==="1") document.body.classList.add("leftCollapsed");
+if(localStorage.getItem("nimtechRightCollapsed")==="1") document.body.classList.add("rightCollapsed");
+updatePanelToggleTitles();
+
+let viewScale=1;
+let viewX=0;
+let viewY=0;
+let isPanning=false;
+let panStart={x:0,y:0,vx:0,vy:0};
+let spaceDown=false;
+
+function updateWorldGrid(){
+  const vp=$("canvasViewport");
+  const terrace=$("terrace");
+  if(!vp||!terrace||!lastModel) return;
+
+  const direction=lastModel.direction;
+  const projectL=direction==="l" ? lastModel.run : lastModel.across;
+  const projectW=direction==="l" ? lastModel.across : lastModel.run;
+
+  if(!projectL||!projectW) return;
+
+  // Мелкая сетка 500 мм, крупная — 1000 мм.
+  const pxPerMmX=terrace.offsetWidth/projectL;
+  const pxPerMmY=terrace.offsetHeight/projectW;
+
+  let minorX=500*pxPerMmX*viewScale;
+  let minorY=500*pxPerMmY*viewScale;
+  let majorX=1000*pxPerMmX*viewScale;
+  let majorY=1000*pxPerMmY*viewScale;
+
+  // Не даём сетке превратиться в серую заливку при сильном уменьшении.
+  while(minorX<8 || minorY<8){
+    minorX*=2; minorY*=2; majorX*=2; majorY*=2;
+  }
+
+  const rect=vp.getBoundingClientRect();
+  const cx=rect.width/2+viewX;
+  const cy=rect.height/2+viewY;
+
+  vp.style.setProperty("--grid-minor-x",minorX+"px");
+  vp.style.setProperty("--grid-minor-y",minorY+"px");
+  vp.style.setProperty("--grid-major-x",majorX+"px");
+  vp.style.setProperty("--grid-major-y",majorY+"px");
+  vp.style.setProperty("--grid-origin-x",cx+"px");
+  vp.style.setProperty("--grid-origin-y",cy+"px");
+}
+
+function applyCanvasTransform(){
+  const scene=$("canvasScene");
+  if(!scene) return;
+  const inv=1/Math.max(.001,viewScale);
+  scene.style.setProperty("--cad-inv-scale",String(inv));
+  scene.style.transform="translate("+viewX+"px,"+viewY+"px) scale("+viewScale+")";
+  const zr=$("zoomReset");
+  if(zr) zr.textContent=Math.round(viewScale*100)+"%";
+  updateWorldGrid();
+}
+
+function resetCanvasView(){
+  viewScale=1;
+  viewX=0;
+  viewY=0;
+  applyCanvasTransform();
+}
+
+function fitCanvasView(){
+  const vp=$("canvasViewport");
+  const terrace=$("terrace");
+  if(!vp||!terrace) return;
+  const pad=50;
+  const sx=(vp.clientWidth-pad*2)/Math.max(1,terrace.offsetWidth);
+  const sy=(vp.clientHeight-pad*2)/Math.max(1,terrace.offsetHeight);
+  viewScale=Math.max(.25,Math.min(2.5,Math.min(sx,sy)));
+  viewX=0;
+  viewY=0;
+  applyCanvasTransform();
+}
+
+function setCanvasZoom(nextScale,anchorClientX=null,anchorClientY=null){
+  const vp=$("canvasViewport");
+  if(!vp) return;
+  const old=viewScale;
+  nextScale=Math.max(.25,Math.min(4,nextScale));
+  if(nextScale===old) return;
+
+  const rect=vp.getBoundingClientRect();
+  const ax=(anchorClientX??(rect.left+rect.width/2))-rect.left-rect.width/2;
+  const ay=(anchorClientY??(rect.top+rect.height/2))-rect.top-rect.height/2;
+
+  const sceneX=(ax-viewX)/old;
+  const sceneY=(ay-viewY)/old;
+
+  viewScale=nextScale;
+  viewX=ax-sceneX*viewScale;
+  viewY=ay-sceneY*viewScale;
+  applyCanvasTransform();
+}
+
+$("zoomIn")?.addEventListener("click",()=>setCanvasZoom(viewScale*1.15));
+$("zoomOut")?.addEventListener("click",()=>setCanvasZoom(viewScale/1.15));
+$("zoomReset")?.addEventListener("click",resetCanvasView);
+$("zoomFit")?.addEventListener("click",async()=>{
+  const workspace=document.querySelector(".workspace");
+  if(!workspace) return;
+  try{
+    if(!document.fullscreenElement){
+      await workspace.requestFullscreen();
+    }else{
+      await document.exitFullscreen();
+    }
+  }catch(err){
+    console.warn("Fullscreen is unavailable",err);
+  }
+});
+document.addEventListener("fullscreenchange",()=>{
+  document.body.classList.toggle("plannerFullscreen",!!document.fullscreenElement);
+  const btn=$("zoomFit");
+  if(btn){
+    const active=!!document.fullscreenElement;
+    btn.classList.toggle("active",active);
+    btn.title=active?"Выйти из полноэкранного режима":"Полноэкранный режим";
+    btn.setAttribute("aria-label",btn.title);
+  }
+  setTimeout(fitCanvasView,120);
+});
+
+$("canvasViewport")?.addEventListener("wheel",e=>{
+  e.preventDefault();
+  const factor=e.deltaY<0?1.1:1/1.1;
+  setCanvasZoom(viewScale*factor,e.clientX,e.clientY);
+},{passive:false});
+
+$("canvasViewport")?.addEventListener("pointerdown",e=>{
+  const panAllowed=e.button===1 || e.button===2 || spaceDown;
+  if(!panAllowed) return;
+  e.preventDefault();
+  isPanning=true;
+  panStart={x:e.clientX,y:e.clientY,vx:viewX,vy:viewY};
+  $("canvasViewport").classList.add("panning");
+  $("canvasViewport").setPointerCapture(e.pointerId);
+});
+
+$("canvasViewport")?.addEventListener("pointermove",e=>{
+  if(!isPanning) return;
+  viewX=panStart.vx+(e.clientX-panStart.x);
+  viewY=panStart.vy+(e.clientY-panStart.y);
+  applyCanvasTransform();
+});
+
+function endPan(e){
+  if(!isPanning) return;
+  isPanning=false;
+  $("canvasViewport")?.classList.remove("panning");
+  try{if($("canvasViewport")?.hasPointerCapture(e.pointerId)) $("canvasViewport").releasePointerCapture(e.pointerId);}catch(_){}
+}
+$("canvasViewport")?.addEventListener("pointerup",endPan);
+$("canvasViewport")?.addEventListener("pointercancel",endPan);
+
+window.addEventListener("keydown",e=>{
+  if(e.code==="Space" && !["INPUT","SELECT","TEXTAREA"].includes(document.activeElement?.tagName)){
+    spaceDown=true;
+    document.body.classList.add("spacePan");
+    e.preventDefault();
+  }
+});
+window.addEventListener("keyup",e=>{
+  if(e.code==="Space"){
+    spaceDown=false;
+    document.body.classList.remove("spacePan");
+  }
+});
+
+window.addEventListener("resize",()=>setTimeout(fitCanvasView,80));
+setTimeout(fitCanvasView,150);
+
+
+function notify3D(){
+  window.dispatchEvent(new CustomEvent("nimtech-model-change"));
+}
+
+
+window.getNimtech3DModel=()=>lastModel;
+window.getNimtechProjectInputs=()=>{
+  const free=$("shapeMode").value==="free";
+  const m=free?getPolygonMetrics():null;
+  return {
+  L:free?m.bboxL:(+$("L").value||6200),
+  W:free?m.bboxW:(+$("W").value||3800),
+  boardModule:+$("boardModule").value||150,
+  boardHeight:+$("boardHeight").value||23,
+  direction:$("dir").value,
+  shapeMode:$("shapeMode").value,
+  base:$("base").value,
+  polygonPoints:polygonPoints.map(p=>({...p})),
+  polygonClosed,
+  projectZones:projectZones.map(z=>({...z}))
+  };
+};
+$("canvasViewport")?.addEventListener("contextmenu",e=>e.preventDefault());
+
