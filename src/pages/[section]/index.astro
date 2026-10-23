@@ -9,7 +9,7 @@ const sections={
  'video':['Видео','Обзоры и инструкции с YouTube-канала NimTech. Автоматическую синхронизацию подключим отдельно.'],
  'contacts':['Контакты','Свяжитесь с NimTech для консультации и расчёта проекта.']
 };
-export function getStaticPaths(){return Object.keys(sections).map(section=>({params:{section}}));}
+export function getStaticPaths(){return ['terrasy-pod-klyuch','catalog','projects','calculator','blog','video','contacts'].map(section=>({params:{section}}));}
 const [title,description]=sections[Astro.params.section];
 ---
 <Base title={title+' — NimTech'} description={description}><section class="wrap"><h1>{title}</h1><p>{description}</p><a class="btn" href="/">На главную →</a></section></Base>
