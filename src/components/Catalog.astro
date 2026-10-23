@@ -1,0 +1,84 @@
+---
+import raw from '../data/catalog.json';
+const base=import.meta.env.BASE_URL.replace(/\/$/,'');
+const categories=[
+ {id:'deck',name:'Террасная доска',desc:'Покрытия для террас, веранд и открытых пространств'},
+ {id:'steps',name:'Ступени',desc:'Ступени, полуступени и финишные элементы'},
+ {id:'facade',name:'Фасадные панели',desc:'Фасадная доска, реечные и облицовочные панели'},
+ {id:'fence',name:'Ограждения',desc:'Заборная доска, перила, балясины и элементы ограждений'}
+];
+const uses=['Для бассейна','Для патио','Для террасы','Общественная зона','Для пирса','Для кафе','Для эксплуатируемой кровли','Для парков'];
+function parse(item){
+ const s=item.name, g=item.group.toLowerCase();
+ let category=/ступен|полуступен|финишн/i.test(s)||/ступен/i.test(g)?'steps':/фасад|реечн|стенов|сайдинг|панел/i.test(s+' '+g)?'facade':/забор|огражден|балясин|перил|столб|штакет|крышка для столба|коннектор балясины/i.test(s+' '+g)?'fence':/террасн|декинг|decking/i.test(s+' '+g)?'deck':null;
+ const material=/\bМПК\b/i.test(s)?'МПК':/\bДПК\b/i.test(s)?'ДПК':null;
+ const dimensions=s.match(/(\d{2,4})\s*[×xх*]\s*(\d{1,3})(?:\s*[×xх*]\s*(\d{3,4}))?\s*(?:мм)?/i);
+ const width=dimensions?Number(dimensions[1]):null;
+ const length=dimensions?.[3]?Number(dimensions[3]):(s.match(/(?:^|\s)([346])\s*м(?:\s|$|[;,])/i)?.[1]?Number(s.match(/(?:^|\s)([346])\s*м(?:\s|$|[;,])/i)[1])*1000:null);
+ const collection=(s.match(/NimTech\s+(Gamma|Mars|Alpha|Beta|GR)/i)?.[1]||null);
+ return {...item,category,material,width,length,collection,color:null,weightPerMeter:null};
+}
+const products=raw.map(parse).filter(x=>x.category);
+const groups=categories.map(c=>({...c,count:products.filter(p=>p.category===c.id).length}));
+const collectionOptions=[...new Set(products.map(p=>p.collection).filter(Boolean))].sort();
+const widthOptions=[...new Set(products.map(p=>p.width).filter(Boolean))].sort((a,b)=>a-b);
+const lengthOptions=[...new Set(products.map(p=>p.length).filter(Boolean))].sort((a,b)=>a-b);
+const rub=(v)=>v==null?'По запросу':new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2}).format(v)+' ₽ / шт.';
+---
+<section class="catalog">
+ <div class="hero"><div class="container"><div class="kicker">NIMTECH / КАТАЛОГ</div><h1>Материалы для архитектуры<br/>открытых пространств</h1><p>Подберите материалы по категории и техническим характеристикам. Данные о товарах и розничных ценах получены из МойСклад.</p></div></div>
+ <div class="container body">
+  <div class="section-label">01 / КАТЕГОРИИ</div>
+  <div class="categories">{groups.map((g,i)=><button class="category" type="button" data-category-button={g.id}><span class="index">0{i+1}</span><strong>{g.name}</strong><small>{g.desc}</small><span class="count">{g.count} товаров →</span></button>)}</div>
+  <div class="section-label application-label">02 / ПО ОБЛАСТИ ПРИМЕНЕНИЯ</div>
+  <h2>Где будет использоваться материал?</h2>
+  <p class="subtext">Направления применения представлены отдельно. Подбор конкретных товаров для каждой области будет доступен после проверки технических требований.</p>
+  <div class="applications">{uses.map((u,i)=><div class="application"><span>0{i+1}</span><strong>{u}</strong><small>Подбор готовится</small></div>)}</div>
+  <div class="section-label products-label">03 / АССОРТИМЕНТ</div>
+  <div class="list-head"><div><h2>Каталог продукции</h2><p class="subtext">Фильтры применяются к подтверждённым характеристикам. Неуказанные параметры отображаются как «Уточняется».</p></div><span id="result-count">{products.length} товаров</span></div>
+  <div class="catalog-layout">
+   <aside class="filters" aria-label="Фильтры каталога">
+    <div class="filters-heading"><h3>Фильтры</h3><button type="button" id="reset">Сбросить</button></div>
+    <label>Категория<select id="category-filter"><option value="">Все категории</option>{groups.map(g=><option value={g.id}>{g.name}</option>)}</select></label>
+    <label>Материал<select id="material-filter"><option value="">Все материалы</option><option value="ДПК">ДПК</option><option value="МПК">МПК</option><option value="unknown">Не указан</option></select></label>
+    <label>Коллекция<select id="collection-filter"><option value="">Все коллекции</option>{collectionOptions.map(v=><option value={v}>{v}</option>)}</select></label>
+    <label>Ширина, мм<select id="width-filter"><option value="">Любая</option>{widthOptions.map(v=><option value={v}>{v}</option>)}</select></label>
+    <label>Длина, мм<select id="length-filter"><option value="">Любая</option>{lengthOptions.map(v=><option value={v}>{v}</option>)}</select></label>
+    <label>Цена от, ₽<input id="price-min" type="number" min="0" placeholder="От" /></label>
+    <label>Цена до, ₽<input id="price-max" type="number" min="0" placeholder="До" /></label>
+    <p class="filter-note">Цвет и вес погонного метра добавлены в структуру карточек. Фильтры по ним появятся после получения достоверных значений.</p>
+   </aside>
+   <div><div class="products">{products.map(p=><article class="product" data-category={p.category} data-material={p.material||'unknown'} data-collection={p.collection||''} data-width={p.width||''} data-length={p.length||''} data-price={p.price??''}>
+     <div class="product-top"><span>{categories.find(c=>c.id===p.category)?.name}</span><span>{p.collection?'NimTech '+p.collection:'NimTech'}</span></div>
+     <h3>{p.name}</h3>
+     <dl><div><dt>Материал</dt><dd>{p.material||'Уточняется'}</dd></div><div><dt>Цвет</dt><dd>Уточняется</dd></div><div><dt>Ширина</dt><dd>{p.width?p.width+' мм':'Уточняется'}</dd></div><div><dt>Длина</dt><dd>{p.length?p.length+' мм':'Уточняется'}</dd></div><div><dt>Вес пог. м</dt><dd>Уточняется</dd></div></dl>
+     <div class="product-bottom"><strong>{rub(p.price)}</strong><a href={base+'/contacts/'}>Запросить →</a></div>
+    </article>)}</div><p id="empty" hidden>По выбранным параметрам товары не найдены. Измените фильтры.</p></div>
+  </div>
+ </div>
+</section>
+<script>
+const ids=['category','material','collection','width','length'];
+const selects=Object.fromEntries(ids.map(k=>[k,document.getElementById(k+'-filter')]));
+const min=document.getElementById('price-min'),max=document.getElementById('price-max');
+const cards=[...document.querySelectorAll('.product[data-category]')];
+function apply(){
+ let n=0;
+ cards.forEach(card=>{
+ const d=card.dataset,p=Number(d.price);
+ const visible=(!selects.category.value||d.category===selects.category.value)&&(!selects.material.value||d.material===selects.material.value)&&(!selects.collection.value||d.collection===selects.collection.value)&&(!selects.width.value||d.width===selects.width.value)&&(!selects.length.value||d.length===selects.length.value)&&(!min.value||(d.price!==''&&p>=Number(min.value)))&&(!max.value||(d.price!==''&&p<=Number(max.value)));
+ card.hidden=!visible;if(visible)n++;
+ });
+ document.getElementById('result-count').textContent=n+' товаров';
+ document.getElementById('empty').hidden=n!==0;
+ document.querySelectorAll('[data-category-button]').forEach(b=>b.classList.toggle('active',b.dataset.categoryButton===selects.category.value));
+}
+Object.values(selects).forEach(el=>el.addEventListener('change',apply));[min,max].forEach(el=>el.addEventListener('input',apply));
+document.querySelectorAll('[data-category-button]').forEach(b=>b.addEventListener('click',()=>{selects.category.value=b.dataset.categoryButton;apply();document.querySelector('.products-label').scrollIntoView({behavior:'smooth'});}));
+document.getElementById('reset').addEventListener('click',()=>{Object.values(selects).forEach(el=>el.value='');min.value='';max.value='';apply();});
+apply();
+</script>
+<style>
+.catalog{background:#f7f7f5}.container{max-width:1340px;margin:auto;padding:0 28px}.hero{background:#202521;color:white;padding:95px 0 100px}.kicker,.section-label{font-size:12px;letter-spacing:.19em;font-weight:700}.kicker{color:#b5bcb5}.hero h1{font-size:clamp(40px,5.6vw,76px);letter-spacing:-.05em;line-height:1.05;margin:22px 0}.hero p{color:#cdd3cc;font-size:18px}.body{padding-top:65px;padding-bottom:110px}.section-label{color:#7d877e;margin-bottom:22px}.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.category{cursor:pointer;border:1px solid #e2e5df;background:white;text-align:left;padding:25px;min-height:245px;display:flex;flex-direction:column;align-items:start;color:#1c211d}.category:hover,.category.active{border-color:#596b5c;background:#edf2ed}.category .index{color:#8a9289;font-size:12px}.category strong{font-size:24px;letter-spacing:-.03em;margin-top:25px}.category small{font-size:13px;color:#646b65;line-height:1.6;margin-top:8px}.category .count{margin-top:auto;font-size:12px;font-weight:700}.application-label,.products-label{margin-top:85px}.body h2{font-size:clamp(29px,3.6vw,47px);letter-spacing:-.045em;margin:0 0 10px}.subtext{font-size:15px;max-width:720px}.applications{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:28px}.application{background:#e9ede8;padding:20px;min-height:130px;display:flex;flex-direction:column;gap:10px}.application span,.application small{font-size:11px;color:#768075}.application strong{font-size:18px}.application small{margin-top:auto}.list-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:24px}.list-head>span{font-size:13px;white-space:nowrap}.catalog-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start}.filters{background:white;border:1px solid #e5e6e2;padding:20px;position:sticky;top:16px}.filters-heading{display:flex;align-items:center;justify-content:space-between}.filters h3{font-size:19px}.filters button{border:0;background:none;text-decoration:underline;cursor:pointer}.filters label{display:block;font-size:13px;font-weight:650;margin:18px 0}.filters select,.filters input{display:block;width:100%;margin-top:8px;padding:11px;border:1px solid #daddd7;background:#fff;font:inherit;font-weight:400}.filter-note{font-size:12px;line-height:1.6}.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.product{background:white;border:1px solid #e5e6e2;padding:24px;display:flex;flex-direction:column;min-height:320px}.product[hidden]{display:none}.product-top{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:#778076}.product h3{font-size:19px;line-height:1.35;letter-spacing:-.025em;margin:22px 0}.product dl{margin:auto 0 18px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.product dl div{min-width:0}.product dt{font-size:11px;color:#888}.product dd{margin:3px 0 0;font-size:13px}.product-bottom{border-top:1px solid #eee;padding-top:17px;display:flex;justify-content:space-between;gap:8px;align-items:center}.product-bottom a{font-size:13px;text-decoration:underline}.product-bottom strong{font-size:16px}#empty{padding:25px}
+@media(max-width:1050px){.categories,.applications{grid-template-columns:repeat(2,1fr)}}@media(max-width:750px){.hero{padding:65px 0}.container{padding:0 18px}.categories,.applications,.catalog-layout,.products{grid-template-columns:1fr}.category{min-height:190px}.catalog-layout{gap:16px}.filters{position:static}.list-head{align-items:start;flex-direction:column}.product{min-height:280px}.application-label,.products-label{margin-top:60px}}
+</style>
