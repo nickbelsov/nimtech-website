@@ -1,0 +1,25 @@
+name: Export MoySklad catalog photos
+on:
+  push:
+    paths:
+      - '.github/workflows/export-catalog-photos.yml'
+      - 'scripts/export_catalog_photos.py'
+      - 'src/data/catalog-image-source-manifest.json'
+  workflow_dispatch:
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download catalog images and pack archive
+        run: python scripts/export_catalog_photos.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nimtech-catalog-photos
+          path: nimtech-catalog-photos.zip
+          retention-days: 30
