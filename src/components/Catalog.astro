@@ -53,12 +53,13 @@ const rub=(v)=>v==null?'По запросу':new Intl.NumberFormat('ru-RU',{maxi
     <label>Цена до, ₽<input id="price-max" type="number" min="0" placeholder="До" /></label>
     <p class="filter-note">Цвет и вес погонного метра добавлены в структуру карточек. Фильтры по ним появятся после получения достоверных значений.</p>
    </aside>
-   <div><div class="products">{products.map(p=><article class="product" data-category={p.category} data-material={p.material||'unknown'} data-collection={p.collection||''} data-width={p.width||''} data-length={p.length||''} data-price={p.price??''} data-colors={p.variants.map(v=>v.color).filter(Boolean).join("|")}>
+   <div><div class="products">{products.map(p=><article class="product" data-category={p.category} data-material={p.material||'unknown'} data-collection={p.collection||''} data-width={p.width||''} data-length={p.length||''} data-price={p.price??''} data-colors={p.variants.map(v=>v.color).filter(Boolean).join("|")} data-price-unit="piece">
      <div class="product-top"><span>{categories.find(c=>c.id===p.category)?.name}</span><span>{p.collection?'NimTech '+p.collection:'NimTech'}</span></div>
      <h3>{p.name}</h3>
      <dl><div><dt>Материал</dt><dd>{p.material||'Уточняется'}</dd></div><div><dt>Цвет</dt><dd>{p.variants.length ? [...new Set(p.variants.map(v=>v.color).filter(Boolean))].join(", ") || "Уточняется" : "Уточняется"}</dd></div><div><dt>Ширина</dt><dd>{p.width?p.width+' мм':'Уточняется'}</dd></div><div><dt>Длина</dt><dd>{p.length?p.length+' мм':'Уточняется'}</dd></div><div><dt>Вес пог. м</dt><dd>Уточняется</dd></div></dl>
-     {p.variants.length>0 && <div class="variant-info"><strong>{p.variants.length} модификаций</strong><div>{p.variants.map(v=><div class="variant-row"><span>{v.color||"Без указания цвета"}</span><span>{rub(v.price)}</span></div>)}</div></div>}
-     <div class="product-bottom"><strong>{p.variants.length ? "Цена зависит от цвета" : rub(p.price)}</strong><a href={base+'/contacts/'}>Запросить →</a></div>
+     <div class="price-switch" role="group" aria-label="Единица измерения цены"><button type="button" class="unit-btn selected" data-unit="piece" aria-pressed="true">₽/шт.</button><button type="button" class="unit-btn" data-unit="meter" aria-pressed="false">₽/пог. м</button><button type="button" class="unit-btn" data-unit="sqm" aria-pressed="false">₽/м²</button></div>
+     {p.variants.length>0 && <div class="variant-info"><strong>{p.variants.length} модификаций</strong><div>{p.variants.map(v=><div class="variant-row" data-variant-price={v.price??""}><span>{v.color||"Без указания цвета"}</span><span class="variant-price-value">{rub(v.price)}</span></div>)}</div></div>}
+     <div class="product-bottom"><strong class="main-price">{p.variants.length ? "Цена зависит от цвета" : rub(p.price)}</strong><a href={base+'/contacts/'}>Запросить →</a></div>
     </article>)}</div><p id="empty" hidden>По выбранным параметрам товары не найдены. Измените фильтры.</p></div>
   </div>
  </div>
@@ -68,6 +69,33 @@ const ids=['category','material','collection','width','length','color'];
 const selects=Object.fromEntries(ids.map(k=>[k,document.getElementById(k+'-filter')]));
 const min=document.getElementById('price-min'),max=document.getElementById('price-max');
 const cards=[...document.querySelectorAll('.product[data-category]')];
+const money=new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2});
+const suffix={piece:'₽ / шт.',meter:'₽ / пог. м',sqm:'₽ / м²'};
+function formatPrice(price,unit,length,width){
+ if(price===null||price===undefined||price==='')return 'По запросу';
+ const n=Number(price);
+ if(!Number.isFinite(n))return 'По запросу';
+ if(unit==='meter'){
+  if(!(length>0))return 'Нужна длина изделия';
+  return money.format(n/(length/1000))+' '+suffix[unit];
+ }
+ if(unit==='sqm'){
+  if(!(length>0&&width>0))return 'Нужны длина и ширина';
+  return money.format(n/((length/1000)*(width/1000)))+' '+suffix[unit];
+ }
+ return money.format(n)+' '+suffix[unit];
+}
+function updateCardPrice(card,unit){
+ const length=Number(card.dataset.length),width=Number(card.dataset.width);
+ card.dataset.priceUnit=unit;
+ card.querySelectorAll('.unit-btn').forEach(btn=>{const active=btn.dataset.unit===unit;btn.classList.toggle('selected',active);btn.setAttribute('aria-pressed',String(active));});
+ const rows=[...card.querySelectorAll('.variant-row')];
+ for(const row of rows)row.querySelector('.variant-price-value').textContent=formatPrice(row.dataset.variantPrice,unit,length,width);
+ const main=card.querySelector('.main-price');
+ main.textContent=rows.length?(unit==='piece'?'Цена зависит от цвета':(unit==='meter'&&!(length>0)?'Нужна длина изделия':unit==='sqm'&&!(length>0&&width>0)?'Нужны размеры изделия':'Цена зависит от цвета')):formatPrice(card.dataset.price,unit,length,width);
+}
+cards.forEach(card=>card.querySelectorAll('.unit-btn').forEach(btn=>btn.addEventListener('click',()=>updateCardPrice(card,btn.dataset.unit))));
+
 function apply(){
  let n=0;
  cards.forEach(card=>{
@@ -89,3 +117,4 @@ apply();
 @media(max-width:1050px){.categories,.applications{grid-template-columns:repeat(2,1fr)}}@media(max-width:750px){.hero{padding:65px 0}.container{padding:0 18px}.categories,.applications,.catalog-layout,.products{grid-template-columns:1fr}.category{min-height:190px}.catalog-layout{gap:16px}.filters{position:static}.list-head{align-items:start;flex-direction:column}.product{min-height:280px}.application-label,.products-label{margin-top:60px}}
 </style>
 <style>.variant-info{border-top:1px solid #eee;padding:12px 0;margin-top:8px}.variant-info>strong{font-size:12px;color:#606c60}.variant-info>div{max-height:160px;overflow:auto;margin-top:9px}.variant-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:12px;border-bottom:1px solid #f2f2f2}.variant-row span:last-child{white-space:nowrap}</style>
+<style>.price-switch{display:flex;gap:3px;background:#f1f3f0;padding:4px;border-radius:9px;margin:0 0 12px}.price-switch .unit-btn{flex:1;border:0;background:transparent;border-radius:6px;padding:9px 3px;font-size:12px;font-weight:650;color:#5b665d;cursor:pointer;white-space:nowrap}.price-switch .unit-btn.selected{background:#25362b;color:white;box-shadow:0 1px 3px #0002}.price-switch .unit-btn:focus-visible{outline:2px solid #56896b;outline-offset:2px}@media(max-width:400px){.price-switch .unit-btn{font-size:11px}}</style>
