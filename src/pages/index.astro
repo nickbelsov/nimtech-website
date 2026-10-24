@@ -31,41 +31,7 @@ const benefits=[['01','Проектирование','Продумываем г�
 <section class="section page-width"><div class="section-head"><div><div class="eyebrow">ИДЕИ ДЛЯ ВАШЕГО ПРОЕКТА</div><h2>Пространства, которые вдохновляют</h2></div><a class="text-link" href={url('/projects/')}>Наши реальные объекты ↗</a></div><p class="inspiration-note">Концептуальные визуализации возможных решений, не фотографии выполненных объектов NimTech.</p><div class="inspiration-grid">{inspirations.map(item=><div class="inspiration-card"><img src={url('/images/home/'+item.img)} alt={'Визуализация: '+item.name} loading="lazy"/><h3>{item.name}</h3></div>)}</div></section>
 <section class="section page-width"><div class="section-head"><div><div class="eyebrow">ЭКСПЕРТИЗА NIMTECH</div><h2>Знания, которыми делимся</h2></div></div><div class="editorial"><a href={url('/video/')}><div class="editorial-image"><img src={url('/images/home/material-board-profile.webp')} alt="Архитектура современного дома" loading="lazy"/></div><span>ВИДЕО</span><h3>Обзоры материалов и технологии монтажа ↗</h3></a><a href={url('/blog/')}><div class="editorial-image"><img src={url('/images/home/material-texture.webp')} alt="Современный загородный дом" loading="lazy"/></div><span>БЛОГ</span><h3>Советы по выбору и строительству террас ↗</h3></a></div></section>
 <section class="cta"><div class="page-width"><div class="eyebrow light">ВАШ БУДУЩИЙ ПРОЕКТ</div><h2>Хорошая терраса<br/>начинается с идеи.</h2><p>Расскажите нам о вашем проекте — поможем выбрать решение.</p><a class="white-button" href={url('/contacts/')}>Обсудить проект ↗</a></div></section>
-<dialog id="lead-dialog" class="lead-dialog" aria-labelledby="lead-heading"><form id="lead-form" class="lead-form"><button type="button" class="lead-close" id="close-lead-form" aria-label="Закрыть">×</button><div class="eyebrow">NIMTECH · ОБРАТНАЯ СВЯЗЬ</div><h2 id="lead-heading">Обсудим вашу террасу</h2><p>Оставьте имя и номер телефона. Менеджер свяжется с вами.</p><label for="lead-name">Ваше имя</label><input id="lead-name" name="name" autocomplete="name" placeholder="Как к вам обращаться" required maxlength="100"/><label for="lead-phone">Телефон</label><input id="lead-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 999 123-45-67" required minlength="10" maxlength="30"/><label class="lead-consent"><input type="checkbox" id="lead-agree" required/> <span>Согласен на обработку персональных данных согласно <a href={url('/privacy/')} target="_blank" rel="noopener">политике конфиденциальности</a>.</span></label><div class="lead-honeypot" aria-hidden="true" style="position:absolute;left:-9999px"><label>Сайт <input id="lead-website" name="website" tabindex="-1" autocomplete="off"/></label></div><button type="submit" class="lead-submit" id="lead-submit">Отправить заявку →</button><p id="lead-feedback" role="status" aria-live="polite"></p><small>Заявка передаётся в систему обработки обращений NimTech.</small></form></dialog>
-<dialog id="lead-thanks" class="lead-dialog" aria-labelledby="thanks-heading"><div class="lead-form" style="text-align:center;padding:42px 30px"><div aria-hidden="true" style="font-size:44px;color:#25835b;margin-bottom:12px">✓</div><div class="eyebrow">NIMTECH</div><h2 id="thanks-heading">Спасибо за вашу заявку!</h2><p>Мы свяжемся с вами в рабочее время: с 10:00 до 19:00, с понедельника по субботу, по московскому времени.</p></div></dialog>
-<script is:inline>
- const LEAD_ENDPOINT='https://script.google.com/macros/s/AKfycbyYnqtcBORv5-DX-1YcC0BSsVK0FAINuO40vSE3D2Z7AF1DHcbaelVN8kZy-LeWhWkg/exec';
- const leadDialog=document.getElementById('lead-dialog');
- const leadForm=document.getElementById('lead-form');
- const thanksDialog=document.getElementById('lead-thanks');
- let thanksTimer;
- document.getElementById('open-lead-form')?.addEventListener('click',()=>leadDialog?.showModal());
- document.getElementById('close-lead-form')?.addEventListener('click',()=>leadDialog?.close());
- leadDialog?.addEventListener('click',e=>{if(e.target===leadDialog)leadDialog.close()});
- function getLanding(){try{const k='nimtech_first_landing';let v=sessionStorage.getItem(k);if(!v){v=location.href;sessionStorage.setItem(k,v)}return v}catch{return location.href}}
- const firstLanding=getLanding();
- const getUtm=()=>{const first=new URL(firstLanding,location.origin).searchParams;const current=new URLSearchParams(location.search);return Object.fromEntries(['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].map(k=>[k,current.get(k)||first.get(k)||'']))};
- leadForm?.addEventListener('submit',async e=>{
-  e.preventDefault();
-  const name=document.getElementById('lead-name').value.trim();
-  const phone=document.getElementById('lead-phone').value.trim();
-  const consent=document.getElementById('lead-agree').checked;
-  const feedback=document.getElementById('lead-feedback');
-  const submit=document.getElementById('lead-submit');
-  if(!name||phone.replace(/\D/g,'').length<10||!consent){feedback.textContent='Укажите имя, корректный телефон и согласие.';return}
-  const request_id=crypto.randomUUID?.()||String(Date.now())+'-'+Math.random().toString(36).slice(2);
-  const payload={request_id,name,phone,consent,website:document.getElementById('lead-website').value,form_id:'homepage_calculator',category:'Террасы',source:'nimtech.ru',page_url:location.href,landing_url:firstLanding,referrer:document.referrer,utm:getUtm(),client_id:'',ym_client_id:'',details:{form_title:'Обсудим вашу террасу'}};
-  submit.disabled=true;submit.textContent='Отправляем…';feedback.textContent='';
-  try{
-   // Apps Script is cross-origin; opaque no-cors response cannot confirm server acceptance.
-   await fetch(LEAD_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),keepalive:true});
-   leadForm.reset();
-   leadDialog?.close();
-   if(thanksDialog){clearTimeout(thanksTimer);thanksDialog.showModal();thanksTimer=setTimeout(()=>thanksDialog.close(),3000)}
-  }catch(err){feedback.textContent='Не удалось передать заявку. Попробуйте ещё раз или свяжитесь с нами по телефону.'}
-  finally{submit.disabled=false;submit.textContent='Отправить заявку →'}
- });
-</script>
+
 </Base>
 <style>
 :global(body){background:#f8f8f6}:global(main){overflow:hidden}:global(header){position:relative;z-index:5}
