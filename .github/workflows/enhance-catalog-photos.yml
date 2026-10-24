@@ -1,0 +1,24 @@
+name: Enhanced catalog photo archive
+on:
+  push:
+    paths:
+      - 'scripts/enhance_catalog_photos.py'
+      - '.github/workflows/enhance-catalog-photos.yml'
+  workflow_dispatch:
+jobs:
+  enhance:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install Pillow==11.3.0
+      - run: python scripts/enhance_catalog_photos.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nimtech-catalog-enhanced
+          path: nimtech-catalog-enhanced.zip
+          retention-days: 30
