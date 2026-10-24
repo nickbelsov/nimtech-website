@@ -12,8 +12,8 @@ for item in manifest:
    try:
     req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
     with urllib.request.urlopen(req,timeout=30) as resp: data=resp.read()
-    if len(data)<100 or data[:4] not in [b'\\x89PNG',b'\\xff\\xd8\\xff\\xe0',b'RIFF'] and not data.startswith(b'\\xff\\xd8'):raise ValueError('invalid image')
-    ext='.png' if data.startswith(b'\\x89PNG') else '.jpg' if data.startswith(b'\\xff\\xd8') else '.webp'
+    if len(data)<100 or data[:4] not in [b'\x89PNG',b'\xff\xd8\xff\xe0',b'RIFF'] and not data.startswith(b'\xff\xd8'):raise ValueError('invalid image')
+    ext='.png' if data.startswith(b'\x89PNG') else '.jpg' if data.startswith(b'\xff\xd8') else '.webp'
     dest=f"{item['id']}-{im['index']:02d}{ext}"
     (out/dest).write_bytes(data);status='ok';break
    except Exception as e:status=str(e)[:120]
