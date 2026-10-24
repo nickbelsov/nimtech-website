@@ -4,27 +4,27 @@
     "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×3000 мм",
     "group": "NimTech Gamma / DECKART/Заборная доска",
     "price": 1875,
-    "weightPerMeter": 2.2,
     "imageCount": 1,
-    "thickness": 12
+    "thickness": 12,
+    "weightPerItem": 2.2
   },
   {
     "id": "189a1e27-dfbe-11ef-0a80-0bc1000a4ef3",
     "name": "Террасная доска NimTech Gamma DOUBLE 139×27×4000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 1960,
-    "weightPerMeter": 2.3,
     "imageCount": 1,
-    "thickness": 27
+    "thickness": 27,
+    "weightPerItem": 2.3
   },
   {
     "id": "19d2d597-dfe0-11ef-0a80-0c240010c106",
     "name": "Уголок из ДПК NimTech Gamma 70×35×4000 мм",
     "group": "NimTech Gamma / DECKART/Прочее",
     "price": 1266.67,
-    "weightPerMeter": 0.9,
     "imageCount": 2,
-    "thickness": 35
+    "thickness": 35,
+    "weightPerItem": 0.9
   },
   {
     "id": "2155292a-dfe8-11ef-0a80-0fcc0011d3e1",
@@ -39,16 +39,16 @@
     "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×6000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 4140,
-    "weightPerMeter": 2.45,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 2.45
   },
   {
     "id": "2d3aa30e-9317-11f1-0a80-0ee900189ad4",
     "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×4000 мм",
     "group": "NimTech Gamma / DECKART/Ступени",
     "price": 9933.33,
-    "weightPerMeter": 34,
-    "imageCount": 2
+    "imageCount": 2,
+    "weightPerItem": 34
   },
   {
     "id": "39ce56d5-dfec-11ef-0a80-15730012c31f",
@@ -62,35 +62,35 @@
     "name": "Стакан для столба NimTech Gamma 100×100 (металл) 80×80; 0,95 м",
     "group": "NimTech Gamma / DECKART/Ограждение",
     "price": 1750,
-    "weightPerMeter": 5.5,
     "imageCount": 0,
-    "thickness": 80
+    "thickness": 80,
+    "weightPerItem": 5.5
   },
   {
     "id": "44b6d2a9-df39-11ef-0a80-029500009ee1",
     "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×3000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 2070,
-    "weightPerMeter": 2.45,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 2.45
   },
   {
     "id": "4abc135f-dfbd-11ef-0a80-1aa8000aa4f6",
     "name": "Заборная доска NimTech Gamma двусторонняя PLS 3D-тиснение 140×12×4000 мм",
     "group": "NimTech Gamma / DECKART/Заборная доска",
     "price": 2500,
-    "weightPerMeter": 2.2,
     "imageCount": 1,
-    "thickness": 12
+    "thickness": 12,
+    "weightPerItem": 2.2
   },
   {
     "id": "5032f2af-dfd8-11ef-0a80-157300100804",
     "name": "Ступень полнотелая NimTech Gamma STP velvet 345×24×3000 мм",
     "group": "NimTech Gamma / DECKART/Ступени",
     "price": 8950,
-    "weightPerMeter": 7.6,
     "imageCount": 1,
-    "thickness": 2400
+    "thickness": 2400,
+    "weightPerItem": 7.6
   },
   {
     "id": "53863f16-dfe8-11ef-0a80-04a500126870",
@@ -104,18 +104,18 @@
     "name": "Террасная доска NimTech Gamma DOUBLE 139×27×6000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 2940,
-    "weightPerMeter": 2.3,
     "imageCount": 1,
-    "thickness": 27
+    "thickness": 27,
+    "weightPerItem": 2.3
   },
   {
     "id": "5b216c5d-dfe0-11ef-0a80-08b5001118d2",
     "name": "Уголок из ДПК NimTech Gamma 53×53×2000 мм",
     "group": "NimTech Gamma / DECKART/Прочее",
     "price": 1100,
-    "weightPerMeter": 0.9,
     "imageCount": 2,
-    "thickness": 53
+    "thickness": 53,
+    "weightPerItem": 0.9
   },
   {
     "id": "622e4858-be63-11f1-0a80-1a5b00336525",
@@ -129,8 +129,8 @@
     "name": "Ступень полнотелая NimTech Gamma OPT velvet 340×22×3000 мм",
     "group": "NimTech Gamma / DECKART/Ступени",
     "price": 7450,
-    "weightPerMeter": 25.5,
-    "imageCount": 2
+    "imageCount": 2,
+    "weightPerItem": 25.5
   },
   {
     "id": "63c3ece2-dfec-11ef-0a80-0ea300125a64",
@@ -166,9 +166,9 @@
     "name": "Террасная доска NimTech Gamma LIGHT 140×20×3000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 1250,
-    "weightPerMeter": 2.1,
     "imageCount": 1,
-    "thickness": 20
+    "thickness": 20,
+    "weightPerItem": 2.1
   },
   {
     "id": "75f3c809-be65-11f1-0a80-1c8b00357a5d",
@@ -239,34 +239,34 @@
     "name": "Уголок из ДПК NimTech Gamma 70×35×3000 мм",
     "group": "NimTech Gamma / DECKART/Прочее",
     "price": 950,
-    "weightPerMeter": 0.9,
     "imageCount": 2,
-    "thickness": 35
+    "thickness": 35,
+    "weightPerItem": 0.9
   },
   {
     "id": "ad6fa4c4-dfba-11ef-0a80-0bc10009a4df",
     "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×4000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 3566.67,
-    "weightPerMeter": 3.1,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 3.1
   },
   {
     "id": "b265c4a7-df39-11ef-0a80-06b30000b379",
     "name": "Террасная доска NimTech Gamma SOLID 3D (полнотелая доска) 150×20×3000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 3250,
-    "weightPerMeter": 3.7,
     "imageCount": 1,
-    "thickness": 20
+    "thickness": 20,
+    "weightPerItem": 3.7
   },
   {
     "id": "bb42364a-9315-11f1-0a80-05b00018e54b",
     "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×3000 мм",
     "group": "NimTech Gamma / DECKART/Ступени",
     "price": 9750,
-    "weightPerMeter": 21.9,
-    "imageCount": 2
+    "imageCount": 2,
+    "weightPerItem": 21.9
   },
   {
     "id": "ce8a5903-dfbd-11ef-0a80-0fcc000ae474",
@@ -288,17 +288,17 @@
     "name": "Ступень полнотелая NimTech Gamma STP 3D 320×24×4000 мм",
     "group": "NimTech Gamma / DECKART/Ступени",
     "price": 13000,
-    "weightPerMeter": 29.2,
-    "imageCount": 2
+    "imageCount": 2,
+    "weightPerItem": 29.2
   },
   {
     "id": "dddc0b1e-dfbb-11ef-0a80-1aa8000a603f",
     "name": "Террасная доска NimTech Gamma PC 3D-тиснение 150×24×4000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 2760,
-    "weightPerMeter": 2.45,
     "imageCount": 1,
-    "thickness": 24
+    "thickness": 24,
+    "weightPerItem": 2.45
   },
   {
     "id": "ddea256f-dfe7-11ef-0a80-10de00118daf",
@@ -313,335 +313,335 @@
     "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×3000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 2675,
-    "weightPerMeter": 3.1,
     "imageCount": 1,
-    "thickness": 32
+    "thickness": 32,
+    "weightPerItem": 3.1
   },
   {
     "id": "f2b43d89-dfba-11ef-0a80-1aa8000a36b3",
     "name": "Террасная доска NimTech Gamma MG 3D-тиснение 165×32×6000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 5350,
-    "weightPerMeter": 3.1,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 3.1
   },
   {
     "id": "f48e12d2-dfbe-11ef-0a80-0931000b15b8",
     "name": "Террасная доска NimTech Gamma LIGHT 140×20×4000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 1666.67,
-    "weightPerMeter": 2.1,
     "imageCount": 1,
-    "thickness": 20
+    "thickness": 20,
+    "weightPerItem": 2.1
   },
   {
     "id": "f676e31f-df39-11ef-0a80-07910000a2df",
     "name": "Террасная доска NimTech Gamma DOUBLE 139×27×3000 мм",
     "group": "NimTech Gamma / DECKART/Террасная доска",
     "price": 1470,
-    "weightPerMeter": 2.3,
     "imageCount": 1,
-    "thickness": 27
+    "thickness": 27,
+    "weightPerItem": 2.3
   },
   {
     "id": "fdf72d59-dfe6-11ef-0a80-10de00117b63",
     "name": "Резиновая подкладка под лагу NimTech Gamma 60×80×6",
     "group": "NimTech Gamma / DECKART/Прочее",
     "price": 40,
-    "weightPerMeter": 0.02,
     "imageCount": 2,
-    "thickness": 80
+    "thickness": 80,
+    "weightPerItem": 0.02
   },
   {
     "id": "030aed01-be79-11f1-0a80-1570003aeebb",
     "name": "Панель фасадная NimTech Mars 199×17×3000 мм",
     "group": "NimTech Mars / Мастодек/Фасадная доска",
     "price": 1995,
-    "weightPerMeter": 9,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 9
   },
   {
     "id": "0484ab9c-be79-11f1-0a80-1a5b003bce18",
     "name": "Панель фасадная NimTech Mars 199×17×4000 мм",
     "group": "NimTech Mars / Мастодек/Фасадная доска",
     "price": 2660,
-    "weightPerMeter": 12,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 12
   },
   {
     "id": "06039f4f-be79-11f1-0a80-112c003bac84",
     "name": "Панель фасадная NimTech Mars 199×17×6000 мм",
     "group": "NimTech Mars / Мастодек/Фасадная доска",
     "price": 3990,
-    "weightPerMeter": 18,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 18
   },
   {
     "id": "0c57dc1e-be7a-11f1-0a80-14d3003bbaab",
     "name": "Доска террасная пустотелая NimTech Mars 140×25×6000 мм",
     "group": "NimTech Mars / Мастодек/Террасная доска",
     "price": 4870,
-    "weightPerMeter": 21,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 21
   },
   {
     "id": "1048bf0f-9716-11f1-0a80-111d001ab9ad",
     "name": "Доска террасная пустотелая NimTech Mars 140×25×3000 мм",
     "group": "NimTech Mars / Мастодек/Террасная доска",
     "price": 2435,
-    "weightPerMeter": 10.5,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 10.5
   },
   {
     "id": "2149d1a7-be78-11f1-0a80-0b37003a1d08",
     "name": "Ступень NimTech Mars МПК 160×25×3000 мм",
     "group": "NimTech Mars / Мастодек/Ступени",
     "price": 4015,
-    "weightPerMeter": 13.2,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 13.2
   },
   {
     "id": "2152f02b-b2a9-11f1-0a80-0b1b001f6c96",
     "name": "Доска заборная полнотелая NimTech Mars 145×11×3000 мм",
     "group": "NimTech Mars / Мастодек/Заборная доска",
     "price": 1945,
-    "weightPerMeter": 7.8,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 7.8
   },
   {
     "id": "24e7beb8-be78-11f1-0a80-1695003a888a",
     "name": "Ступень NimTech Mars МПК 160×25×6000 мм",
     "group": "NimTech Mars / Мастодек/Ступени",
     "price": 8030,
-    "weightPerMeter": 26.4,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 26.4
   },
   {
     "id": "5b146d00-be7a-11f1-0a80-1d89003d305b",
     "name": "Доска террасная пустотелая NimTech Mars 150×18×6000 мм",
     "group": "NimTech Mars / Мастодек/Террасная доска",
     "price": 3620,
-    "weightPerMeter": 15.6,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 15.6
   },
   {
     "id": "69144e6d-b2a6-11f1-0a80-1af1001ebdd0",
     "name": "Доска заборная полнотелая NimTech Mars 145×11×4000 мм",
     "group": "NimTech Mars / Мастодек/Заборная доска",
     "price": 2593.33,
-    "weightPerMeter": 10.4,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 10.4
   },
   {
     "id": "7b336e86-0210-11ef-0a80-07aa0007fc87",
     "name": "Доска террасная пустотелая NimTech Mars 150×18×3000 мм",
     "group": "NimTech Mars / Мастодек/Террасная доска",
     "price": 1810,
-    "weightPerMeter": 7.8,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 7.8
   },
   {
     "id": "96e707a1-be78-11f1-0a80-084d003bb99e",
     "name": "Уголок NimTech Mars декоративный МПК 50×30×3000 мм",
     "group": "NimTech Mars / Мастодек/Прочие элементы",
     "price": 1000,
-    "weightPerMeter": 2.1,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 2.1
   },
   {
     "id": "9869d222-be78-11f1-0a80-0650003a3a1b",
     "name": "Уголок NimTech Mars декоративный МПК 50×30×4000 мм",
     "group": "NimTech Mars / Мастодек/Прочие элементы",
     "price": 1333.33,
-    "weightPerMeter": 2.8,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 2.8
   },
   {
     "id": "9a0a01a7-be78-11f1-0a80-112c003b8c01",
     "name": "Уголок NimTech Mars декоративный МПК 50×30×6000 мм",
     "group": "NimTech Mars / Мастодек/Прочие элементы",
     "price": 2000,
-    "weightPerMeter": 4.2,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 4.2
   },
   {
     "id": "9c52f92e-b2a6-11f1-0a80-03f6001e2d68",
     "name": "Ступень NimTech Mars МПК 160×25×4000 мм",
     "group": "NimTech Mars / Мастодек/Ступени",
     "price": 5353.33,
-    "weightPerMeter": 17.6,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 17.6
   },
   {
     "id": "adff8ade-be77-11f1-0a80-193c003bccf5",
     "name": "Стыковочная планка МПК NimTech Mars 65×3000 мм",
     "group": "NimTech Mars / Мастодек/Прочие элементы",
     "price": 1950,
-    "weightPerMeter": 8.4,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 8.4
   },
   {
     "id": "af96b74f-be77-11f1-0a80-0b370039f293",
     "name": "Стыковочная планка МПК NimTech Mars 65×4000 мм",
     "group": "NimTech Mars / Мастодек/Прочие элементы",
     "price": 2600,
-    "weightPerMeter": 11.2,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 11.2
   },
   {
     "id": "b1083d0c-be77-11f1-0a80-091c003b3182",
     "name": "Стыковочная планка МПК NimTech Mars 65×6000 мм",
     "group": "NimTech Mars / Мастодек/Прочие элементы",
     "price": 3900,
-    "weightPerMeter": 16.8,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 16.8
   },
   {
     "id": "b2bff424-be7a-11f1-0a80-1695003b518c",
     "name": "Доска заборная полнотелая NimTech Mars 145×11×6000 мм",
     "group": "NimTech Mars / Мастодек/Заборная доска",
     "price": 3890,
-    "weightPerMeter": 15.6,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 15.6
   },
   {
     "id": "b9d9c2d9-be77-11f1-0a80-0b370039f8b1",
     "name": "Доска террасная полнотелая NimTech Mars 150×18×3000 мм",
     "group": "NimTech Mars / Мастодек/Террасная доска",
     "price": 3040,
-    "weightPerMeter": 13.11,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 13.11
   },
   {
     "id": "bb5eaa3c-be77-11f1-0a80-1c8b003cfe71",
     "name": "Доска террасная полнотелая NimTech Mars 150×18×4000 мм",
     "group": "NimTech Mars / Мастодек/Террасная доска",
     "price": 4053.33,
-    "weightPerMeter": 17.48,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 17.48
   },
   {
     "id": "bcf44235-be77-11f1-0a80-112c003b3995",
     "name": "Доска террасная полнотелая NimTech Mars 150×18×6000 мм",
     "group": "NimTech Mars / Мастодек/Террасная доска",
     "price": 6080,
-    "weightPerMeter": 26.22,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 26.22
   },
   {
     "id": "c6b9df35-0210-11ef-0a80-1492000842f5",
     "name": "Доска террасная пустотелая NimTech Mars 150×18×4000 мм",
     "group": "NimTech Mars / Мастодек/Террасная доска",
     "price": 2413.33,
-    "weightPerMeter": 10.4,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 10.4
   },
   {
     "id": "f6cba2c1-9715-11f1-0a80-19600019be2f",
     "name": "Доска террасная пустотелая NimTech Mars 140×25×4000 мм",
     "group": "NimTech Mars / Мастодек/Террасная доска",
     "price": 3246.67,
-    "weightPerMeter": 14,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 14
   },
   {
     "id": "3e505f58-b5b7-11ec-0a80-025c001146a1",
     "name": "Террасная доска NimTech Alpha DOUBLE 139×27×6000 мм",
     "group": "NimTech Alpha + Beta / Интерпласт/Доска террасная",
     "price": 2900,
-    "weightPerMeter": 13.2,
     "imageCount": 0,
-    "thickness": 27
+    "thickness": 27,
+    "weightPerItem": 13.2
   },
   {
     "id": "5b3124cf-9e2a-11ec-0a80-0be100440b8b",
     "name": "Террасная доска NimTech Alpha DOUBLE 139×27×3000 мм",
     "group": "NimTech Alpha + Beta / Интерпласт/Доска террасная",
     "price": 1450,
-    "weightPerMeter": 6.6,
     "imageCount": 0,
-    "thickness": 27
+    "thickness": 27,
+    "weightPerItem": 6.6
   },
   {
     "id": "5b38bf15-9e2a-11ec-0a80-0be100440b92",
     "name": "Террасная доска NimTech Alpha DOUBLE 139×27×4000 мм",
     "group": "NimTech Alpha + Beta / Интерпласт/Доска террасная",
     "price": 1933.33,
-    "weightPerMeter": 8.8,
     "imageCount": 0,
-    "thickness": 27
+    "thickness": 27,
+    "weightPerItem": 8.8
   },
   {
     "id": "93da9ea9-931f-11f1-0a80-005c0019ec5c",
     "name": "Террасная доска NimTech Beta 3D ELITE 139×25×3000 мм",
     "group": "NimTech Alpha + Beta / Интерпласт/Доска террасная",
     "price": 1590,
-    "weightPerMeter": 8.1,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 8.1
   },
   {
     "id": "c95f9051-931f-11f1-0a80-165d001a30f1",
     "name": "Террасная доска NimTech Beta 3D ELITE 139×25×4000 мм",
     "group": "NimTech Alpha + Beta / Интерпласт/Доска террасная",
     "price": 2120,
-    "weightPerMeter": 10.8,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 10.8
   },
   {
     "id": "f7ace902-931f-11f1-0a80-1ce4001b243e",
     "name": "Террасная доска NimTech Beta 3D ELITE 139×25×6000 мм",
     "group": "NimTech Alpha + Beta / Интерпласт/Доска террасная",
     "price": 3180,
-    "weightPerMeter": 16.2,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 16.2
   },
   {
     "id": "12bef159-c404-11f1-0a80-0675003e871f",
     "name": "Террасная доска NimTech SM Гранд (Grand) 190×25×4000 мм",
     "group": "NimTech SM / CM Decking/Террасная доска",
     "price": 4688.75,
-    "weightPerMeter": 12.23,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 12.23
   },
   {
     "id": "1b4bd1b3-a08c-11f1-0a80-1fb40014e7af",
     "name": "Террасная доска двухцветная NimTech GR пустотелая Co-Extrusion ДПК Шоколад / Графит 22×142×3000 мм",
     "group": "NimTech GR / Grundeck",
     "price": 3360,
-    "weightPerMeter": 6.9,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 6.9
   },
   {
     "id": "41bc0d01-a08c-11f1-0a80-15bf00166814",
     "name": "Террасная доска двухцветная NimTech GR пустотелая Co-Extrusion ДПК Шоколад / Графит 22×142×4000 мм",
     "group": "NimTech GR / Grundeck",
     "price": 4480,
-    "weightPerMeter": 9.2,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 9.2
   },
   {
     "id": "56284ff4-a08d-11f1-0a80-104a0014c673",
     "name": "Террасная доска завершающая NimTech GR пустотелая Co-Extrusion ДПК Графит 22×142×4000 мм",
     "group": "NimTech GR / Grundeck",
     "price": 6460,
-    "weightPerMeter": 9.6,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 9.6
   },
   {
     "id": "6acea412-a08c-11f1-0a80-161000142143",
     "name": "Террасная доска двухцветная NimTech GR пустотелая Co-Extrusion ДПК Пепел / Орех 22×142×3000 мм",
     "group": "NimTech GR / Grundeck",
     "price": 3360,
-    "weightPerMeter": 6.9,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 6.9
   },
   {
     "id": "74364d9e-a08d-11f1-0a80-13690012df9f",
     "name": "Террасная доска завершающая NimTech GR пустотелая Co-Extrusion ДПК Орех 22×142×4000 мм",
     "group": "NimTech GR / Grundeck",
     "price": 6460,
-    "weightPerMeter": 9.6,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 9.6
   },
   {
     "id": "7d69d462-c404-11f1-0a80-0c51003ebc40",
@@ -655,31 +655,31 @@
     "name": "Террасная доска двухцветная NimTech GR пустотелая Co-Extrusion ДПК Пепел / Орех 22×142×4000 мм",
     "group": "NimTech GR / Grundeck",
     "price": 4480,
-    "weightPerMeter": 9.2,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 9.2
   },
   {
     "id": "9c0ccadb-c402-11f1-0a80-1760003da329",
     "name": "Террасная доска NimTech SM Гранд (Grand) 190×25×3000 мм",
     "group": "NimTech SM / CM Decking/Террасная доска",
     "price": 3517.5,
-    "weightPerMeter": 9.2001,
-    "imageCount": 0
+    "imageCount": 0,
+    "weightPerItem": 9.2001
   },
   {
     "id": "b47fde5f-a08d-11f1-0a80-028c0011c6de",
     "name": "Террасная доска завершающая NimTech GR пустотелая Co-Extrusion ДПК Пепел 22×142×4000 мм",
     "group": "NimTech GR / Grundeck",
     "price": 6460,
-    "weightPerMeter": 9.6,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 9.6
   },
   {
     "id": "fdd1cc91-a08c-11f1-0a80-079300137548",
     "name": "Террасная доска завершающая NimTech GR пустотелая Co-Extrusion ДПК Шоколад 22×142×4000 мм",
     "group": "NimTech GR / Grundeck",
     "price": 6460,
-    "weightPerMeter": 9.6,
-    "imageCount": 1
+    "imageCount": 1,
+    "weightPerItem": 9.6
   }
 ]
