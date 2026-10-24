@@ -1,0 +1,8 @@
+---
+import Base from '../../layouts/Base.astro';
+const articles=[{title:'5 ошибок при монтаже террасной доски ДПК: как избежать переделки',description:'Технологические зазоры, крепёж, основание, водоотвод и двойные лаги: практическая инструкция NimTech.',slug:'5-oshibok-montazha-dpk',image:'https://i.ytimg.com/vi/J40RsoTDx28/maxresdefault.jpg',category:'Монтаж террас',date:'24 октября 2026'}];
+---
+<Base title="Блог NimTech — монтаж террас, выбор ДПК и советы экспертов" description="Практические статьи NimTech о строительстве террас, монтаже ДПК, выборе террасной доски и правильной подконструкции. Видео и инструкции.">
+<section class="wrap"><p class="eyebrow">ЖУРНАЛ NIMTECH</p><h1>Блог о террасах и материалах</h1><p class="lead">Реальные технологии, ошибки и решения из нашей практики. На основе видео и опыта команды NimTech.</p><div class="grid">{articles.map(a=><a class="article" href={'/blog/'+a.slug+'/'}><img src={a.image} alt="Эксперт NimTech объясняет ошибки монтажа террасной доски ДПК" loading="lazy"/><div class="body"><small>{a.category} · {a.date}</small><h2>{a.title}</h2><p>{a.description}</p><span>Читать статью ↗</span></div></a>)}</div></section>
+</Base>
+<style>.eyebrow{font-size:12px;font-weight:700;letter-spacing:.18em;color:#777}.lead{font-size:20px;max-width:750px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:48px}.article{display:block;border:1px solid #e5e5e0;background:white;border-radius:14px;overflow:hidden}.article img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.body{padding:24px}.body small{color:#777}.body h2{font-size:25px;letter-spacing:-.025em}.body p{font-size:15px}.body span{font-weight:700;font-size:14px}</style>
