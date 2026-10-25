@@ -1,18 +1,11 @@
 import type { APIRoute } from 'astro';
 
 // Generate blog URLs from the actual article files instead of a manually maintained list.
-const articles = import.meta.glob('./blog/*/index.astro', { eager: true });
-const blogPaths = Object.keys(articles).map((path) => {
+const articles = import.meta.glob('./blog/*/index.astro', { eager: true, query: '?raw', import: 'default' });
+const blogPaths = Object.entries(articles).filter(([, source]) => !String(source).includes('http-equiv="refresh"')).map(([path]) => {
   const slug = path.split('/')[2];
   return '/blog/' + slug + '/';
 }).sort();
-
-const redirects = new Set([
-  '/blog/terrasa-iz-dpk-na-betone/',
-  '/blog/stoimost-terrasy-pod-klyuch/',
-  '/blog/terrasa-na-krovle/',
-  '/blog/oshibki-montazha-dpk/',
-]);
 
 const pages = [
   '/', '/terrasy-pod-klyuch/', '/catalog/', '/projects/',
@@ -20,7 +13,7 @@ const pages = [
 ];
 
 export const GET: APIRoute = () => {
-  const paths = [...new Set([...pages, ...blogPaths.filter((p) => !redirects.has(p))])];
+  const paths = [...new Set([...pages, ...blogPaths])];
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
     paths.map((path) => '<url><loc>https://nimtech.ru' + path + '</loc></url>').join('') +
