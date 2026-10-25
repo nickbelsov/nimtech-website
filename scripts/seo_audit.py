@@ -55,11 +55,15 @@ for slug in sorted(blog_slugs-cover_slugs):
 for slug in sorted(cover_slugs-blog_slugs):
  flag('MEDIUM','/images/blog/covers/','Orphan cover: '+slug+'.webp')
 sitemap=(PAGES/'sitemap.xml.ts').read_text()
-sitemap_urls=set(re.findall(r"'/blog/([^/]+)/'",sitemap))
-for slug in sorted(blog_slugs-sitemap_urls):
- flag('HIGH','/sitemap.xml','Article missing from sitemap: '+slug)
-for slug in sorted(sitemap_urls-blog_slugs):
- flag('MEDIUM','/sitemap.xml','Sitemap references non-article or redirect: '+slug)
+if "import.meta.glob('./blog/*/index.astro'" not in sitemap:
+ sitemap_urls=set(re.findall(r"'/blog/([^/]+)/'",sitemap))
+ for slug in sorted(blog_slugs-sitemap_urls):
+  flag('HIGH','/sitemap.xml','Article missing from sitemap: '+slug)
+ for slug in sorted(sitemap_urls-blog_slugs):
+  flag('MEDIUM','/sitemap.xml','Sitemap references non-article or redirect: '+slug)
+else:
+ if "http-equiv" not in sitemap:
+  flag('HIGH','/sitemap.xml','Dynamic sitemap does not exclude redirect-only pages')
 blog_index=(PAGES/'blog/index.astro').read_text()
 index_slugs=set(re.findall(r'slug:["\\\']([^"\\\']+)["\\\']',blog_index))
 for slug in sorted(blog_slugs-index_slugs):
@@ -75,4 +79,4 @@ for slug in sorted(blog_slugs):
 lines=['# NimTech static SEO audit','','Pages: '+str(len(routes)),'Blog articles: '+str(len(blog)),'HTML redirect pages: '+str(len(redirects)),'Findings: '+str(len(issues)),'','Note: source-level checks only; not live HTTP, CWV, JS execution or full semantic SEO.','','| Priority | Route | Finding |','|---|---|---|']
 lines += ['| '+level+' | '+route.replace('|','/')+' | '+msg.replace('|','/')+' |' for level,route,msg in sorted(issues)]
 Path('seo-audit-report.md').write_text('\n'.join(lines)+'\n')
-print('\n'.join(lines[:10]))
+print('\n'.join(lines))
