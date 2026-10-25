@@ -1,0 +1,25 @@
+name: Collect original supplier product photos
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/collect_supplier_photos.py'
+      - '.github/workflows/collect-supplier-photos.yml'
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests beautifulsoup4 Pillow
+      - run: python scripts/collect_supplier_photos.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nimtech-supplier-photo-review
+          path: nimtech-supplier-photo-review.zip
+          retention-days: 30
