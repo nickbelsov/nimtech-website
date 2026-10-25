@@ -1,11 +1,13 @@
 import type { APIRoute } from 'astro';
 
-// Generate blog URLs from the actual article files instead of a manually maintained list.
-const articles = import.meta.glob('./blog/*/index.astro', { eager: true, query: '?raw', import: 'default' });
-const blogPaths = Object.entries(articles).filter(([, source]) => !String(source).includes('http-equiv="refresh"')).map(([path]) => {
-  const slug = path.split('/')[2];
-  return '/blog/' + slug + '/';
-}).sort();
+// Include actual content pages, but not redirect-only legacy files under public/.
+const blogArticles = import.meta.glob('./blog/*/index.astro', { eager: true, query: '?raw', import: 'default' });
+const guideArticles = import.meta.glob('./*/index.astro', { eager: true, query: '?raw', import: 'default' });
+
+const pathsFrom = (files: Record<string, unknown>, prefix: string) =>
+  Object.entries(files)
+    .filter(([, source]) => !String(source).includes('http-equiv="refresh"'))
+    .map(([file]) => prefix + file.split('/')[prefix === '/blog/' ? 2 : 1] + '/');
 
 const pages = [
   '/', '/terrasy-pod-klyuch/', '/catalog/', '/projects/',
@@ -16,7 +18,7 @@ const pages = [
 ];
 
 export const GET: APIRoute = () => {
-  const paths = [...new Set([...pages, ...blogPaths])];
+  const paths = [...new Set([...pages, ...pathsFrom(blogArticles, '/blog/'), ...pathsFrom(guideArticles, '/')])].sort();
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
     paths.map((path) => '<url><loc>https://nimtech.ru' + path + '</loc></url>').join('') +
