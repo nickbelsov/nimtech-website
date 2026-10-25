@@ -10,6 +10,7 @@ const blogPaths = Object.entries(articles).filter(([, source]) => !String(source
 const pages = [
   '/', '/terrasy-pod-klyuch/', '/catalog/', '/projects/',
   '/calculator/', '/blog/', '/video/', '/contacts/',
+  '/stupeni-dpk/', '/montazh-terrasnoy-doski/',
 ];
 
 export const GET: APIRoute = () => {
