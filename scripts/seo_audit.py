@@ -73,6 +73,7 @@ for slug in sorted(index_slugs-blog_slugs):
 for slug in sorted(blog_slugs):
  article=(PAGES/'blog'/slug/'index.astro').read_text()
  if 'BlogPosting' not in article:flag('MEDIUM','/blog/'+slug+'/','Missing BlogPosting structured data')
+ if '/images/blog/covers/'+slug+'.webp' not in blog_index:flag('HIGH','/blog/'+slug+'/','Blog listing missing correct cover mapping')
  if 'BreadcrumbList' not in article:flag('MEDIUM','/blog/'+slug+'/','Missing BreadcrumbList structured data')
  if 'type="article"' not in article and "type='article'" not in article:flag('MEDIUM','/blog/'+slug+'/','Missing article Open Graph type')
 
