@@ -74,7 +74,7 @@ for slug in sorted(blog_slugs):
  article=(PAGES/'blog'/slug/'index.astro').read_text()
  if 'BlogPosting' not in article:flag('MEDIUM','/blog/'+slug+'/','Missing BlogPosting structured data')
  if 'BreadcrumbList' not in article:flag('MEDIUM','/blog/'+slug+'/','Missing BreadcrumbList structured data')
- if not re.search(r'type=[{]?['\"]article['\"]',article):flag('MEDIUM','/blog/'+slug+'/','Missing article Open Graph type')
+ if 'type="article"' not in article and "type='article'" not in article:flag('MEDIUM','/blog/'+slug+'/','Missing article Open Graph type')
 
 lines=['# NimTech static SEO audit','','Pages: '+str(len(routes)),'Blog articles: '+str(len(blog)),'HTML redirect pages: '+str(len(redirects)),'Findings: '+str(len(issues)),'','Note: source-level checks only; not live HTTP, CWV, JS execution or full semantic SEO.','','| Priority | Route | Finding |','|---|---|---|']
 lines += ['| '+level+' | '+route.replace('|','/')+' | '+msg.replace('|','/')+' |' for level,route,msg in sorted(issues)]
