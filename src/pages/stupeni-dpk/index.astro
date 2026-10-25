@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+const title = 'Ступени из ДПК для крыльца и террасы — подбор и монтаж | NimTech';
+const description = 'Ступени ДПК для крыльца в Москве: полнотелые и пустотелые профили, финишные элементы, каркас, крепёж, подбор цвета и расчёт материалов.';
+const schema = {'@context':'https://schema.org','@type':'CollectionPage',name:title,description,url:'https://nimtech.ru/stupeni-dpk/'};
+---
+<Base title={title} description={description}>
+<script type="application/ld+json" set:html={JSON.stringify(schema)}/>
+<section class="steps-page wrap">
+  <p class="eyebrow">NIMTECH / СТУПЕНИ И КРЫЛЬЦО</p>
+  <h1>Ступени из ДПК для крыльца и террасы</h1>
+  <p class="lead">Подберём террасные ступени, финишные элементы и крепёж под размеры вашего крыльца. Поможем рассчитать комплект материалов и монтаж в Москве и Московской области.</p>
+  <div class="cards">
+    <article class="card"><h2>Полнотелые ступени</h2><p>Для проектов, где важны обработка торцов, прочность конструкции и особенности крепления. Конкретный профиль подбираем по технической документации производителя.</p></article>
+    <article class="card"><h2>Пустотелые профили</h2><p>Могут использоваться в ступенях при соблюдении требований к основанию, опорам, краям и крепежу. Не все модели террасной доски подходят для ступеней.</p></article>
+    <article class="card"><h2>Финишные элементы</h2><p>Подбираем оформление передней кромки, боковых торцов, примыканий и подступенков под выбранную коллекцию.</p></article>
+  </div>
+  <h2>Что нужно для расчёта</h2>
+  <p>Количество ступеней, ширина марша, глубина проступи, высота подступенка, тип основания, желаемый цвет и наличие существующего каркаса. По этим данным подготовим подбор профиля, лаг, крепежа и расходных материалов.</p>
+  <p>Актуальную стоимость и наличие конкретных моделей уточняем при подготовке предложения — универсальную цену за ступень без размеров и комплектации указывать некорректно.</p>
+  <h2>Монтаж ступеней ДПК</h2>
+  <p>Ступени требуют жёсткого основания, правильного шага опор, учёта температурного расширения и безопасного оформления передней кромки. Крепление зависит от выбранного профиля и системы производителя.</p>
+  <p>Подробности: <a href="/blog/stupeni-iz-dpk-montazh/">виды ступеней и технология монтажа</a> и <a href="/blog/montazh-stupeney-dpk-skrytyy-krepezh/">скрытый крепёж ступеней</a>.</p>
+  <section class="cta"><h2>Получить подбор ступеней и расчёт</h2><p>Пришлите размеры крыльца и фотографию основания. Подберём материалы и предложим решение.</p><p><a href="/contacts/">Контакты и заявка NimTech</a> · <a href="tel:+74950673837">+7 (495) 067-38-37</a></p></section>
+</section>
+</Base>
+<style>.steps-page{padding-top:55px;padding-bottom:80px;max-width:1120px}.eyebrow{letter-spacing:.13em;font-size:12px;font-weight:700}.steps-page h1{font-size:clamp(34px,5vw,56px);line-height:1.12;max-width:850px}.steps-page h2{font-size:clamp(24px,3vw,34px);margin-top:34px}.steps-page p{line-height:1.7;font-size:17px}.lead{max-width:850px;font-size:21px!important}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:32px}.card,.cta{border:1px solid #ddd;border-radius:16px;padding:24px}.card h2{font-size:22px;margin-top:0}.steps-page a{text-decoration:underline;text-underline-offset:3px}.cta{margin-top:40px;background:#f6f6f3}@media(max-width:750px){.cards{grid-template-columns:1fr}}</style>
