@@ -11,6 +11,7 @@ const pages = [
   '/', '/terrasy-pod-klyuch/', '/catalog/', '/projects/',
   '/calculator/', '/blog/', '/video/', '/contacts/',
   '/stupeni-dpk/', '/montazh-terrasnoy-doski/',
+  '/kreplenie-dpk-k-metallokarkasu/', '/stykovka-terrasnoy-doski/',
 ];
 
 export const GET: APIRoute = () => {
