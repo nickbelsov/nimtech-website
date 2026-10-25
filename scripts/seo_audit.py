@@ -23,7 +23,7 @@ for route,p in routes.items():
  s=p.read_text()
  if route in redirects:continue
  h1=len(re.findall(r'<h1(?:\s|>)',s,re.I))
- if h1!=1 and not (route in ('/','/blog/') and h1==0):flag('HIGH',route,f'H1: {h1}')
+ if h1!=1:flag('HIGH',route,f'H1: {h1}')
  for key,bucket in [('title',titles),('description',descriptions)]:
   match=re.search(r'const '+key+r'\s*=\s*([\'\"])(.*?)\1',s,re.S)
   if match:bucket[match.group(2)].append(route)
