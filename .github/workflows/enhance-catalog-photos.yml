@@ -22,3 +22,5 @@ jobs:
           name: nimtech-catalog-enhanced
           path: nimtech-catalog-enhanced.zip
           retention-days: 30
+
+# Regenerate optimized catalog photo archive for GitHub upload.
