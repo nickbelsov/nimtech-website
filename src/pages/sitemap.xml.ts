@@ -12,6 +12,7 @@ const pages = [
   '/calculator/', '/blog/', '/video/', '/contacts/',
   '/stupeni-dpk/', '/montazh-terrasnoy-doski/',
   '/kreplenie-dpk-k-metallokarkasu/', '/stykovka-terrasnoy-doski/',
+  '/karkas-pod-terrasnuyu-dosku/', '/podshivka-terrasy/', '/shag-lag-terrasnoy-doski/',
 ];
 
 export const GET: APIRoute = () => {
