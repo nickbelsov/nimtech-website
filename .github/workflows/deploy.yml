@@ -15,6 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Audit SEO pages
+        run: python3 scripts/seo_audit.py
+      - name: Upload SEO audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: nimtech-seo-audit
+          path: seo-audit-report.md
+          retention-days: 30
       - uses: withastro/action@v3
         with:
           path: .
