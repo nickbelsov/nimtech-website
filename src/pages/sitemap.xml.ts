@@ -1,6 +1,29 @@
 import type { APIRoute } from 'astro';
+
+// Generate blog URLs from the actual article files instead of a manually maintained list.
+const articles = import.meta.glob('./blog/*/index.astro', { eager: true });
+const blogPaths = Object.keys(articles).map((path) => {
+  const slug = path.split('/')[2];
+  return '/blog/' + slug + '/';
+}).sort();
+
+const redirects = new Set([
+  '/blog/terrasa-iz-dpk-na-betone/',
+  '/blog/stoimost-terrasy-pod-klyuch/',
+  '/blog/terrasa-na-krovle/',
+  '/blog/oshibki-montazha-dpk/',
+]);
+
+const pages = [
+  '/', '/terrasy-pod-klyuch/', '/catalog/', '/projects/',
+  '/calculator/', '/blog/', '/video/', '/contacts/',
+];
+
 export const GET: APIRoute = () => {
-const paths=['/','/terrasy-pod-klyuch/','/catalog/','/projects/','/calculator/','/blog/','/blog/5-oshibok-montazha-dpk/','/blog/kak-vybrat-terrasnuyu-dosku-dpk/','/blog/montazh-dpk-na-beton/','/blog/stupeni-iz-dpk-montazh/','/blog/dpk-ili-mpk-sravnenie/','/blog/stoimost-terrasy-iz-dpk/','/blog/ograzhdeniya-iz-dpk/','/blog/chto-s-dpk-cherez-dva-goda/','/blog/kak-ne-kupit-plohuyu-dpk/','/blog/terrasa-na-ekspluatiruemoy-krovle/','/blog/paryashchaya-terrasa/','/blog/montazh-terrasy-zimoy/','/blog/obramlenie-terrasy/','/blog/koekstruziya-dpk/','/blog/proizvodstvo-dpk/','/blog/proizvodstvo-mpk/','/blog/mpk-posle-treh-let-sochi/','/blog/polnotelaya-dpk-sem-let/','/blog/vodootvod-pod-terrasoy/','/blog/dpk-dlya-kommercheskih-obektov/','/blog/mpk-kafe-na-volge/','/blog/dpk-na-solntse-sochi/','/blog/derevyannaya-terrasa-sochi/','/blog/ograzhdeniya-dpk-komplektuyushchie/','/blog/stupeni-dpk-polnotelye-pustotelye/','/blog/faktury-terrasnoy-doski-dpk/','/blog/terrasa-pik-nad-parkingom/','/blog/gde-kupit-terrasnuyu-dosku/','/blog/obzor-brendov-dpk/','/blog/idei-blagoustroystva-zagorodnogo-doma/','/blog/skolko-stoit-zavod-dpk/','/blog/montazh-mpk-kommercheskiy-obekt/','/blog/obzor-mpk-madek-lite-140x25/','/blog/vodopogloshchenie-dpk-ispytaniya/','/blog/terrasa-na-krovle-reguliruemye-opory/','/blog/montazh-dpk-na-betonnyh-podushkah/','/blog/smeta-terrasy-na-krovle-135-m2/','/blog/terrasa-na-vintovyh-svayah-tehnologiya/','/blog/listvennitsa-ili-dpk-dlya-terrasy/','/blog/luchshaya-terrasnaya-doska-dpk-2026/','/blog/komplektuyushchie-dlya-montazha-dpk/','/blog/montazh-stupeney-dpk-skrytyy-krepezh/','/blog/kak-proizvodyat-dpk-kachestvo-syrya/','/blog/rashod-lag-klyaymerov-opor-dpk/','/video/','/contacts/'];
-const xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+paths.map(p=>'<url><loc>https://nimtech.ru'+p+'</loc></url>').join('')+'</urlset>';
-return new Response(xml,{headers:{'Content-Type':'application/xml; charset=utf-8'}});
+  const paths = [...new Set([...pages, ...blogPaths.filter((p) => !redirects.has(p))])];
+  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
+    paths.map((path) => '<url><loc>https://nimtech.ru' + path + '</loc></url>').join('') +
+    '</urlset>';
+  return new Response(xml, { headers: { 'Content-Type': 'application/xml; charset=utf-8' } });
 };
