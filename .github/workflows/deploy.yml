@@ -17,6 +17,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Audit SEO pages
         run: python3 scripts/seo_audit.py
+      - name: Show SEO audit in run summary
+        if: always()
+        run: |
+          if [ -f seo-audit-report.md ]; then
+            cat seo-audit-report.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'SEO audit report was not generated' >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Upload SEO audit report
         uses: actions/upload-artifact@v4
         with:
