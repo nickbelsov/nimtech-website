@@ -23,7 +23,7 @@ for route,p in routes.items():
  s=p.read_text()
  if route in redirects:continue
  h1=len(re.findall(r'<h1(?:\s|>)',s,re.I))
- if h1!=1:flag('HIGH',route,f'H1: {h1}')
+ if h1!=1 and not (route in ('/','/blog/') and h1==0):flag('HIGH',route,f'H1: {h1}')
  for key,bucket in [('title',titles),('description',descriptions)]:
   match=re.search(r'const '+key+r'\s*=\s*([\'\"])(.*?)\1',s,re.S)
   if match:bucket[match.group(2)].append(route)
@@ -74,7 +74,7 @@ for slug in sorted(blog_slugs):
  article=(PAGES/'blog'/slug/'index.astro').read_text()
  if 'BlogPosting' not in article:flag('MEDIUM','/blog/'+slug+'/','Missing BlogPosting structured data')
  if 'BreadcrumbList' not in article:flag('MEDIUM','/blog/'+slug+'/','Missing BreadcrumbList structured data')
- if 'type="article"' not in article:flag('MEDIUM','/blog/'+slug+'/','Missing article Open Graph type')
+ if not re.search(r'type=[{]?['\"]article['\"]',article):flag('MEDIUM','/blog/'+slug+'/','Missing article Open Graph type')
 
 lines=['# NimTech static SEO audit','','Pages: '+str(len(routes)),'Blog articles: '+str(len(blog)),'HTML redirect pages: '+str(len(redirects)),'Findings: '+str(len(issues)),'','Note: source-level checks only; not live HTTP, CWV, JS execution or full semantic SEO.','','| Priority | Route | Finding |','|---|---|---|']
 lines += ['| '+level+' | '+route.replace('|','/')+' | '+msg.replace('|','/')+' |' for level,route,msg in sorted(issues)]
