@@ -6,7 +6,7 @@ const guideArticles = import.meta.glob('./*/index.astro', { eager: true, query: 
 
 const pathsFrom = (files: Record<string, unknown>, prefix: string) =>
   Object.entries(files)
-    .filter(([, source]) => !String(source).includes('http-equiv="refresh"'))
+    .filter(([file, source]) => !file.includes('[') && !String(source).includes('http-equiv="refresh"'))
     .map(([file]) => prefix + file.split('/')[prefix === '/blog/' ? 2 : 1] + '/');
 
 const pages = [
