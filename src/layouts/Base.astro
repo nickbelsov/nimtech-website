@@ -1,7 +1,7 @@
 ---
 const {title='NimTech — террасы под ключ',description='Проектирование и строительство террас под ключ. Террасная доска ДПК, материалы и монтаж.',image='https://nimtech.ru/images/blog/01-temperature-gaps.jpg',type='website'}=Astro.props;
 const blogSlug = Astro.url.pathname.match(/^\/blog\/([^/]+)\/$/)?.[1];
-const pageImage = blogSlug ? `https://nimtech.ru/images/blog/covers/${blogSlug}.webp` : image;
+const pageImage = blogSlug === "reechnyy-fasad-doma-idei" ? "https://nimtech.ru/images/blog/covers/reechnyy-fasad-doma-idei.png" : (blogSlug ? `https://nimtech.ru/images/blog/covers/${blogSlug}.webp` : image);
 const base=import.meta.env.BASE_URL.replace(/\/$/,'');
 const link=(path)=>base+path;
 const nav=[['Террасы под ключ','/terrasy-pod-klyuch/'],['Каталог','/catalog/'],['Проекты','/projects/'],['Калькулятор','/calculator/'],['Полезные материалы','/blog/'],['Видео','/video/'],['Контакты','/contacts/']];
