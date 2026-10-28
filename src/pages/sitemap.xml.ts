@@ -10,8 +10,8 @@ const pathsFrom = (files: Record<string, unknown>, prefix: string) =>
     .map(([file]) => prefix + file.split('/')[prefix === '/blog/' ? 2 : 1] + '/');
 
 const pages = [
-  '/', '/terrasy-pod-klyuch/', '/catalog/', '/projects/',
-  '/calculator/', '/blog/', '/video/', '/contacts/',
+  '/', '/terrasy-pod-klyuch/', '/catalog/',
+  '/calculator/', '/blog/', '/contacts/',
   '/stupeni-dpk/', '/montazh-terrasnoy-doski/',
   '/kreplenie-dpk-k-metallokarkasu/', '/stykovka-terrasnoy-doski/',
   '/karkas-pod-terrasnuyu-dosku/', '/podshivka-terrasy/', '/shag-lag-terrasnoy-doski/',
