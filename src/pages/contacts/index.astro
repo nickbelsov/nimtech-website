@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base title="Контакты NimTech — шоурум, телефон и адрес в Москве" description="Контакты компании NimTech: террасы под ключ, террасная доска ДПК и стеновые панели. Телефон +7 (495) 067-38-37, шоурум в БЦ «Румянцево», Москва.">
+  <section class="wrap contacts-page">
+    <div class="eyebrow">NIMTECH · КОНТАКТЫ</div>
+    <h1>Контакты NimTech</h1>
+    <p class="intro">Продажа и монтаж террасной доски, террас под ключ и стеновых бамбуковых панелей в Москве и Московской области.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>Свяжитесь с нами</h2>
+        <p><strong>Телефон:</strong> <a href="tel:+74950673837">+7 (495) 067-38-37</a></p>
+        <p><strong>Электронная почта:</strong> <a href="mailto:info@nimtech.ru">info@nimtech.ru</a></p>
+        <p><strong>Telegram:</strong> <a href="https://t.me/+79770893443" target="_blank" rel="noopener noreferrer">Написать нам</a></p>
+        <h2>Шоурум</h2>
+        <p>Москва, БЦ «Румянцево». Перед посещением рекомендуем согласовать время встречи по телефону.</p>
+        <p><strong>Юридическое лицо:</strong> ООО «Нимтек»</p>
+        <p>ИНН 6313560509 · КПП 631301001 · ОГРН 1226300007581</p>
+      </div>
+      <div class="map-wrap">
+        <h2>Мы на карте</h2>
+        <iframe src="https://yandex.ru/map-widget/v1/?z=12&amp;ol=biz&amp;oid=216767958823" width="560" height="400" title="NimTech — расположение на Яндекс Картах" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+.contacts-page{padding-top:64px;padding-bottom:80px}
+.eyebrow{font-size:12px;letter-spacing:.16em;font-weight:700;color:#666;margin-bottom:18px}
+.intro{max-width:760px}
+.contact-grid{display:grid;grid-template-columns:minmax(260px,1fr) minmax(320px,1.25fr);gap:42px;margin-top:40px}
+.contact-info,.map-wrap{background:white;border:1px solid #e6e6e2;border-radius:16px;padding:26px}
+h2{font-size:24px;margin:0 0 22px}h2:not(:first-child){margin-top:32px}
+.contact-info a{text-decoration:underline;text-underline-offset:3px}
+.map-wrap iframe{display:block;width:100%;height:400px;border:0;border-radius:10px}
+@media(max-width:800px){.contact-grid{grid-template-columns:1fr;gap:20px}.contact-info,.map-wrap{padding:18px}.map-wrap iframe{height:360px}}
+</style>
