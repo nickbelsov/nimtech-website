@@ -1,2 +1,8 @@
 import { defineConfig } from 'astro/config';
-export default defineConfig({ site: 'https://nimtech.ru', base: '/' });
+import sitemap from '@astrojs/sitemap';
+
+export default defineConfig({
+  site: 'https://nimtech.ru',
+  base: '/',
+  integrations: [sitemap()],
+});
