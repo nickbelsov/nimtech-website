@@ -44,9 +44,9 @@ const nav=[['Террасы под ключ','/terrasy-pod-klyuch/'],['Ката�
 (()=>{
 const endpoint='https://script.google.com/macros/s/AKfycbyYnqtcBORv5-DX-1YcC0BSsVK0FAINuO40vSE3D2Z7AF1DHcbaelVN8kZy-LeWhWkg/exec';
 const dialog=document.getElementById('nimtech-global-lead'),thanks=document.getElementById('nimtech-global-thanks'),form=document.getElementById('nimtech-global-form');
-let origin='website',timer;
+let origin='website',projectName='',timer;
 function open(id){origin=id||(/\/blog\//.test(location.pathname)?'blog_article':/\/projects\//.test(location.pathname)?'projects':/\/catalog\//.test(location.pathname)?'catalog':'homepage');dialog?.showModal()}
-document.addEventListener('click',e=>{const trigger=e.target.closest('[data-lead-open]');if(trigger){e.preventDefault();open(trigger.dataset.leadForm)}});
+document.addEventListener('click',e=>{const trigger=e.target.closest('[data-lead-open]');if(trigger){e.preventDefault();projectName=trigger.dataset.projectName||'';open(trigger.dataset.leadForm)}});
 document.getElementById('open-lead-form')?.addEventListener('click',e=>{e.preventDefault();open('homepage_calculator')});
 document.querySelector('[data-lead-close]')?.addEventListener('click',()=>dialog?.close());
 dialog?.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
@@ -56,7 +56,7 @@ e.preventDefault();const fd=new FormData(form),name=String(fd.get('name')||'').t
 if(!name||phone.replace(/\D/g,'').length<10||!fd.get('consent')){status.textContent='Укажите имя, корректный телефон и согласие.';return}
 let landing=location.href;try{landing=sessionStorage.getItem('nimtech_first_landing')||landing}catch{}
 const u=new URL(location.href),first=new URL(landing,location.origin);const utm={};for(const key of ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'])utm[key]=u.searchParams.get(key)||first.searchParams.get(key)||'';
-const payload={request_id:crypto.randomUUID?.()||Date.now()+'-'+Math.random().toString(36).slice(2),name,phone,consent:true,website:String(fd.get('website')||''),form_id:origin,category:'Террасы',source:'nimtech.ru',page_url:location.href,landing_url:landing,referrer:document.referrer,utm,details:{form_title:document.title,form_section:origin}};
+const payload={request_id:crypto.randomUUID?.()||Date.now()+'-'+Math.random().toString(36).slice(2),name,phone,consent:true,website:String(fd.get('website')||''),form_id:origin,category:'Террасы',source:'nimtech.ru',page_url:location.href,landing_url:landing,referrer:document.referrer,utm,details:{form_title:document.title,form_section:origin,project_name:projectName}};
 submit.disabled=true;status.textContent='Отправляем…';
 try{await fetch(endpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),keepalive:true});form.reset();status.textContent='';dialog.close();clearTimeout(timer);thanks.showModal();timer=setTimeout(()=>thanks.close(),3000)}
 catch{status.textContent='Не удалось передать заявку. Попробуйте ещё раз или позвоните нам.'}
